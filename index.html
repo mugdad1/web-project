@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Project Task Management Website</title>
     <style>
-        /* hide the form by default, show it when the Log in link is clicked */
-        #login { display: none; }
-        #login:target { display: block; }
+        /* hide the forms by default, show them when the link is clicked */
+        #login, #signup { display: none; }
+        #login:target, #signup:target { display: block; }
     </style>
 </head>
 <body>
@@ -38,6 +38,9 @@
         <!-- Log in link (opens the form below in the same page) -->
         <a href="#login" target="_self">Log in</a>
 
+        <!-- Sign up link -->
+        <a href="#signup" target="_self">Sign up</a>
+
         <!-- Log in form -->
         <div id="login">
             <h3>Log in</h3>
@@ -50,6 +53,29 @@
                 <p>
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password">
+                </p>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <!-- Sign up form -->
+        <div id="signup">
+            <h3>Sign up</h3>
+            <form>
+                <p>
+                    <label for="signup-name">Full name:</label>
+                    <input type="text" id="signup-name" name="name">
+                </p>
+
+                <p>
+                    <label for="signup-email">Email:</label>
+                    <input type="email" id="signup-email" name="email">
+                </p>
+
+                <p>
+                    <label for="signup-password">Password:</label>
+                    <input type="password" id="signup-password" name="password">
                 </p>
 
                 <input type="submit" value="Submit">
