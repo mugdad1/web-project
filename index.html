@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Task Management Website</title>
+    <style>
+        /* hide the form by default, show it when the Log in link is clicked */
+        #login { display: none; }
+        #login:target { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Project Task Management Website</h1>
+    </header>
+
+    <!-- Main content -->
+    <section>
+        <article>
+            <p>This website helps you work on projects with your team. You can create tasks and share them with your team members easily.</p>
+
+            <h3>Main Features:</h3>
+            <ul>
+                <li><strong>Assign Tasks:</strong> Give every task to the right person.</li>
+                <li><strong>Track Progress:</strong> See what is done and what is next.</li>
+                <li><strong>Easy Communication:</strong> Add notes and share files in one place.</li>
+                <li><strong>Set Priorities:</strong> Know the most important tasks and finish on time.</li>
+            </ul>
+        </article>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <hr>
+
+        <!-- Log in link (opens the form below in the same page) -->
+        <a href="#login" target="_self">Log in</a>
+
+        <!-- Log in form -->
+        <div id="login">
+            <h3>Log in</h3>
+            <form>
+                <p>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </p>
+
+                <p>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password">
+                </p>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </footer>
+
+</body>
+</html>
