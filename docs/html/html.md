@@ -146,5 +146,7 @@ actual code in every page, open `pages/`:
 `profile.md`, `edit-profile.md`, `new-task.md`, `new-team.md`,
 `dashboard.md`, `task-details.md`, `chat.md`
 
+Arabic versions of every page guide are in `pages/ar/`.
+
 Next guides will come in `docs/css/`, `docs/js/`, `docs/php/` as we reach those
 milestones.

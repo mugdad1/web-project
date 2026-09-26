@@ -134,5 +134,17 @@ PHP + قاعدة البيانات.
 
 ---
 
+---
+
+## 6. شرح كود كل صفحة بالتفصيل
+
+هذا الملف هو النظرة **العامة**. لشرح الكود الفعلي لكل صفحة قسماً بقسم،
+افتح مجلد `pages/ar/`:
+
+`pages/ar/README.md` — قائمة بكل الأدلة
+`pages/ar/index.md`، `layout.md`، `signup.md`، `signin.md`، `home.md`،
+`profile.md`، `edit-profile.md`، `new-task.md`، `new-team.md`،
+`dashboard.md`، `task-details.md`، `chat.md`
+
 الأدلة القادمة ستكون في `docs/css/` و `docs/js/` و `docs/php/` عندما نصل
 لتلك المراحل.
