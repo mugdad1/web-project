@@ -134,5 +134,17 @@ milestone.
 
 ---
 
+---
+
+## 6. In-depth code guide for each page
+
+This file is the **overall** view. For a section-by-section explanation of the
+actual code in every page, open `pages/`:
+
+`pages/README.md` — list of all page guides
+`pages/index.md`, `layout.md`, `signup.md`, `signin.md`, `home.md`,
+`profile.md`, `edit-profile.md`, `new-task.md`, `new-team.md`,
+`dashboard.md`, `task-details.md`, `chat.md`
+
 Next guides will come in `docs/css/`, `docs/js/`, `docs/php/` as we reach those
 milestones.
