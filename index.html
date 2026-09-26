@@ -2,86 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Project Task Management Website</title>
-    <style>
-        /* hide the forms by default, show them when the link is clicked */
-        #login, #signup { display: none; }
-        #login:target, #signup:target { display: block; }
-    </style>
+    <title>Project Management - Landing</title>
 </head>
 <body>
-
-    <!-- Header -->
     <header>
-        <h1>Project Task Management Website</h1>
+        <h1>Project Management Site</h1>
+        <nav>
+            <a href="#intro">About</a> |
+            <a href="signup.html">Sign Up</a> |
+            <a href="signin.html">Sign In</a>
+        </nav>
     </header>
 
-    <!-- Main content -->
-    <section>
-        <article>
-            <p>This website helps you work on projects with your team. You can create tasks and share them with your team members easily.</p>
+    <main>
+        <section id="intro">
+            <h2>Welcome!</h2>
+            <p>Track your <strong>tasks and teams</strong> in one place.</p>
+            <p>Create big tasks, split them into small <em>subtasks</em>, and see your progress.</p>
+            <img src="logo.png" alt="Project management logo" width="120">
+        </section>
 
-            <h3>Main Features:</h3>
+        <section>
+            <h3>Ready to start?</h3>
             <ul>
-                <li><strong>Assign Tasks:</strong> Give every task to the right person.</li>
-                <li><strong>Track Progress:</strong> See what is done and what is next.</li>
-                <li><strong>Easy Communication:</strong> Add notes and share files in one place.</li>
-                <li><strong>Set Priorities:</strong> Know the most important tasks and finish on time.</li>
+                <li><a href="signup.html">Create a free account</a></li>
+                <li><a href="signin.html">Already a member? Sign in</a></li>
             </ul>
-        </article>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer -->
     <footer>
         <hr>
-
-        <!-- Log in link (opens the form below in the same page) -->
-        <a href="#login" target="_self">Log in</a>
-
-        <!-- Sign up link -->
-        <a href="#signup" target="_self">Sign up</a>
-
-        <!-- Log in form -->
-        <div id="login">
-            <h3>Log in</h3>
-            <form>
-                <p>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email">
-                </p>
-
-                <p>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password">
-                </p>
-
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-
-        <!-- Sign up form -->
-        <div id="signup">
-            <h3>Sign up</h3>
-            <form>
-                <p>
-                    <label for="signup-name">Full name:</label>
-                    <input type="text" id="signup-name" name="name">
-                </p>
-
-                <p>
-                    <label for="signup-email">Email:</label>
-                    <input type="email" id="signup-email" name="email">
-                </p>
-
-                <p>
-                    <label for="signup-password">Password:</label>
-                    <input type="password" id="signup-password" name="password">
-                </p>
-
-                <input type="submit" value="Submit">
-            </form>
-        </div>
+        <p>Web Programming Project - Section 3</p>
+        <p><a href="mailto:mugdad02@tutamail.com">Contact us</a></p>
     </footer>
-
 </body>
 </html>
