@@ -8,10 +8,10 @@
     <header>
         <h1>New Team</h1>
         <nav>
-<a href="home.html">Home |</a>
-<a href="profile.html">Profile |</a>
-<a href="dashboard.html">Dashboard |</a>
-<a href="index.html">Sign Out</a>
+            <a href="home.html">Home |</a>
+            <a href="profile.html">Profile |</a>
+            <a href="dashboard.html">Dashboard |</a>
+            <a href="index.html">Sign Out</a>
         </nav>
     </header>
 
@@ -24,12 +24,40 @@
                     <label for="teamname">Team Name:</label><br>
                     <input type="text" id="teamname" name="teamname" required placeholder="e.g. Team Alpha"><br><br>
 
-                    <label>Members:</label><br>
-                    <input type="checkbox" id="m1" name="member" value="Mugdad" required><label for="m1">Mugdad</label><br>
-                    <input type="checkbox" id="m2" name="member" value="Ali"><label for="m2">Ali</label><br>
-                    <input type="checkbox" id="m3" name="member" value="Ahmed"><label for="m3">Ahmed</label><br>
-                    <input type="checkbox" id="m4" name="member" value="Hussain"><label for="m4">Hussain</label><br>
-                    <input type="checkbox" id="m5" name="member" value="Kumail"><label for="m5">Kumail</label><br><br>
+                    <label for="m1name">Member 1:</label>
+                    <input type="text" id="m1name" name="m1name" placeholder="Name">
+                    <select id="m1role" name="m1role">
+                        <option value="owner">Owner</option>
+                        <option value="member" selected>Member</option>
+                    </select><br>
+
+                    <label for="m2name">Member 2:</label>
+                    <input type="text" id="m2name" name="m2name" placeholder="Name">
+                    <select id="m2role" name="m2role">
+                        <option value="owner">Owner</option>
+                        <option value="member" selected>Member</option>
+                    </select><br>
+
+                    <label for="m3name">Member 3:</label>
+                    <input type="text" id="m3name" name="m3name" placeholder="Name">
+                    <select id="m3role" name="m3role">
+                        <option value="owner">Owner</option>
+                        <option value="member" selected>Member</option>
+                    </select><br>
+
+                    <label for="m4name">Member 4:</label>
+                    <input type="text" id="m4name" name="m4name" placeholder="Name">
+                    <select id="m4role" name="m4role">
+                        <option value="owner">Owner</option>
+                        <option value="member" selected>Member</option>
+                    </select><br>
+
+                    <label for="m5name">Member 5:</label>
+                    <input type="text" id="m5name" name="m5name" placeholder="Name">
+                    <select id="m5role" name="m5role">
+                        <option value="owner">Owner</option>
+                        <option value="member" selected>Member</option>
+                    </select><br><br>
                 </fieldset>
                 <br>
                 <input type="submit" value="Create Team">
