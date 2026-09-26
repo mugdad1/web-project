@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management - New Task</title>
+</head>
+<body>
+    <header>
+        <h1>New Task</h1>
+        <nav>
+            <a href="home.html">Home</a> |
+            <a href="profile.html">Profile</a> |
+            <a href="dashboard.html">Dashboard</a> |
+            <a href="index.html">Sign Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Create a Task</h2>
+            <form action="home.html" method="get">
+                <fieldset>
+                    <legend>Task Details</legend><br>
+                    <label for="title">Title:</label><br>
+                    <input type="text" id="title" name="title"><br><br>
+
+                    <label for="desc">Description:</label><br>
+                    <input type="text" id="desc" name="desc"><br><br>
+
+                    <label for="priority">Priority:</label><br>
+                    <select id="priority" name="priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select><br><br>
+                </fieldset>
+                <br>
+                <input type="submit" value="Create Task">
+                <input type="reset" value="Clear">
+            </form>
+            <p><a href="home.html">Back to Home</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <hr>
+    </footer>
+</body>
+</html>
