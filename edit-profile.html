@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management - Edit Profile</title>
+</head>
+<body>
+    <header>
+        <h1>Edit Profile</h1>
+        <nav>
+            <a href="home.html">Home</a> |
+            <a href="dashboard.html">Dashboard</a> |
+            <a href="index.html">Sign Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Edit Your Info</h2>
+            <form action="profile.html" method="get">
+                <fieldset>
+                    <legend>Profile Details</legend><br>
+                    <label for="fullname">Full Name:</label><br>
+                    <input type="text" id="fullname" name="fullname" value="Mugdad Alhammad"><br><br>
+
+                    <label for="major">Major:</label><br>
+                    <select id="major" name="major">
+                        <option value="cs">Computer Science</option>
+                        <option value="cn">Computer Networks</option>
+                        <option value="cis">Computer Information Systems</option>
+                        <option value="ce">Computer Engineering</option>
+                    </select><br><br>
+
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" value="mugdad02@tutamail.com"><br><br>
+                </fieldset>
+                <br>
+                <input type="submit" value="Save">
+                <input type="reset" value="Cancel">
+            </form>
+            <p><a href="profile.html">Back to Profile</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <hr>
+    </footer>
+</body>
+</html>
