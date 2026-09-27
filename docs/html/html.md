@@ -121,6 +121,27 @@ Example from `signup.html`:
 Right now forms only move you around. Real saving comes in the PHP + Database
 milestone.
 
+### ⚠️ `method="get"` is a placeholder — auth forms MUST become POST
+
+`get` puts every field in the query string. That is fine for a mockup, but it is
+**not** how login works, and `signin.html` / `signup.html` / `edit-profile.html`
+carry a password field.
+
+With `get`, the password ends up in the address bar, in browser history, in the
+`Referer` header of the next page you visit, and in the server access log.
+
+When the PHP milestone starts, all three auth forms must change to:
+
+```html
+<form action="login.php" method="post">
+```
+
+and the server must handle it with a session — never compare or store a
+plaintext password, and never put the password in the URL even once "just to
+test". `password_hash()` / `password_verify()` are the PHP functions for this.
+
+Search forms and filters can stay on `get`; that is exactly what it is for.
+
 ---
 
 ## 5. Small rules we follow
