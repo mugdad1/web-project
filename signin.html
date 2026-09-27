@@ -17,13 +17,27 @@
         <section>
             <h2>Login Form</h2>
             <form action="home.html" method="get">
+                <!--
+                    MOCKUP ONLY - there is no backend yet, so this form goes nowhere.
+
+                    The password field deliberately has NO `name` attribute, so nothing
+                    is submitted and no password can ever end up in a URL. It is kept as
+                    type="password" required only to show the real markup shape.
+
+                    BEFORE A BACKEND IS ADDED, all three changes must land together:
+                      1. method="get"  -> method="post"
+                      2. restore name="email" and name="password" on the inputs
+                      3. handle the POST server-side with a session (PHP)
+                    A password in a query string is written to browser history,
+                    sent in the Referer header, and stored in server access logs.
+                -->
                 <fieldset>
                     <legend>Login</legend><br>
                     <label for="email">Email:</label><br>
                     <input type="email" id="email" name="email" required><br><br>
 
                     <label for="password">Password:</label><br>
-                    <input type="password" id="password" name="password" required><br><br>
+                    <input type="password" id="password" required><br><br>
                 </fieldset>
                 <br>
                 <input type="submit" value="Sign In">

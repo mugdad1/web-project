@@ -54,3 +54,18 @@ the three auth forms carry a password field and **must** switch to
 `method="post"` with server-side sessions before any backend is wired up — see
 the warning in `docs/html/html.md` §4. Passwords need
 `password_hash()` / `password_verify()`, and must never touch a URL.
+
+**What is safe right now (2026-09-27):** the `password` inputs in `signin.html`
+and `signup.html` deliberately carry **no `name` attribute**, so nothing is
+submitted and no password can reach a URL, browser history, a `Referer` header
+or a server access log. They are still `type="password" required` so the markup
+shows the real shape and the browser still masks and validates the field.
+
+When the backend arrives, these three changes must land **in the same commit**:
+
+1. `method="get"` → `method="post"`
+2. restore `name="email"` and `name="password"` on the inputs
+3. handle the POST server-side and hold a PHP session
+
+`new-team.html` has no password, but its member emails would reach the URL, so
+it needs the same `method="post"` change.
