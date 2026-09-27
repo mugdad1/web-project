@@ -36,7 +36,7 @@
             <td><a href="task-details.html">Landing page</a></td>
             <td>Ali</td> <td>50%</td> <td>3 days</td> <td>On track</td>
         </tr>
-        ... ثلاث صفوف أخرى (Ahmed, Husain, Kumail) ...
+        ... ثلاث صفوف أخرى (Ahmed, Hussain, Kumail) ...
     </table>
 </section>
 ```

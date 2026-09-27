@@ -39,7 +39,7 @@
 ```html
 <footer>
     <hr>
-    <p>Mugdad, Ali, Ahmed, Husain, Kumail</p>
+    <p>Mugdad, Ali, Ahmed, Hussain, Kumail</p>
 </footer>
 ```
 
