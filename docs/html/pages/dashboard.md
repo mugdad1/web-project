@@ -25,7 +25,9 @@ to its details page. It uses the same sidebar/topbar shell as `home.html`.
 ```
 
 `js/app.js` replaces the percentage cells in the table with progress bars and
-recalculates these four numbers from the table rows.
+recalculates these four numbers from the visible rows. Rows/cards carry
+`data-assignee`; in the Member demo role only tasks for `data-user` on `<body>`
+are shown (Admin sees all).
 
 ## My priorities
 

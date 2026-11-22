@@ -67,6 +67,9 @@ available straight from the home screen.
   `dashboard.html`. The task titles link to `task-details.html?task=...`.
 - `js/app.js` turns the percentage cells into progress bars and recalculates
   the four totals from the table, just like on the real dashboard.
+- Task cards and rows carry `data-assignee`; `<body data-user="Mugdad">` is the
+  demo signed-in user. Admin sees every task, Member sees only their own
+  (`applyTaskFilters()`), and the stats follow the visible rows.
 - "Full dashboard" still links to `dashboard.html`.
 
 ## Quick add-task form

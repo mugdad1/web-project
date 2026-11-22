@@ -164,7 +164,7 @@
         }
 
         var rows = $$("table tbody tr").filter(function (row) {
-            return $(".progress-value", row) !== null;
+            return !row.hidden && $(".progress-value", row) !== null;
         });
         var done = 0;
         var started = 0;
@@ -412,6 +412,8 @@
         if (locked) {
             locked.hidden = isAdmin;
         }
+
+        applyTaskFilters();
     }
 
     function wireRoleSwitch() {
@@ -462,6 +464,7 @@
                 var priority = $("#quick-priority", taskForm).value;
 
                 var row = document.createElement("tr");
+                row.setAttribute("data-assignee", currentUserName());
                 var taskCell = document.createElement("td");
                 var link = document.createElement("a");
                 link.href = "task-details.html?task=" + encodeURIComponent(title);
@@ -477,7 +480,7 @@
 
                 body.insertBefore(row, body.firstChild);
                 buildProgressBars();
-                updateDashboardStats();
+                applyTaskFilters();
                 showNote("task-added", "Task \"" + title + "\" added to your dashboard.");
                 taskForm.reset();
             });
@@ -564,7 +567,45 @@
         applyTheme();
     }
 
-    /* ---------- topbar search: filter the tasks on home / dashboard ---------- */
+    /* ---------- task visibility: search + "my tasks only" scope ---------- */
+
+    var taskGroups = [];
+
+    function currentUserName() {
+        return document.body.getAttribute("data-user") || "Mugdad";
+    }
+
+    function applyTaskFilters() {
+        var input = $("#task-search");
+        var query = input ? input.value.trim().toLowerCase() : "";
+        var isAdmin = demoRole === "admin";
+        var user = currentUserName();
+
+        taskGroups.forEach(function (group) {
+            var visible = 0;
+
+            group.items.forEach(function (item) {
+                var assignee = item.getAttribute("data-assignee");
+                var inScope = isAdmin || !assignee || assignee === user;
+                var match = query === "" ||
+                    item.textContent.toLowerCase().indexOf(query) !== -1;
+
+                item.hidden = !(inScope && match);
+                if (inScope && match) {
+                    visible++;
+                }
+            });
+
+            if (group.notice) {
+                group.notice.textContent = query !== ""
+                    ? "No matching tasks."
+                    : "No tasks assigned to you.";
+                group.notice.hidden = !(visible === 0 && (query !== "" || !isAdmin));
+            }
+        });
+
+        updateDashboardStats();
+    }
 
     function wireTaskSearch() {
         var input = $("#task-search");
@@ -572,48 +613,25 @@
             return;
         }
 
-        var groups = [
-            { items: $$(".task-card"), host: $(".task-cards") },
-            { items: $$("table tbody tr"), host: $(".table-wrap") }
+        taskGroups = [
+            { items: $$(".task-card"), host: $(".task-cards"), notice: null },
+            { items: $$("table tbody tr"), host: $(".table-wrap"), notice: null }
         ];
-        var notices = [];
 
-        groups.forEach(function (group) {
+        taskGroups.forEach(function (group) {
             if (!group.host || group.items.length === 0) {
-                notices.push(null);
                 return;
             }
             var note = document.createElement("p");
             note.className = "empty search-empty";
-            note.textContent = "No matching tasks.";
             note.hidden = true;
             group.host.insertAdjacentElement("afterend", note);
-            notices.push(note);
+            group.notice = note;
         });
 
-        function filter() {
-            var query = input.value.trim().toLowerCase();
-
-            groups.forEach(function (group, index) {
-                var visible = 0;
-
-                group.items.forEach(function (item) {
-                    var match = item.textContent.toLowerCase().indexOf(query) !== -1;
-                    item.hidden = !match;
-                    if (match) {
-                        visible++;
-                    }
-                });
-
-                if (notices[index]) {
-                    notices[index].hidden = !(query !== "" && visible === 0);
-                }
-            });
-        }
-
-        input.addEventListener("input", filter);
-        input.addEventListener("search", filter);
-        filter();
+        input.addEventListener("input", applyTaskFilters);
+        input.addEventListener("search", applyTaskFilters);
+        applyTaskFilters();
     }
 
     /* ---------- topbar avatar: account menu ---------- */
