@@ -1,7 +1,8 @@
-# dashboard.html — Main screen: progress + task list
+# dashboard.html — Main screen: completion + task list
 
-Shows project stats, a compact priority list and a table where each task links
-to its details page. It uses the same sidebar/topbar shell as `home.html`.
+Shows the project completion pie, a compact task list and a table where each
+task links to its details page. It uses the same sidebar/topbar shell as
+`home.html`.
 
 ## Workspace shell
 
@@ -12,22 +13,6 @@ to its details page. It uses the same sidebar/topbar shell as `home.html`.
   cards and table rows.
 - The purple palette is inspired by common project-management UIs; the markup
   and CSS are original.
-
-## Progress section
-
-```html
-<ul class="stats">
-    <li>Total Tasks <strong>4</strong></li>
-    <li>Completed <strong>1</strong></li>
-    <li>In Progress <strong>3</strong></li>
-    <li>Not Started <strong>0</strong></li>
-</ul>
-```
-
-`js/app.js` replaces the percentage cells in the table with progress bars and
-recalculates these four numbers from the visible rows. Rows/cards carry
-`data-assignee`; in the Member demo role only tasks for `data-user` on `<body>`
-are shown (Admin sees all).
 
 ## Project completion pie
 

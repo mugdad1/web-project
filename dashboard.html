@@ -53,35 +53,21 @@
                 <p>See where every task stands, who owns it and what needs attention.</p>
             </section>
 
-            <div class="overview-grid">
-                <section aria-labelledby="progress-heading">
-                    <div class="card-head">
-                        <h3 id="progress-heading">Project Progress</h3>
+            <section class="chart-card" aria-labelledby="completion-heading">
+                <div class="card-head">
+                    <h3 id="completion-heading">Project completion</h3>
+                </div>
+                <div class="pie-wrap">
+                    <div class="pie" id="project-pie" role="img" aria-label="Overall project completion">
+                        <span class="pie-center"><strong id="pie-percent">0%</strong><small>complete</small></span>
                     </div>
-                    <ul class="stats">
-                        <li>Total Tasks <strong>4</strong></li>
-                        <li>Completed <strong>1</strong></li>
-                        <li>In Progress <strong>3</strong></li>
-                        <li>Not Started <strong>0</strong></li>
+                    <ul class="pie-legend">
+                        <li><span class="legend-dot done"></span>Complete <strong id="legend-done">0</strong></li>
+                        <li><span class="legend-dot progress"></span>In progress <strong id="legend-progress">0</strong></li>
+                        <li><span class="legend-dot todo"></span>To do <strong id="legend-todo">0</strong></li>
                     </ul>
-                </section>
-
-                <section class="chart-card" aria-labelledby="completion-heading">
-                    <div class="card-head">
-                        <h3 id="completion-heading">Project completion</h3>
-                    </div>
-                    <div class="pie-wrap">
-                        <div class="pie" id="project-pie" role="img" aria-label="Overall project completion">
-                            <span class="pie-center"><strong id="pie-percent">0%</strong><small>complete</small></span>
-                        </div>
-                        <ul class="pie-legend">
-                            <li><span class="legend-dot done"></span>Complete <strong id="legend-done">0</strong></li>
-                            <li><span class="legend-dot progress"></span>In progress <strong id="legend-progress">0</strong></li>
-                            <li><span class="legend-dot todo"></span>To do <strong id="legend-todo">0</strong></li>
-                        </ul>
-                    </div>
-                </section>
-            </div>
+                </div>
+            </section>
 
             <section aria-labelledby="dash-tasks-heading">
                 <div class="card-head">
