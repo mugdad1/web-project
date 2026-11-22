@@ -375,6 +375,9 @@ tbody tr:hover {
     flex-direction: column;
     gap: 10px;
     min-height: 120px;
+    max-height: 340px;
+    overflow-y: auto;
+    padding-right: 4px;
 }
 
 .message {
