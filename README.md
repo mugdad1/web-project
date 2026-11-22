@@ -47,15 +47,28 @@ Both are linked from every page. No framework, no bundler, no dependency.
 
 ## Running it
 
-No build step and no dependencies. Any static server works:
+No build step and no dependencies.
+
+**Windows** — nothing to install, it uses only what ships with Windows. Right-click
+PowerShell → *Run as administrator*, then:
+
+```powershell
+cd path\to\web-project
+powershell -ExecutionPolicy Bypass -File .\serve.ps1
+```
+
+It serves the folder at `http://127.0.0.1:8099/index.html` and opens the browser.
+Use `-Port 8100` if 8099 is taken; Ctrl+C stops it.
+
+**Linux / macOS / anywhere with Python:**
 
 ```bash
 python3 -m http.server 8080
 # → http://127.0.0.1:8080/
 ```
 
-Opening the files directly with `file://` mostly works too, but a server is
-closer to how it will be graded.
+Opening the files directly with `file://` works too (no `fetch`, no ES modules,
+no storage), but a server is closer to how it will be graded.
 
 ## Before the PHP milestone
 
