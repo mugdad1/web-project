@@ -15,7 +15,7 @@ database.
 | `index.html` | Landing page — guest, no nav |
 | `signup.html` | Registration form |
 | `signin.html` | Login form |
-| `home.html` | Task list (authed) |
+| `home.html` | Home screen (authed): welcome hero, dashboard + task list, chat composer, add-task form, admin-gated members, notifications |
 | `dashboard.html` | Stats + project board (authed) |
 | `profile.html` | Own profile (authed) |
 | `edit-profile.html` | Edit own profile (authed) |
@@ -33,9 +33,17 @@ the authed pages. `layout.html` is the shared structure to copy from.
 | Path | What it is |
 |---|---|
 | `css/style.css` | The whole stylesheet — tokens, layout, nav, cards, forms, tables, chat, responsive rules |
-| `js/app.js` | The whole script — active nav, form validation, dashboard progress bars and totals, notification read state, chat send, profile preview, task-details query string |
+| `js/app.js` | The whole script — active nav, form validation, dashboard progress bars and totals, notification read state, chat send, profile preview, task-details query string, home add-task/add-member, demo role switch |
 
 Both are linked from every page. No framework, no bundler, no dependency.
+
+### Home screen and the demo role
+
+`home.html` now carries the dashboard, a chat composer and a quick add-task form
+directly on the home screen. The Members panel has an **Admin / Member** demo
+switch: `app.js` hides every `[data-admin-only]` block for the member role (on
+home and on `new-team.html`). This is a UI mockup only — **not security**.
+The PHP milestone must check the role on the server before adding members.
 
 ## Docs
 

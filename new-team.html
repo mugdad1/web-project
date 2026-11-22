@@ -13,6 +13,7 @@
 <a href="home.html">Home</a>
 <a href="profile.html">Profile</a>
 <a href="dashboard.html">Dashboard</a>
+<a href="settings.html">Settings</a>
 <a href="index.html">Sign Out</a>
         </nav>
     </header>
@@ -36,17 +37,21 @@
                     <input type="text" id="teamname" name="teamname" required placeholder="e.g. Team Alpha"><br><br>
                 </fieldset>
 
-                <fieldset>
-                    <legend>Add Member</legend><br>
-                    <label for="m1">Member email:</label><br>
-                    <input type="email" id="m1" name="m1" placeholder="name@email.com" required>
-                    <select id="m1r" name="m1r">
-                        <option value="owner">Owner</option>
-                        <option value="admin" selected>Admin</option>
-                        <option value="member">Member</option>
-                    </select><br>
-                    <p><em>Owner: manages the team. Admin: can add members. Member: joins and participates.</em></p><br>
-                </fieldset>
+                <!-- Demo role switch: only admins see this block. Not real security. -->
+                <div data-admin-only>
+                    <fieldset>
+                        <legend>Add Member</legend><br>
+                        <label for="m1">Member email:</label><br>
+                        <input type="email" id="m1" name="m1" placeholder="name@email.com" required>
+                        <select id="m1r" name="m1r">
+                            <option value="owner">Owner</option>
+                            <option value="admin" selected>Admin</option>
+                            <option value="member">Member</option>
+                        </select><br>
+                        <p><em>Owner: manages the team. Admin: can add members. Member: joins and participates.</em></p><br>
+                    </fieldset>
+                </div>
+                <p class="locked-note" id="role-locked" hidden>Only admins can add new members. Switch to the Admin demo role on My Home.</p>
                 <br>
                 <input type="submit" value="Create Team">
                 <input type="reset" value="Clear">

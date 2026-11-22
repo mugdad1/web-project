@@ -1,67 +1,64 @@
 # home.html — الصفحة الرئيسية (بعد الدخول)
 
-الصفحة التي يقصدها المستخدم المسجل: رسالة ترحيب، إشعارات، إجراءات سريعة.
+صفحة المستخدم المسجل. كانت تحتوي على ترحيب وإشعارات وإجراءات سريعة، وأصبحت
+تضم أيضاً لوحة التحكم والمحادثة وإضافة المهام مباشرة على الشاشة الرئيسية.
 
 ## الرأس / التنقل
 
 ```html
-<h1>My Home</h1>
-<nav>
-    <a href="profile.html">Profile |</a>
-    <a href="dashboard.html">Dashboard |</a>
-    <a href="index.html">Sign Out</a>
-</nav>
+<body class="home-page">
+<header>
+    <h1>My Home <span class="role-badge" id="role-badge">Admin</span></h1>
+    <nav>
+        <a href="profile.html">Profile</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="chat.html">Chat</a>
+        <a href="index.html">Sign Out</a>
+    </nav>
+</header>
 ```
 
 - لا يوجد رابط Home — هذه الصفحة هي الرئيسية.
-- "Sign Out" مجرد رابط إلى index.html (الجلسات الحقيقية مع PHP).
+- "Sign Out" مجرد رابط إلى `index.html` (الجلسات الحقيقية مع PHP).
 
 ## قسم الترحيب
 
-```html
-<section>
-    <h2>Welcome back, Mugdad</h2>
-    <p>Here is what is happening in your projects today.</p>
-</section>
-```
+`<section class="hero">` يعرض "Welcome back, Mugdad". الخلفية عبارة عن تدرجات
+CSS وأنماط مكررة في `css/style.css` (لا صور ولا ملفات إضافية). الاسم ثابت الآن؛
+اسم المستخدم الحقيقي يأتي في مرحلة PHP.
 
-- الاسم ثابت الآن؛ اسم المستخدم الفعلي يأتي في مرحلة PHP.
+## لوحة التحكم على الصفحة الرئيسية
 
-## قسم الإشعارات
+قائمة `.stats` وجدول بنفس مهام `dashboard.html`. يحول `js/app.js` خلايا النسب
+المئوية إلى أشرطة تقدم ويحدّث المجاميع. رابط "Full dashboard" يبقى إلى
+`dashboard.html`.
 
-```html
-<hr>
-<section>
-    <h3>Notifications</h3>
-    <ul>
-        <li>Ahmed finished the sign up page</li>
-        <li>Kumail updated the dashboard table</li>
-        <li>Your task "New team page" was created</li>
-    </ul>
-</section>
-```
+## إضافة مهمة
 
-- `<hr>` يفصل هذا القسم عن القسم الذي فوقه.
-- `<ul>` / `<li>` قائمة نقطية من الإشعارات التجريبية (الخادم سيجلبها
-  حقيقية لاحقاً).
+النموذج `#quick-task-form` (العنوان مطلوب، الوصف، الأولوية) يضيف صفاً جديداً إلى
+الجدول ويحدّث الإحصائيات عبر `js/app.js`. لا شيء يُحفظ بعد؛ إعادة التحميل تُعيد
+الجدول إلى حالته الأصلية.
 
-## قسم الإجراءات السريعة
+## المحادثة على الصفحة الرئيسية
 
-```html
-<hr>
-<section>
-    <h3>Quick Actions</h3>
-    <ul>
-        <li><a href="new-task.html">New task</a></li>
-        <li><a href="new-team.html">New team</a></li>
-    </ul>
-</section>
-```
+`#feed` مع النموذج `#chat-form` يسمح بكتابة رسالة وإرسالها؛ المعالج `wireChat()`
+يضيف فقاعة "You · just now". صفحة `chat.html` تبقى غرفة المحادثة الكاملة.
 
-- مجرد رابطين داخل عناصر قائمة.
+## الأعضاء وقاعدة الأدمن فقط
+
+- قائمة الأعضاء تعرض أدوارهم.
+- مفتاح تجريبي **Admin / Member** يضبط `data-role` على `<body>`؛ الدالة
+  `applyRole()` في `app.js` تخفي كل عناصر `[data-admin-only]` في دور Member،
+  بما فيها نموذج إضافة عضو هنا وفي `new-team.html`.
+- **هذا عرض تجريبي وليس أمناً حقيقياً**؛ يجب على PHP التحقق من الدور في الخادم
+  قبل إضافة أي عضو.
+
+## الإشعارات والإجراءات السريعة
+
+- إشعارات `.notifications li` تحصل على زر "Mark read".
+- رابط "New team" يحمل `data-admin-only` فيختفي في دور Member.
 
 ## كيف تعمل
 
-home.html نقطة تجمع: تعرض معلومات (ترحيب + إشعارات) وتقدم تنقلاً للميزات
-الرئيسية (الملف الشخصي، لوحة التحكم، صفحات جديدة). كل شيء ثابت حتى يضيف
-الخادم مستخدمين/مهام/إشعارات حقيقية.
+home.html نقطة تجمع تعرض المعلومات والميزات الرئيسية دون مغادرة الصفحة. كل شيء
+ثابت حتى يضيف الخادم مستخدمين ومهاماً ورسائل وإشعارات حقيقية.

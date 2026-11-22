@@ -47,6 +47,12 @@
 
     function validateField(field) {
         clearError(field);
+
+        // Hidden by the demo role switch: not part of the active form.
+        if (field.closest("[hidden]")) {
+            return true;
+        }
+
         var value = field.value.trim();
 
         if (field.hasAttribute("required") && value === "") {
@@ -113,6 +119,9 @@
             var progressCell = null;
 
             for (var i = 0; i < cells.length; i++) {
+                if ($(".progress", cells[i])) {
+                    continue; // already converted to a progress bar
+                }
                 if (/^\s*\d+\s*%\s*$/.test(cells[i].textContent)) {
                     progressCell = cells[i];
                     break;
@@ -284,6 +293,196 @@
         }
     }
 
+    /* ---------- role demo: hide admin-only controls ---------- */
+
+    var ROLE_KEY = "pm-demo-role";
+
+    function readRole() {
+        try {
+            return sessionStorage.getItem(ROLE_KEY) === "member" ? "member" : "admin";
+        } catch (error) {
+            return "admin"; // storage can be blocked (e.g. strict file:// settings)
+        }
+    }
+
+    var demoRole = readRole();
+
+    function applyRole() {
+        var isAdmin = demoRole === "admin";
+
+        document.body.setAttribute("data-role", demoRole);
+
+        $$("[data-admin-only]").forEach(function (el) {
+            el.hidden = !isAdmin;
+        });
+
+        $$(".role-btn").forEach(function (btn) {
+            var active = btn.getAttribute("data-role") === demoRole;
+            btn.classList.toggle("is-active", active);
+            btn.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+
+        var badge = $("#role-badge");
+        if (badge) {
+            badge.textContent = isAdmin ? "Admin" : "Member";
+        }
+
+        var locked = $("#role-locked");
+        if (locked) {
+            locked.hidden = isAdmin;
+        }
+    }
+
+    function wireRoleSwitch() {
+        $$(".role-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                demoRole = btn.getAttribute("data-role") || "member";
+                try {
+                    sessionStorage.setItem(ROLE_KEY, demoRole);
+                } catch (error) {
+                    // Ignore: the switch still works for this page load.
+                }
+                applyRole();
+            });
+        });
+        applyRole();
+    }
+
+    /* ---------- home: add a task and add a member ---------- */
+
+    function showNote(id, text) {
+        var note = $("#" + id);
+        if (note) {
+            note.textContent = text;
+            note.hidden = false;
+        }
+    }
+
+    function label(value) {
+        return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+
+    function wireHomePanels() {
+        var taskForm = $("#quick-task-form");
+
+        if (taskForm) {
+            taskForm.addEventListener("submit", function (event) {
+                if (event.defaultPrevented) {
+                    return;
+                }
+                event.preventDefault();
+
+                var body = $("#home-task-table tbody");
+                if (!body) {
+                    return;
+                }
+
+                var title = $("#quick-title", taskForm).value.trim();
+                var priority = $("#quick-priority", taskForm).value;
+
+                var row = document.createElement("tr");
+                var taskCell = document.createElement("td");
+                var link = document.createElement("a");
+                link.href = "task-details.html?task=" + encodeURIComponent(title);
+                link.textContent = title;
+                taskCell.appendChild(link);
+                row.appendChild(taskCell);
+
+                ["You", "0%", "Just now", label(priority)].forEach(function (text) {
+                    var cell = document.createElement("td");
+                    cell.textContent = text;
+                    row.appendChild(cell);
+                });
+
+                body.insertBefore(row, body.firstChild);
+                buildProgressBars();
+                updateDashboardStats();
+                showNote("task-added", "Task \"" + title + "\" added to your dashboard.");
+                taskForm.reset();
+            });
+        }
+
+        var memberForm = $("#add-member-form");
+
+        if (memberForm) {
+            memberForm.addEventListener("submit", function (event) {
+                if (event.defaultPrevented) {
+                    return;
+                }
+                event.preventDefault();
+
+                if (demoRole !== "admin") {
+                    return;
+                }
+
+                var list = $(".member-list");
+                if (!list) {
+                    return;
+                }
+
+                var email = $("#new-member-email", memberForm).value.trim();
+                var role = $("#new-member-role", memberForm).value;
+
+                var item = document.createElement("li");
+                var name = document.createElement("span");
+                name.textContent = email;
+                var tag = document.createElement("span");
+                tag.className = "tag";
+                tag.textContent = label(role);
+                item.appendChild(name);
+                item.appendChild(tag);
+                list.appendChild(item);
+
+                showNote("member-added", "Added " + email + " as " + role + ".");
+                memberForm.reset();
+            });
+        }
+    }
+
+    /* ---------- appearance: light / dark theme ---------- */
+
+    var THEME_KEY = "pm-theme";
+
+    function readTheme() {
+        try {
+            return localStorage.getItem(THEME_KEY) === "dark" ? "dark" : "light";
+        } catch (error) {
+            return "light";
+        }
+    }
+
+    var theme = readTheme();
+
+    function applyTheme() {
+        document.body.setAttribute("data-theme", theme);
+
+        $$("[data-theme-btn]").forEach(function (btn) {
+            var active = btn.getAttribute("data-theme-btn") === theme;
+            btn.classList.toggle("is-active", active);
+            btn.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+
+        var label = $("#theme-label");
+        if (label) {
+            label.textContent = theme === "dark" ? "Dark" : "Light";
+        }
+    }
+
+    function wireThemeSwitch() {
+        $$("[data-theme-btn]").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                theme = btn.getAttribute("data-theme-btn") === "dark" ? "dark" : "light";
+                try {
+                    localStorage.setItem(THEME_KEY, theme);
+                } catch (error) {
+                    // Ignore: the switch still works for this page load.
+                }
+                applyTheme();
+            });
+        });
+        applyTheme();
+    }
+
     /* ---------- start ---------- */
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -295,5 +494,8 @@
         wireChat();
         wireProfilePreview();
         fillTaskFromQuery();
+        wireRoleSwitch();
+        wireHomePanels();
+        wireThemeSwitch();
     });
 }());

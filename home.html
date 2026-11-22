@@ -2,50 +2,249 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Management - My Home</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>My Home</h1>
-        <nav>
-<a href="profile.html">Profile</a>
-<a href="dashboard.html">Dashboard</a>
-<a href="index.html">Sign Out</a>
+<body class="home-page app-shell">
+    <aside class="sidebar">
+        <div class="workspace">
+            <span class="workspace-mark">PM</span>
+            <span class="workspace-name">Team Workspace<small>Web Programming</small></span>
+        </div>
+
+        <nav class="side-nav" aria-label="Main">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="chat.html">Chat</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
         </nav>
-    </header>
 
-    <main>
-        <section>
-            <h2>Welcome back, Mugdad</h2>
-            <p>Here is what is happening in your projects today.</p>
-        </section>
+        <div class="sidebar-foot">
+            <a href="index.html">Sign Out</a>
+        </div>
+    </aside>
 
-        <hr>
+    <div class="app-body">
+        <header class="topbar">
+            <h1>My Home <span class="role-badge" id="role-badge">Admin</span></h1>
+            <div class="topbar-actions">
+                <span class="search-pill">Search tasks...</span>
+                <a class="btn btn-small" href="new-task.html">New Task</a>
+                <a class="avatar" href="profile.html" aria-label="Your profile">M</a>
+            </div>
+        </header>
 
-        <section>
-            <h3>Notifications</h3>
-            <ul class="notifications">
-                <li>Ahmed finished the sign up page</li>
-                <li>Kumail updated the dashboard table</li>
-                <li>Your task "New team page" was created</li>
-            </ul>
-        </section>
+        <main class="home-main">
+            <!-- Background + welcome hero -->
+            <section class="hero">
+                <p class="eyebrow"><span class="date-chip">Today, 22 November</span></p>
+                <h2>Welcome back, Mugdad</h2>
+                <p>Here is what is happening in your projects today.</p>
+                <div class="hero-actions">
+                    <a class="btn" href="#quick-task">Add a task</a>
+                    <a class="btn btn-secondary" href="#team-chat">Write a chat message</a>
+                </div>
+            </section>
 
-        <hr>
+            <div class="home-grid">
+                <div class="home-col">
+                    <!-- Priority list -->
+                    <section class="card" aria-labelledby="priorities-heading">
+                        <div class="card-head">
+                            <h3 id="priorities-heading">My priorities</h3>
+                            <a href="dashboard.html">View all &rarr;</a>
+                        </div>
+                        <ul class="task-cards">
+                            <li class="task-card is-complete">
+                                <span class="task-check" aria-hidden="true"></span>
+                                <div><strong>Layout skeleton</strong><small>Today &middot; Web project</small></div>
+                                <span class="priority low">Low</span>
+                                <span class="status done">Complete</span>
+                            </li>
+                            <li class="task-card">
+                                <span class="task-check" aria-hidden="true"></span>
+                                <div><strong>Landing page</strong><small>Due in 3 days &middot; Web project</small></div>
+                                <span class="priority high">High</span>
+                                <span class="status progress">In progress</span>
+                            </li>
+                            <li class="task-card">
+                                <span class="task-check" aria-hidden="true"></span>
+                                <div><strong>Sign up page</strong><small>Due in 3 days &middot; Web project</small></div>
+                                <span class="priority medium">Medium</span>
+                                <span class="status progress">In progress</span>
+                            </li>
+                            <li class="task-card">
+                                <span class="task-check" aria-hidden="true"></span>
+                                <div><strong>Dashboard page</strong><small>Due in 4 days &middot; Needs review</small></div>
+                                <span class="priority medium">Medium</span>
+                                <span class="status todo">To do</span>
+                            </li>
+                        </ul>
+                    </section>
 
-        <section>
-            <h3>Quick Actions</h3>
-            <ul class="quick-actions">
-                <li><a href="new-task.html">New task</a></li>
-                <li><a href="new-team.html">New team</a></li>
-            </ul>
-        </section>
-    </main>
+                    <!-- Dashboard moved onto the home screen -->
+                    <section class="card" aria-labelledby="home-dashboard-heading">
+                        <div class="card-head">
+                            <h3 id="home-dashboard-heading">Dashboard</h3>
+                            <a href="dashboard.html">Full dashboard &rarr;</a>
+                        </div>
 
-    <footer>
-        <hr>
-    </footer>
+                        <ul class="stats">
+                            <li>Total Tasks <strong>4</strong></li>
+                            <li>Completed <strong>1</strong></li>
+                            <li>In Progress <strong>3</strong></li>
+                            <li>Not Started <strong>0</strong></li>
+                        </ul>
+
+                        <div class="table-wrap">
+                            <table id="home-task-table">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Assignee</th>
+                                        <th>Progress</th>
+                                        <th>Time Remaining</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="task-details.html?task=Layout+skeleton">Layout skeleton</a></td>
+                                        <td>Mugdad</td>
+                                        <td>100%</td>
+                                        <td>Done</td>
+                                        <td><span class="status done">Complete</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="task-details.html?task=Landing+page">Landing page</a></td>
+                                        <td>Ali</td>
+                                        <td>50%</td>
+                                        <td>3 days</td>
+                                        <td><span class="status progress">In progress</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="task-details.html?task=Sign+up+page">Sign up page</a></td>
+                                        <td>Ahmed</td>
+                                        <td>50%</td>
+                                        <td>3 days</td>
+                                        <td><span class="status progress">In progress</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="task-details.html?task=Dashboard+page">Dashboard page</a></td>
+                                        <td>Kumail</td>
+                                        <td>50%</td>
+                                        <td>4 days</td>
+                                        <td><span class="status todo">To do</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Add a new task without leaving the home screen -->
+                    <section class="card" id="quick-task" aria-labelledby="quick-task-heading">
+                        <div class="card-head">
+                            <h3 id="quick-task-heading">Add a new task</h3>
+                        </div>
+                        <form id="quick-task-form" action="home.html" method="get">
+                            <label for="quick-title">Title:</label>
+                            <input type="text" id="quick-title" name="title" required placeholder="e.g. Build the landing page">
+
+                            <label for="quick-desc">Description:</label>
+                            <input type="text" id="quick-desc" name="desc" placeholder="e.g. Add header, nav and footer">
+
+                            <label for="quick-priority">Priority:</label>
+                            <select id="quick-priority" name="priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+
+                            <button type="submit">Create task</button>
+                            <p class="inline-note" id="task-added" role="status" hidden></p>
+                        </form>
+                    </section>
+                </div>
+
+                <aside class="home-col">
+                    <!-- Chat moved onto the home screen, with a composer -->
+                    <section class="card" id="team-chat" aria-labelledby="home-chat-heading">
+                        <div class="card-head">
+                            <h3 id="home-chat-heading">Team chat</h3>
+                            <a href="chat.html">Open room &rarr;</a>
+                        </div>
+
+                        <div id="feed" class="feed"><p class="empty">No messages yet.</p></div>
+
+                        <form id="chat-form" class="chat-form" action="chat.html" method="get" novalidate>
+                            <label class="sr-only" for="msg">Message</label>
+                            <input type="text" id="msg" name="msg" required placeholder="Write a message...">
+                            <button type="submit">Send</button>
+                        </form>
+                    </section>
+
+                    <!-- Adding members is admin-only (demo role switch, no backend yet) -->
+                    <section class="card" id="members-panel" aria-labelledby="members-heading">
+                        <div class="card-head">
+                            <h3 id="members-heading">Members</h3>
+                            <div class="role-switch" role="group" aria-label="Demo role">
+                                <button type="button" class="role-btn is-active" data-role="admin" aria-pressed="true">Admin</button>
+                                <button type="button" class="role-btn" data-role="member" aria-pressed="false">Member</button>
+                            </div>
+                        </div>
+
+                        <p class="demo-note">Demo role switch only. Real permissions come from the server with PHP.</p>
+
+                        <div id="admin-tools" data-admin-only>
+                            <form id="add-member-form" action="home.html" method="get">
+                                <label for="new-member-email">Member email:</label>
+                                <input type="email" id="new-member-email" name="email" required placeholder="name@email.com">
+
+                                <label for="new-member-role">Role:</label>
+                                <select id="new-member-role" name="role">
+                                    <option value="admin">Admin</option>
+                                    <option value="member" selected>Member</option>
+                                </select>
+
+                                <button type="submit">Add member</button>
+                                <p class="inline-note" id="member-added" role="status" hidden></p>
+                            </form>
+                        </div>
+
+                        <p class="locked-note" id="role-locked" hidden>Only admins can add new members.</p>
+
+                        <ul class="member-list">
+                            <li><span>Mugdad</span><span class="tag owner">Owner</span></li>
+                            <li><span>Ali</span><span class="tag">Admin</span></li>
+                            <li><span>Ahmed</span><span class="tag">Member</span></li>
+                            <li><span>Kumail</span><span class="tag">Member</span></li>
+                        </ul>
+                    </section>
+
+                    <section class="card" aria-labelledby="home-updates-heading">
+                        <div class="card-head">
+                            <h3 id="home-updates-heading">Notifications</h3>
+                        </div>
+                        <ul class="notifications">
+                            <li>Ahmed finished the sign up page</li>
+                            <li>Kumail updated the dashboard table</li>
+                            <li>Your task "New team page" was created</li>
+                        </ul>
+
+                        <div class="card-head updates-actions">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <ul class="quick-actions">
+                            <li><a href="new-task.html">New task page</a></li>
+                            <li data-admin-only><a href="new-team.html">New team</a></li>
+                        </ul>
+                    </section>
+                </aside>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

@@ -2,85 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Management - Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Dashboard</h1>
-        <nav>
-<a href="home.html">Home</a>
-<a href="profile.html">Profile</a>
-<a href="index.html">Sign Out</a>
+<body class="app-shell">
+    <aside class="sidebar">
+        <div class="workspace">
+            <span class="workspace-mark">PM</span>
+            <span class="workspace-name">Team Workspace<small>Web Programming</small></span>
+        </div>
+
+        <nav class="side-nav" aria-label="Main">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="chat.html">Chat</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
         </nav>
-    </header>
 
-    <main>
-        <section>
-            <h2>Project Progress</h2>
-            <ul class="stats">
-                <li>Total Tasks: <strong>10</strong></li>
-                <li>Completed: <strong>6</strong></li>
-                <li>In Progress: <strong>3</strong></li>
-                <li>Not Started: <strong>1</strong></li>
-            </ul>
-        </section>
+        <div class="sidebar-foot">
+            <a href="index.html">Sign Out</a>
+        </div>
+    </aside>
 
-        <hr>
-
-        <section>
-            <h3>Task List</h3>
-            <div class="table-wrap">
-            <table>
-                <tr>
-                    <th>Task</th>
-                    <th>Assignee</th>
-                    <th>Progress</th>
-                    <th>Time Remaining</th>
-                    <th>Note</th>
-                </tr>
-                <tr>
-                    <td><a href="task-details.html?task=Layout+skeleton">Layout skeleton</a></td>
-                    <td>Mugdad</td>
-                    <td>100%</td>
-                    <td>Done</td>
-                    <td>Finished</td>
-                </tr>
-                <tr>
-                    <td><a href="task-details.html?task=Landing+page">Landing page</a></td>
-                    <td>Ali</td>
-                    <td>50%</td>
-                    <td>3 days</td>
-                    <td>On track</td>
-                </tr>
-                <tr>
-                    <td><a href="task-details.html?task=Sign+up+page">Sign up page</a></td>
-                    <td>Ahmed</td>
-                    <td>50%</td>
-                    <td>3 days</td>
-                    <td>On track</td>
-                </tr>
-                <tr>
-                    <td><a href="task-details.html?task=Dashboard+page">Dashboard page</a></td>
-                    <td>Kumail</td>
-                    <td>50%</td>
-                    <td>4 days</td>
-                    <td>Needs review</td>
-                </tr>
-            </table>
+    <div class="app-body">
+        <header class="topbar">
+            <h1>Dashboard</h1>
+            <div class="topbar-actions">
+                <span class="search-pill">Search tasks...</span>
+                <a class="btn btn-small" href="new-task.html">New Task</a>
+                <a class="avatar" href="profile.html" aria-label="Your profile">M</a>
             </div>
-        </section>
+        </header>
 
-        <hr>
+        <main>
+            <section class="hero">
+                <p class="eyebrow"><span class="date-chip">Today, 22 November</span></p>
+                <h2>Project overview</h2>
+                <p>See where every task stands, who owns it and what needs attention.</p>
+            </section>
 
-        <section>
-            <a href="chat.html"><button type="button">Chat</button></a>
-        </section>
-    </main>
+            <section aria-labelledby="progress-heading">
+                <div class="card-head">
+                    <h3 id="progress-heading">Project Progress</h3>
+                </div>
+                <ul class="stats">
+                    <li>Total Tasks <strong>4</strong></li>
+                    <li>Completed <strong>1</strong></li>
+                    <li>In Progress <strong>3</strong></li>
+                    <li>Not Started <strong>0</strong></li>
+                </ul>
+            </section>
 
-    <footer>
-        <hr>
-    </footer>
+            <section aria-labelledby="dash-priorities-heading">
+                <div class="card-head">
+                    <h3 id="dash-priorities-heading">My priorities</h3>
+                    <a href="new-task.html">Add a task &rarr;</a>
+                </div>
+                <ul class="task-cards">
+                    <li class="task-card is-complete">
+                        <span class="task-check" aria-hidden="true"></span>
+                        <div><strong>Layout skeleton</strong><small>Mugdad &middot; Web project</small></div>
+                        <span class="priority low">Low</span>
+                        <span class="status done">Complete</span>
+                    </li>
+                    <li class="task-card">
+                        <span class="task-check" aria-hidden="true"></span>
+                        <div><strong>Landing page</strong><small>Ali &middot; Due in 3 days</small></div>
+                        <span class="priority high">High</span>
+                        <span class="status progress">In progress</span>
+                    </li>
+                    <li class="task-card">
+                        <span class="task-check" aria-hidden="true"></span>
+                        <div><strong>Sign up page</strong><small>Ahmed &middot; Due in 3 days</small></div>
+                        <span class="priority medium">Medium</span>
+                        <span class="status progress">In progress</span>
+                    </li>
+                    <li class="task-card">
+                        <span class="task-check" aria-hidden="true"></span>
+                        <div><strong>Dashboard page</strong><small>Kumail &middot; Needs review</small></div>
+                        <span class="priority medium">Medium</span>
+                        <span class="status todo">To do</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="task-list-heading">
+                <div class="card-head">
+                    <h3 id="task-list-heading">Task List</h3>
+                    <a href="home.html">Back home &rarr;</a>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Assignee</th>
+                                <th>Progress</th>
+                                <th>Time Remaining</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="task-details.html?task=Layout+skeleton">Layout skeleton</a></td>
+                                <td>Mugdad</td>
+                                <td>100%</td>
+                                <td>Done</td>
+                                <td><span class="status done">Complete</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="task-details.html?task=Landing+page">Landing page</a></td>
+                                <td>Ali</td>
+                                <td>50%</td>
+                                <td>3 days</td>
+                                <td><span class="status progress">In progress</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="task-details.html?task=Sign+up+page">Sign up page</a></td>
+                                <td>Ahmed</td>
+                                <td>50%</td>
+                                <td>3 days</td>
+                                <td><span class="status progress">In progress</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="task-details.html?task=Dashboard+page">Dashboard page</a></td>
+                                <td>Kumail</td>
+                                <td>50%</td>
+                                <td>4 days</td>
+                                <td><span class="status todo">To do</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section aria-labelledby="chat-heading">
+                <div class="card-head">
+                    <h3 id="chat-heading">Team chat</h3>
+                    <a href="chat.html">Open the full room &rarr;</a>
+                </div>
+                <p>Discuss the board without leaving your dashboard.</p>
+                <a class="btn" href="chat.html">Open Chat</a>
+            </section>
+        </main>
+
+        <footer>
+            <p>Mugdad, Ali, Ahmed, Kumail</p>
+        </footer>
+    </div>
 </body>
 </html>

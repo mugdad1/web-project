@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project Management - Settings</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Settings</h1>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="chat.html">Chat</a>
+            <a href="profile.html">Profile</a>
+            <a href="index.html">Sign Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="settings-card" aria-labelledby="appearance-heading">
+            <div class="card-head">
+                <h3 id="appearance-heading">Appearance</h3>
+            </div>
+            <p>Choose how the site looks. Your choice is saved in this browser.</p>
+
+            <div class="theme-switch" role="group" aria-label="Colour theme">
+                <button type="button" class="theme-btn is-active" data-theme-btn="light" aria-pressed="true">Light</button>
+                <button type="button" class="theme-btn" data-theme-btn="dark" aria-pressed="false">Dark</button>
+            </div>
+
+            <p class="demo-note">Current theme: <strong id="theme-label">Light</strong></p>
+        </section>
+
+        <section class="settings-card" aria-labelledby="account-heading">
+            <div class="card-head">
+                <h3 id="account-heading">Account</h3>
+            </div>
+            <p>Account and role settings will come with the PHP backend.</p>
+            <p><a href="edit-profile.html">Edit your profile</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Mugdad, Ali, Ahmed, Kumail</p>
+    </footer>
+</body>
+</html>
