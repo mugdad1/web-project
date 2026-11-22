@@ -1201,6 +1201,109 @@ input.search-pill::placeholder {
     font-weight: 600;
 }
 
+/* dashboard: completion pie */
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(240px, .75fr);
+    gap: 20px;
+    align-items: stretch;
+    margin-bottom: 18px;
+}
+
+.overview-grid > section {
+    margin-bottom: 0;
+}
+
+.chart-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.pie-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: auto;
+}
+
+.pie {
+    position: relative;
+    flex: 0 0 auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(var(--border) 0deg 360deg);
+}
+
+.pie::after {
+    content: "";
+    position: absolute;
+    inset: 24px;
+    border-radius: 50%;
+    background: var(--surface);
+}
+
+.pie-center {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.pie-center strong {
+    color: var(--text);
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.pie-center small {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.pie-legend {
+    flex: 1 1 130px;
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pie-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.pie-legend strong {
+    margin-left: auto;
+    color: var(--text);
+}
+
+.legend-dot {
+    flex: 0 0 auto;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.legend-dot.done { background: var(--ok); }
+.legend-dot.progress { background: var(--warn); }
+.legend-dot.todo { background: var(--border); }
+
 /* chat page: members panel beside the room */
 
 .chat-layout {
@@ -1304,6 +1407,10 @@ body[data-theme="dark"] .priority.low { background: #123044; color: #7dd3fc; }
     }
 
     .chat-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .overview-grid {
         grid-template-columns: 1fr;
     }
 }

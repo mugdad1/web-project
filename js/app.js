@@ -190,6 +190,65 @@
         });
     }
 
+    /* ---------- dashboard: overall project completion pie ---------- */
+
+    function buildProjectPie() {
+        var pie = $("#project-pie");
+        if (!pie) {
+            return;
+        }
+
+        var rows = $$("table tbody tr").filter(function (row) {
+            return $(".progress-value", row) !== null;
+        });
+
+        var done = 0;
+        var progress = 0;
+        var todo = 0;
+        var sum = 0;
+
+        rows.forEach(function (row) {
+            var value = parseInt($(".progress-value", row).textContent, 10) || 0;
+            sum += value;
+            if (value >= 100) {
+                done++;
+            } else if (value > 0) {
+                progress++;
+            } else {
+                todo++;
+            }
+        });
+
+        var total = rows.length;
+        var percent = total === 0 ? 0 : Math.round(sum / total);
+        var doneDeg = total === 0 ? 0 : (done / total) * 360;
+        var progressDeg = total === 0 ? 0 : doneDeg + (progress / total) * 360;
+
+        pie.style.background = "conic-gradient(" +
+            "var(--ok) 0deg " + doneDeg + "deg, " +
+            "var(--warn) " + doneDeg + "deg " + progressDeg + "deg, " +
+            "var(--border) " + progressDeg + "deg 360deg)";
+        pie.setAttribute("aria-label", "Project completion: " + percent + "%");
+
+        var percentEl = $("#pie-percent");
+        if (percentEl) {
+            percentEl.textContent = percent + "%";
+        }
+
+        var doneEl = $("#legend-done");
+        var progressEl = $("#legend-progress");
+        var todoEl = $("#legend-todo");
+        if (doneEl) {
+            doneEl.textContent = done;
+        }
+        if (progressEl) {
+            progressEl.textContent = progress;
+        }
+        if (todoEl) {
+            todoEl.textContent = todo;
+        }
+    }
+
     /* ---------- home: mark notifications as read ---------- */
 
     function wireNotifications() {
@@ -699,6 +758,7 @@
         wireForms();
         buildProgressBars();
         updateDashboardStats();
+        buildProjectPie();
         wireNotifications();
         wireChat();
         wireChannels();

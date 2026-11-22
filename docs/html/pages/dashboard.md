@@ -29,6 +29,20 @@ recalculates these four numbers from the visible rows. Rows/cards carry
 `data-assignee`; in the Member demo role only tasks for `data-user` on `<body>`
 are shown (Admin sees all).
 
+## Project completion pie
+
+```html
+<div class="pie" id="project-pie">
+    <span class="pie-center"><strong id="pie-percent">0%</strong><small>complete</small></span>
+</div>
+```
+
+- `buildProjectPie()` in `app.js` builds a CSS `conic-gradient` donut from the
+  table's progress values: complete / in progress / to do slices.
+- The centre shows the average completion of all tasks (the whole project),
+  and `#legend-done` / `#legend-progress` / `#legend-todo` show the counts.
+- No chart library and no canvas — just CSS and a few inline styles.
+
 ## My priorities
 
 - A `.task-cards` list with `.status` pills (Complete / In progress / To do)
