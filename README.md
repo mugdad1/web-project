@@ -12,7 +12,7 @@ assets or logos. **Target stack:** HTML, CSS, JavaScript, PHP + database.
 
 | File | What it is |
 |---|---|
-| `index.html` | Landing page — guest, no nav |
+| `index.html` | Landing page — guest: gradient background, hero, feature cards, steps |
 | `signup.html` | Registration form |
 | `signin.html` | Login form |
 | `home.html` | Home screen (authed): sidebar, welcome hero, priorities, dashboard + task list, chat composer, add-task form, admin-gated members, notifications |

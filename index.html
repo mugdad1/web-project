@@ -2,31 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Management - Landing</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
+<body class="landing-page">
     <header>
         <h1>Project Management Site</h1>
         <nav>
-<a href="#intro">About</a>
-<a href="signup.html">Sign Up</a>
-<a href="signin.html">Sign In</a>
+            <a href="#intro">About</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="signin.html">Sign In</a>
         </nav>
     </header>
 
-    <main>
-        <section id="intro">
-            <h2>Welcome!</h2>
-            <p>Track your <strong>tasks and teams</strong> in one place.</p>
-            <p>Create big tasks, split them into small <em>subtasks</em>, and see your progress.</p>
+    <main class="landing-main">
+        <section class="landing-hero" id="intro">
+            <div class="landing-copy">
+                <p class="eyebrow">One place for the whole team</p>
+                <h2>Track your tasks and teams in one place.</h2>
+                <p>Create big tasks, split them into small <em>subtasks</em>, and see your progress at a glance.</p>
+                <div class="landing-actions">
+                    <a class="btn" href="signup.html">Get started</a>
+                    <a class="btn btn-secondary" href="signin.html">Sign In</a>
+                </div>
+            </div>
+
+            <div class="landing-preview" aria-hidden="true">
+                <div class="preview-row"><span class="preview-dot"></span><span class="preview-bar"></span><span class="status done">Done</span></div>
+                <div class="preview-row"><span class="preview-dot"></span><span class="preview-bar short"></span><span class="status progress">In progress</span></div>
+                <div class="preview-row"><span class="preview-dot"></span><span class="preview-bar"></span><span class="status todo">To do</span></div>
+                <div class="preview-row"><span class="preview-dot"></span><span class="preview-bar short"></span><span class="status done">Done</span></div>
+            </div>
+        </section>
+
+        <section aria-labelledby="features-heading">
+            <div class="card-head">
+                <h2 id="features-heading">Everything your team needs</h2>
+            </div>
+            <ul class="feature-grid">
+                <li>
+                    <span class="feature-icon">T</span>
+                    <strong>Tasks</strong>
+                    <p>Set priorities, assign owners and watch progress.</p>
+                </li>
+                <li>
+                    <span class="feature-icon">C</span>
+                    <strong>Chat</strong>
+                    <p>Keep every conversation beside the work it belongs to.</p>
+                </li>
+                <li>
+                    <span class="feature-icon">D</span>
+                    <strong>Dashboard</strong>
+                    <p>See totals, deadlines and what needs attention.</p>
+                </li>
+                <li>
+                    <span class="feature-icon">U</span>
+                    <strong>Teams</strong>
+                    <p>Bring members together with the right roles.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section aria-labelledby="steps-heading">
+            <div class="card-head">
+                <h2 id="steps-heading">How it works</h2>
+            </div>
+            <ol class="steps">
+                <li>Create your account and sign in.</li>
+                <li>Create a team and invite your members.</li>
+                <li>Add tasks, chat about them and track progress from your home screen.</li>
+            </ol>
         </section>
     </main>
 
     <footer>
-        <hr>
-        <p><a href="mailto:mugdad02@tutamail.com">Contact us</a></p>
+        <p><a href="mailto:mugdad02@tutamail.com">Contact us</a> &middot; Mugdad, Ali, Ahmed, Kumail</p>
     </footer>
 </body>
 </html>

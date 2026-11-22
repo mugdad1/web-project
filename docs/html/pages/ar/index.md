@@ -1,54 +1,38 @@
 # index.html — صفحة البداية
 
-هذه أول صفحة يراها الزائر. لا يوجد فيها نموذج — فقط تعرّف عن الموقع وروابط
-الدخول / التسجيل.
+أول صفحة يراها الزائر. لا يوجد فيها نموذج؛ تعرّف بالموقع وروابط الدخول/
+التسجيل. أصبحت الآن بخلفية تدرجات وتصميم بطاقات.
 
-## رأس الصفحة (الجزء العلوي)
+## الرأس
 
 ```html
 <header>
     <h1>Project Management Site</h1>
     <nav>
-        <a href="#intro">About |</a>
-        <a href="signup.html">Sign Up |</a>
+        <a href="#intro">About</a>
+        <a href="signup.html">Sign Up</a>
         <a href="signin.html">Sign In</a>
     </nav>
 </header>
 ```
 
-- `<h1>Project Management Site</h1>` — عنوان الموقع، أكبر عنوان في الصفحة.
-- `<nav>` يحتوي روابط التنقل.
-- `#intro` (مع `#`) تعني "نفس الصفحة، انتقل إلى العنصر صاحب `id="intro"`" —
-  رابط About ينزل إلى أول قسم.
-- الـ `|` بعد معظم الروابط مجرد فاصل بصري بين عناصر القائمة.
+- الرابط `#intro` ينتقل إلى قسم الترحيب الذي يحمل `id="intro"`.
+- الرأس شفاف ومثبّت أعلى الصفحة.
 
-## المحتوى الرئيسي
+## قسم الترحيب
 
-```html
-<main>
-    <section id="intro">
-        <h2>Welcome!</h2>
-        <p>Track your <strong>tasks and teams</strong> in one place.</p>
-        <p>Create big tasks, split them into small <em>subtasks</em>, and see your progress.</p>
-    </section>
-</main>
-```
+`<section class="landing-hero" id="intro">` يحتوي على العنوان والوصف وزري
+التسجيل والدخول، وبطاقة معاينة تزيينية تحمل `aria-hidden="true"`.
 
-- `<section id="intro">` — الكتلة التي يقفز إليها `href="#intro"`.
-- `<strong>` يجعل "tasks and teams" عريضاً.
-- `<em>` يجعل "subtasks" مائلاً.
+- الخلفية عبارة عن تدرجات CSS في `css/style.css` (لا صور).
+- بطاقة المعاينة تستخدم شرائح الحالة نفسها المستخدمة في بقية الصفحات.
+
+## البطاقات والخطوات
+
+- `.feature-grid`: بطاقات المهام والمحادثة ولوحة التحكم والفرق.
+- `.steps`: قائمة `<ol>` مرقّمة بـ CSS counters.
 
 ## التذييل
 
-```html
-<footer>
-    <hr>
-    <p><a href="mailto:mugdad02@tutamail.com">Contact us</a></p>
-</footer>
-```
-
-- `<hr>` يرسم خطاً أفقياً.
-- رابط `mailto:` يفتح برنامج البريد عند الزائر (بدون أي خادم).
-
-**كيف تعمل:** صفحة تنقّل فقط — تقدم الموقع وتنقل إلى صفحات أخرى. الارتباط
-داخل نفس الصفحة `#intro` هو الوحيد من نوعه هنا.
+رابط `mailto:` مع أسماء الفريق. وضع الوضع الداكن من `settings.html` يعمل هنا
+أيضاً.

@@ -7,111 +7,140 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>My Profile</h1>
-        <nav>
-<a href="home.html">Home</a>
-<a href="dashboard.html">Dashboard</a>
-<a href="settings.html">Settings</a>
-<a href="index.html">Sign Out</a>
+<body class="app-shell">
+    <aside class="sidebar">
+        <div class="workspace">
+            <span class="workspace-mark">PM</span>
+            <span class="workspace-name">Team Workspace<small>Web Programming</small></span>
+        </div>
+
+        <nav class="side-nav" aria-label="Main">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="chat.html">Chat</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
         </nav>
-    </header>
 
-    <main>
-        <section>
-            <h2>Mugdad Alhammad</h2>
-            <p><strong>Major:</strong> Computer Science</p>
-            <p><strong>Email:</strong> mugdad02@tutamail.com</p>
-            <p><strong>Role:</strong> Owner</p>
-            <p><a href="edit-profile.html">Edit Profile</a></p>
-        </section>
+        <div class="sidebar-foot">
+            <a href="index.html">Sign Out</a>
+        </div>
+    </aside>
 
-        <section aria-labelledby="my-task-stats-heading">
-            <div class="card-head">
-                <h3 id="my-task-stats-heading">My task statistics</h3>
-                <a href="dashboard.html">View dashboard &rarr;</a>
+    <div class="app-body">
+        <header class="topbar">
+            <h1>My Profile</h1>
+            <div class="topbar-actions">
+                <div class="avatar-menu">
+                    <button type="button" class="avatar" id="avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="avatar-dropdown" aria-label="Account menu">M</button>
+                    <div class="avatar-dropdown" id="avatar-dropdown" role="menu" hidden>
+                        <a href="profile.html" role="menuitem">My Profile</a>
+                        <a href="index.html" role="menuitem">Sign Out</a>
+                    </div>
+                </div>
             </div>
-            <ul class="profile-stats">
-                <li>Assigned <strong>5</strong></li>
-                <li>Completed <strong>4</strong></li>
-                <li>In Progress <strong>1</strong></li>
-                <li>Completion <strong>80%</strong></li>
-            </ul>
-            <p class="demo-note">Sample numbers until the PHP backend supplies real task data.</p>
-        </section>
+        </header>
 
-        <section aria-labelledby="member-stats-heading">
-            <div class="card-head">
-                <h3 id="member-stats-heading">Tasks by member</h3>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Member</th>
-                            <th>Assigned</th>
-                            <th>Completed</th>
-                            <th>In Progress</th>
-                            <th>To Do</th>
-                            <th>Completion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Mugdad</td>
-                            <td>5</td>
-                            <td>4</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>80%</td>
-                        </tr>
-                        <tr>
-                            <td>Ali</td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>50%</td>
-                        </tr>
-                        <tr>
-                            <td>Ahmed</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>33%</td>
-                        </tr>
-                        <tr>
-                            <td>Kumail</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>33%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        <main>
+            <section class="profile-header" aria-labelledby="profile-name-heading">
+                <div class="profile-identity">
+                    <span class="profile-avatar" aria-hidden="true">M</span>
+                    <div>
+                        <h2 id="profile-name-heading">Mugdad Alhammad</h2>
+                        <p>Owner &middot; Computer Science</p>
+                        <p><strong>Email:</strong> mugdad02@tutamail.com</p>
+                    </div>
+                </div>
+                <a class="btn" href="edit-profile.html">Edit Profile</a>
+            </section>
 
-        <section aria-labelledby="my-info-heading">
-            <div class="card-head">
-                <h3 id="my-info-heading">My Info</h3>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <tbody>
-                        <tr><th scope="row">Name</th><td>Mugdad Alhammad</td></tr>
-                        <tr><th scope="row">Joined</th><td>2026</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+            <section aria-labelledby="my-task-stats-heading">
+                <div class="card-head">
+                    <h3 id="my-task-stats-heading">My task statistics</h3>
+                    <a href="dashboard.html">View dashboard &rarr;</a>
+                </div>
+                <ul class="profile-stats">
+                    <li>Assigned <strong>5</strong></li>
+                    <li>Completed <strong>4</strong></li>
+                    <li>In Progress <strong>1</strong></li>
+                    <li>Completion <strong>80%</strong></li>
+                </ul>
+                <p class="demo-note">Sample numbers until the PHP backend supplies real task data.</p>
+            </section>
 
-    <footer>
-        <p>Mugdad, Ali, Ahmed, Kumail</p>
-    </footer>
+            <section aria-labelledby="member-stats-heading">
+                <div class="card-head">
+                    <h3 id="member-stats-heading">Tasks by member</h3>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Assigned</th>
+                                <th>Completed</th>
+                                <th>In Progress</th>
+                                <th>To Do</th>
+                                <th>Completion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mugdad</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>80%</td>
+                            </tr>
+                            <tr>
+                                <td>Ali</td>
+                                <td>4</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>0</td>
+                                <td>50%</td>
+                            </tr>
+                            <tr>
+                                <td>Ahmed</td>
+                                <td>3</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>0</td>
+                                <td>33%</td>
+                            </tr>
+                            <tr>
+                                <td>Kumail</td>
+                                <td>3</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>33%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section aria-labelledby="my-info-heading">
+                <div class="card-head">
+                    <h3 id="my-info-heading">My Info</h3>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <tbody>
+                            <tr><th scope="row">Name</th><td>Mugdad Alhammad</td></tr>
+                            <tr><th scope="row">Joined</th><td>2026</td></tr>
+                            <tr><th scope="row">Role</th><td>Owner</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Mugdad, Ali, Ahmed, Kumail</p>
+        </footer>
+    </div>
 </body>
 </html>
