@@ -36,7 +36,7 @@ Four bullet lines with the numbers bolded.
             <td><a href="task-details.html">Landing page</a></td>
             <td>Ali</td> <td>50%</td> <td>3 days</td> <td>On track</td>
         </tr>
-        ... 3 more rows (Ahmed, Hussain, Kumail) ...
+        ... 2 more rows (Ahmed, Kumail) ...
     </table>
 </section>
 ```

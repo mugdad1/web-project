@@ -11,7 +11,6 @@
         <li>Mugdad</li>
         <li>Ali</li>
         <li>Ahmed</li>
-        <li>Hussain</li>
         <li>Kumail</li>
     </ul>
 </section>

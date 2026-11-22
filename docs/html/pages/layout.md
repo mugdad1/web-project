@@ -42,7 +42,7 @@ page.
 ```html
 <footer>
     <hr>
-    <p>Mugdad, Ali, Ahmed, Hussain, Kumail</p>
+    <p>Mugdad, Ali, Ahmed, Kumail</p>
 </footer>
 ```
 

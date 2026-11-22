@@ -1,8 +1,13 @@
 # HTML Guide — Project Management Site
 
-Every page in our site is **pure HTML** — no CSS, no JavaScript yet, we only
-use what we learned in the labs. Forms use `method="get"` and just move you to
-another page; nothing is saved until the PHP + Database milestone.
+The HTML layer is complete: every page was built as **pure HTML** — no CSS, no
+JavaScript — using only what we learned in the labs. Forms use `method="get"`
+and just move you to another page; nothing is saved until the PHP + Database
+milestone.
+
+**Since 2026-11-22 the project is in M2 (CSS) and M3 (JavaScript)**, so the
+pages now carry a shared stylesheet and a shared script. This guide still
+documents the HTML structure, which has not changed.
 
 ---
 

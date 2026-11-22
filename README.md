@@ -2,10 +2,11 @@
 
 Project management site for the Web Programming subject.
 
-**Current milestone: HTML only.** The labs so far are HTML, so the site is
-deliberately unstyled and unscripted — that is the plan, not an oversight
-(`docs/html/html.md` explains why). **Target stack:** HTML, CSS, JavaScript,
-PHP + database.
+**Current milestone: M2 CSS + M3 JavaScript (started 2026-11-22).** The HTML
+structure is frozen; styling and behaviour are being added page by page. The
+earlier HTML-only state was deliberate (`docs/html/html.md` explains the
+scoping), not an oversight. **Target stack:** HTML, CSS, JavaScript, PHP +
+database.
 
 ## Pages
 
