@@ -94,7 +94,9 @@ available straight from the home screen.
 
 ## Notifications
 
-- `.notifications li` still get a "Mark read" button from `wireNotifications()`.
+- Clicking a `.notifications li` (or pressing Enter/Space on it) toggles
+  `is-read` via `wireNotifications()` — there is no side button any more.
+  Read items are faded with `opacity: .5`.
 - The former Quick Actions list was removed; use the sidebar, the topbar or the
   inline forms/cards instead.
 

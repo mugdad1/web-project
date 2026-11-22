@@ -194,17 +194,21 @@
 
     function wireNotifications() {
         $$(".notifications li").forEach(function (item) {
-            var button = document.createElement("button");
-            button.type = "button";
-            button.className = "btn btn-secondary btn-small";
-            button.textContent = "Mark read";
+            item.setAttribute("tabindex", "0");
+            item.setAttribute("role", "button");
+            item.title = "Click to mark as read or unread";
 
-            button.addEventListener("click", function () {
+            function toggle() {
                 item.classList.toggle("is-read");
-                button.textContent = item.classList.contains("is-read") ? "Unread" : "Mark read";
-            });
+            }
 
-            item.appendChild(button);
+            item.addEventListener("click", toggle);
+            item.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggle();
+                }
+            });
         });
     }
 
