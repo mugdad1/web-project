@@ -753,6 +753,7 @@ body.home-page header {
 .member-actions {
     display: flex;
     flex: 0 0 auto;
+    flex-wrap: wrap;
     gap: 6px;
 }
 
@@ -863,6 +864,94 @@ body.home-page header {
 
 .note-edit-form {
     flex: 1 1 auto;
+}
+
+/* ---------- admin: assign tasks dialog ---------- */
+
+.assign-dialog {
+    width: min(460px, calc(100vw - 32px));
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 20px 50px rgba(16, 24, 40, .25);
+}
+
+.assign-dialog::backdrop {
+    background: rgba(15, 23, 42, .45);
+}
+
+.assign-dialog .card-head {
+    margin-bottom: 8px;
+}
+
+.dialog-close {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.dialog-close:hover {
+    background: #f2f4f7;
+    color: var(--text);
+}
+
+.assign-list {
+    display: grid;
+    gap: 6px;
+    max-height: 260px;
+    padding: 0;
+    margin: 12px 0 4px;
+    overflow: auto;
+    list-style: none;
+}
+
+.assign-list label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+.assign-list label:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.assign-list input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+.assign-list input:checked + span {
+    font-weight: 600;
+}
+
+.assign-dialog .form-actions {
+    margin-top: 14px;
+}
+
+body[data-theme="dark"] .dialog-close:hover {
+    background: #263349;
+}
+
+body[data-theme="dark"] .assign-list label:hover {
+    background: #263349;
 }
 
 [hidden] {

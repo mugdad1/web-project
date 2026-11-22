@@ -43,12 +43,15 @@ are shown (Admin sees all).
   and `#legend-done` / `#legend-progress` / `#legend-todo` show the counts.
 - No chart library and no canvas — just CSS and a few inline styles.
 
-## My priorities
+## My tasks (formerly "My priorities")
 
 - A `.task-cards` list with `.status` pills (Complete / In progress / To do)
   and `.priority` pills (High / Medium / Low).
 - Clicking a card (or pressing Enter/Space) opens that task's details page via
   `wirePriorityCards()`; the cards mirror the table below.
+- The heading is **Team tasks** for Admin and **My tasks** for Member. Saved
+  assignments (`pm-task-assignee`) and statuses/priorities are re-applied on
+  load, so reassigning a task on Home is reflected here too.
 
 ## Task list table
 

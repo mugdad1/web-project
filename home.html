@@ -46,16 +46,16 @@
             <!-- Background + welcome hero -->
             <section class="hero">
                 <p class="eyebrow"><span class="date-chip">Today, 22 November</span></p>
-                <h2>Welcome back, Mugdad</h2>
+                <h2 id="welcome-heading">Welcome back, Mugdad</h2>
                 <p>Here is what is happening in your projects today.</p>
             </section>
 
             <div class="home-grid">
                 <div class="home-col">
-                    <!-- Priority list -->
-                    <section class="card" aria-labelledby="priorities-heading">
+                    <!-- Tasks assigned to the signed-in member (all tasks for admins) -->
+                    <section class="card" aria-labelledby="home-tasks-heading">
                         <div class="card-head">
-                            <h3 id="priorities-heading">My priorities</h3>
+                            <h3 id="home-tasks-heading">My tasks</h3>
                             <a href="dashboard.html">View all &rarr;</a>
                         </div>
                         <ul class="task-cards">
@@ -279,6 +279,29 @@
                     </section>
                 </aside>
             </div>
+
+            <!-- Admin: choose which tasks belong to a member -->
+            <dialog class="assign-dialog" id="assign-dialog" aria-labelledby="assign-heading">
+                <form id="assign-form">
+                    <div class="card-head">
+                        <h3 id="assign-heading">Assign tasks</h3>
+                        <button type="button" class="dialog-close" id="assign-close" aria-label="Close">&times;</button>
+                    </div>
+
+                    <p class="demo-note">
+                        Tick the tasks <strong id="assign-member-name">this member</strong> should work on.
+                        Ticking a task gives it to this member; unticking removes it from them.
+                    </p>
+
+                    <ul class="assign-list" id="assign-task-list"></ul>
+
+                    <div class="form-actions">
+                        <button type="submit">Save assignments</button>
+                        <button type="submit" class="btn-secondary" id="assign-view-as" data-view="member">Save &amp; view as member</button>
+                        <button type="button" class="btn-secondary" id="assign-cancel">Cancel</button>
+                    </div>
+                </form>
+            </dialog>
         </main>
     </div>
 </body>

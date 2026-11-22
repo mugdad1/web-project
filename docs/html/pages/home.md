@@ -54,12 +54,18 @@ available straight from the home screen.
 - The name is static for now; the logged-in user's name comes with PHP.
 - The date chip is static sample text for now.
 
-## My priorities
+## My tasks (formerly "My priorities")
 
 - A compact `.task-cards` list using `.status` pills (Complete / In progress /
   To do) and `.priority` pills (High / Medium / Low).
-- Each card carries `data-task` and `wirePriorityCards()` makes the whole card
-  clickable (Enter/Space too), opening `task-details.html?task=...`.
+- Each card carries `data-task` and `data-assignee`; `wirePriorityCards()` makes
+  the whole card clickable (Enter/Space too), opening `task-details.html?task=...`
+  with the current status/priority.
+- The heading follows the demo role: **Team tasks** for Admin, **My tasks** for
+  Member. In the Member role only cards assigned to `<body data-user="...">`
+  are shown; the table below follows the same scope.
+- Assignments are stored in `localStorage` (`pm-task-assignee`, keyed by task
+  title) and re-applied by `applyStoredAssignments()` on every load.
 
 ## Dashboard on home
 
@@ -96,13 +102,23 @@ available straight from the home screen.
     role) with Save / Cancel; `fillMemberItem()` renders the saved values.
   - **Delete** — removes the row after a `confirm()` prompt.
   - The owner row (`data-owner="true"`) can be edited but not deleted.
+- Each row also has an **Assign tasks** button (admin-only). It opens the
+  `#assign-dialog` `<dialog>` with a checkbox per task:
+  - Ticking a task sets its `data-assignee` to that member (and updates the
+    table's Assignee cell and the dashboard card).
+  - Unticking a task that belonged to the member marks it **Unassigned**.
+  - **Save assignments** keeps you on Home; **Save & view as member** also sets
+    `data-user`, switches the demo role to Member and shows exactly the tasks
+    that member now owns.
 - An **Admin / Member** demo switch sets `data-role` on `<body>`. `applyRole()`
-  in `app.js` hides every `[data-admin-only]` block — including the add form and
-  every row's action buttons — for the Member role and shows `#role-locked`
-  instead. Members see the list read-only.
+  in `app.js` hides every `[data-admin-only]` block — including the add form,
+  assignment dialog trigger and every row's action buttons — for the Member role
+  and shows `#role-locked` instead. Members see the list read-only.
+- The demo signed-in member is kept in `sessionStorage` (`pm-demo-user`) so the
+  Member view survives navigation.
 - **This is a mockup, not security.** Anyone can change the client-side role.
   The PHP milestone must verify the role on the server before any member is
-  added, edited or deleted.
+  added, edited or deleted, and before tasks are reassigned.
 
 ## Notifications
 

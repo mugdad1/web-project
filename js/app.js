@@ -760,6 +760,16 @@
             locked.hidden = isAdmin;
         }
 
+        var homeTasks = $("#home-tasks-heading");
+        if (homeTasks) {
+            homeTasks.textContent = isAdmin ? "Team tasks" : "My tasks";
+        }
+
+        var dashTasks = $("#dash-tasks-heading");
+        if (dashTasks) {
+            dashTasks.textContent = isAdmin ? "Team tasks" : "My tasks";
+        }
+
         applyTaskFilters();
     }
 
@@ -825,6 +835,12 @@
         var actions = document.createElement("div");
         actions.className = "member-actions";
         actions.setAttribute("data-admin-only", "");
+
+        var assign = makeButton("Assign tasks", "btn-small member-assign");
+        assign.addEventListener("click", function () {
+            openAssignDialog(name);
+        });
+        actions.appendChild(assign);
 
         var edit = makeButton("Edit", "btn-small member-edit");
         edit.addEventListener("click", function () {
@@ -947,6 +963,262 @@
                 );
             }
         });
+    }
+
+    /* ---------- tasks: assign them to members (admin) ---------- */
+
+    var ASSIGN_KEY = "pm-task-assignee";
+    var USER_KEY = "pm-demo-user";
+
+    function readAssignments() {
+        try {
+            return JSON.parse(localStorage.getItem(ASSIGN_KEY)) || {};
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function writeAssignments(map) {
+        try {
+            localStorage.setItem(ASSIGN_KEY, JSON.stringify(map));
+        } catch (error) {
+            // Ignore: the change still applies on this page.
+        }
+    }
+
+    function memberNames() {
+        return $$(".member-name").map(function (el) {
+            return el.textContent.trim();
+        });
+    }
+
+    function taskTitles() {
+        var seen = {};
+        var titles = [];
+
+        function add(title) {
+            if (title && !seen[title]) {
+                seen[title] = true;
+                titles.push(title);
+            }
+        }
+
+        $$(".task-card[data-task]").forEach(function (card) {
+            add(card.getAttribute("data-task"));
+        });
+
+        $$("table tbody tr").forEach(function (row) {
+            var link = $("a", row);
+            if (link) {
+                add(link.textContent.trim());
+            }
+        });
+
+        return titles;
+    }
+
+    function assigneeOf(task) {
+        var cards = $$(".task-card[data-task]");
+        for (var i = 0; i < cards.length; i++) {
+            if (cards[i].getAttribute("data-task") === task) {
+                return cards[i].getAttribute("data-assignee") || "";
+            }
+        }
+
+        var rows = $$("table tbody tr");
+        for (var j = 0; j < rows.length; j++) {
+            var link = $("a", rows[j]);
+            if (link && link.textContent.trim() === task) {
+                return rows[j].getAttribute("data-assignee") || "";
+            }
+        }
+
+        return "";
+    }
+
+    function setTaskAssignee(task, name) {
+        $$(".task-card[data-task]").forEach(function (card) {
+            if (card.getAttribute("data-task") !== task) {
+                return;
+            }
+
+            card.setAttribute("data-assignee", name);
+
+            var small = $("small", card);
+            if (small) {
+                var text = small.textContent;
+                var sep = text.indexOf(" \u00b7 ");
+                var prefix = sep === -1 ? text : text.slice(0, sep);
+                if (memberNames().indexOf(prefix) !== -1 || prefix === "Unassigned") {
+                    small.textContent = (name || "Unassigned") + text.slice(sep);
+                }
+            }
+        });
+
+        $$("table tbody tr").forEach(function (row) {
+            var link = $("a", row);
+            if (!link || link.textContent.trim() !== task) {
+                return;
+            }
+
+            row.setAttribute("data-assignee", name);
+            var cell = row.children[1];
+            if (cell) {
+                cell.textContent = name || "Unassigned";
+            }
+        });
+    }
+
+    function applyStoredAssignments() {
+        var map = readAssignments();
+        Object.keys(map).forEach(function (task) {
+            setTaskAssignee(task, map[task]);
+        });
+    }
+
+    function readDemoUser() {
+        try {
+            return sessionStorage.getItem(USER_KEY) || "Mugdad";
+        } catch (error) {
+            return "Mugdad";
+        }
+    }
+
+    function applyDemoUser(name) {
+        document.body.setAttribute("data-user", name);
+
+        var welcome = $("#welcome-heading");
+        if (welcome) {
+            welcome.textContent = "Welcome back, " + name;
+        }
+    }
+
+    function setDemoUser(name) {
+        applyDemoUser(name);
+        try {
+            sessionStorage.setItem(USER_KEY, name);
+        } catch (error) {
+            // Ignore: the switch still works for this page load.
+        }
+    }
+
+    var assignTarget = "";
+
+    function closeAssignDialog() {
+        var dialog = $("#assign-dialog");
+        if (!dialog) {
+            return;
+        }
+        if (typeof dialog.close === "function" && dialog.open) {
+            dialog.close();
+        } else {
+            dialog.removeAttribute("open");
+        }
+    }
+
+    function openAssignDialog(memberName) {
+        var dialog = $("#assign-dialog");
+        var list = $("#assign-task-list");
+        if (!dialog || !list || demoRole !== "admin") {
+            return;
+        }
+
+        assignTarget = memberName;
+        var heading = $("#assign-member-name");
+        if (heading) {
+            heading.textContent = memberName;
+        }
+
+        list.textContent = "";
+
+        taskTitles().forEach(function (task) {
+            var item = document.createElement("li");
+            var label = document.createElement("label");
+            var box = document.createElement("input");
+            box.type = "checkbox";
+            box.value = task;
+            box.checked = assigneeOf(task) === memberName;
+
+            var text = document.createElement("span");
+            text.textContent = task;
+
+            label.appendChild(box);
+            label.appendChild(text);
+            item.appendChild(label);
+            list.appendChild(item);
+        });
+
+        if (typeof dialog.showModal === "function") {
+            dialog.showModal();
+        } else {
+            dialog.setAttribute("open", "");
+        }
+    }
+
+    function saveAssignments(viewAs) {
+        var list = $("#assign-task-list");
+        if (!list || assignTarget === "") {
+            return;
+        }
+
+        var map = readAssignments();
+
+        $$("input[type=checkbox]", list).forEach(function (box) {
+            var task = box.value;
+            var current = assigneeOf(task);
+
+            if (box.checked) {
+                map[task] = assignTarget;
+                setTaskAssignee(task, assignTarget);
+            } else if (current === assignTarget) {
+                map[task] = "";
+                setTaskAssignee(task, "");
+            }
+        });
+
+        writeAssignments(map);
+        closeAssignDialog();
+        applyTaskFilters();
+
+        showNote("member-added", "Assignments saved for " + assignTarget + ".");
+
+        if (viewAs) {
+            setDemoUser(assignTarget);
+            demoRole = "member";
+            try {
+                sessionStorage.setItem(ROLE_KEY, demoRole);
+            } catch (error) {
+                // Ignore: the switch still works for this page load.
+            }
+            applyRole();
+        }
+
+        assignTarget = "";
+    }
+
+    function wireAssignDialog() {
+        var dialog = $("#assign-dialog");
+        var form = $("#assign-form");
+        if (!dialog || !form) {
+            return;
+        }
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            var submitter = event.submitter;
+            var viewAs = submitter && submitter.getAttribute("data-view") === "member";
+            saveAssignments(viewAs);
+        });
+
+        var close = $("#assign-close");
+        if (close) {
+            close.addEventListener("click", closeAssignDialog);
+        }
+
+        var cancel = $("#assign-cancel");
+        if (cancel) {
+            cancel.addEventListener("click", closeAssignDialog);
+        }
     }
 
     function wireHomePanels() {
@@ -1089,8 +1361,8 @@
             var visible = 0;
 
             group.items.forEach(function (item) {
-                var assignee = item.getAttribute("data-assignee");
-                var inScope = isAdmin || !assignee || assignee === user;
+                var assignee = item.getAttribute("data-assignee") || "";
+                var inScope = isAdmin || (assignee !== "" && assignee === user);
                 var match = query === "" ||
                     item.textContent.toLowerCase().indexOf(query) !== -1;
 
@@ -1324,6 +1596,8 @@
         markCurrentPage();
         wireForms();
         buildProgressBars();
+        applyDemoUser(readDemoUser());
+        applyStoredAssignments();
         updateDashboardStats();
         buildProjectPie();
         wireNotifications();
@@ -1337,6 +1611,7 @@
         wireRoleSwitch();
         wireMemberList();
         wireHomePanels();
+        wireAssignDialog();
         wireThemeSwitch();
         wireTaskSearch();
         wireAvatarMenu();
