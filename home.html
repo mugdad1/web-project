@@ -60,25 +60,25 @@
                         </div>
                         <ul class="task-cards">
                             <li class="task-card is-complete" data-task="Layout skeleton" data-assignee="Mugdad">
-                                <span class="task-check" aria-hidden="true"></span>
+                                <button type="button" class="task-check" aria-pressed="false" aria-label="Mark task complete"></button>
                                 <div><strong>Layout skeleton</strong><small>Today &middot; Web project</small></div>
                                 <span class="priority low">Low</span>
                                 <span class="status done">Complete</span>
                             </li>
                             <li class="task-card" data-task="Landing page" data-assignee="Ali">
-                                <span class="task-check" aria-hidden="true"></span>
+                                <button type="button" class="task-check" aria-pressed="false" aria-label="Mark task complete"></button>
                                 <div><strong>Landing page</strong><small>Due in 3 days &middot; Web project</small></div>
                                 <span class="priority high">High</span>
                                 <span class="status progress">In progress</span>
                             </li>
                             <li class="task-card" data-task="Sign up page" data-assignee="Ahmed">
-                                <span class="task-check" aria-hidden="true"></span>
+                                <button type="button" class="task-check" aria-pressed="false" aria-label="Mark task complete"></button>
                                 <div><strong>Sign up page</strong><small>Due in 3 days &middot; Web project</small></div>
                                 <span class="priority medium">Medium</span>
                                 <span class="status progress">In progress</span>
                             </li>
                             <li class="task-card" data-task="Dashboard page" data-assignee="Kumail">
-                                <span class="task-check" aria-hidden="true"></span>
+                                <button type="button" class="task-check" aria-pressed="false" aria-label="Mark task complete"></button>
                                 <div><strong>Dashboard page</strong><small>Due in 4 days &middot; Needs review</small></div>
                                 <span class="priority medium">Medium</span>
                                 <span class="status todo">To do</span>
@@ -201,10 +201,13 @@
 
                         <div id="admin-tools" data-admin-only>
                             <form id="add-member-form" action="home.html" method="get">
-                                <label for="new-member-email">Member email:</label>
+                                <label for="new-member-name">Member name</label>
+                                <input type="text" id="new-member-name" name="name" required placeholder="Full name">
+
+                                <label for="new-member-email">Member email</label>
                                 <input type="email" id="new-member-email" name="email" required placeholder="name@email.com">
 
-                                <label for="new-member-role">Role:</label>
+                                <label for="new-member-role">Role</label>
                                 <select id="new-member-role" name="role">
                                     <option value="admin">Admin</option>
                                     <option value="member" selected>Member</option>
@@ -215,13 +218,52 @@
                             </form>
                         </div>
 
-                        <p class="locked-note" id="role-locked" hidden>Only admins can add new members.</p>
+                        <p class="locked-note" id="role-locked" hidden>Only admins can manage members.</p>
 
                         <ul class="member-list">
-                            <li><span>Mugdad</span><span class="tag owner">Owner</span></li>
-                            <li><span>Ali</span><span class="tag">Admin</span></li>
-                            <li><span>Ahmed</span><span class="tag">Member</span></li>
-                            <li><span>Kumail</span><span class="tag">Member</span></li>
+                            <li class="member-item" data-owner="true">
+                                <div class="member-info">
+                                    <strong class="member-name">Mugdad</strong>
+                                    <small class="member-email">mugdad02@tutamail.com</small>
+                                </div>
+                                <span class="tag owner" data-role="owner">Owner</span>
+                                <div class="member-actions" data-admin-only>
+                                    <button type="button" class="btn-small member-edit">Edit</button>
+                                </div>
+                            </li>
+                            <li class="member-item">
+                                <div class="member-info">
+                                    <strong class="member-name">Ali</strong>
+                                    <small class="member-email">ali@email.com</small>
+                                </div>
+                                <span class="tag" data-role="admin">Admin</span>
+                                <div class="member-actions" data-admin-only>
+                                    <button type="button" class="btn-small member-edit">Edit</button>
+                                    <button type="button" class="btn-small btn-danger member-delete">Delete</button>
+                                </div>
+                            </li>
+                            <li class="member-item">
+                                <div class="member-info">
+                                    <strong class="member-name">Ahmed</strong>
+                                    <small class="member-email">ahmed@email.com</small>
+                                </div>
+                                <span class="tag" data-role="member">Member</span>
+                                <div class="member-actions" data-admin-only>
+                                    <button type="button" class="btn-small member-edit">Edit</button>
+                                    <button type="button" class="btn-small btn-danger member-delete">Delete</button>
+                                </div>
+                            </li>
+                            <li class="member-item">
+                                <div class="member-info">
+                                    <strong class="member-name">Kumail</strong>
+                                    <small class="member-email">kumail@email.com</small>
+                                </div>
+                                <span class="tag" data-role="member">Member</span>
+                                <div class="member-actions" data-admin-only>
+                                    <button type="button" class="btn-small member-edit">Edit</button>
+                                    <button type="button" class="btn-small btn-danger member-delete">Delete</button>
+                                </div>
+                            </li>
                         </ul>
                     </section>
 

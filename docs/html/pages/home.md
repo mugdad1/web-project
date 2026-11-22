@@ -88,13 +88,21 @@ available straight from the home screen.
 
 ## Members and the admin-only rule
 
-- The Members panel lists sample members with role badges.
+- The Members panel lists each member with **name**, **email** and a role badge:
+  `.member-info` holds `.member-name` / `.member-email`, next to `.tag[data-role]`.
+- Admins get the full member workflow:
+  - **Add** — `#add-member-form` takes name, email and role, then appends a row.
+  - **Edit** — `startMemberEdit()` swaps the row for an inline form (name, email,
+    role) with Save / Cancel; `fillMemberItem()` renders the saved values.
+  - **Delete** — removes the row after a `confirm()` prompt.
+  - The owner row (`data-owner="true"`) can be edited but not deleted.
 - An **Admin / Member** demo switch sets `data-role` on `<body>`. `applyRole()`
-  in `app.js` hides every `[data-admin-only]` block for the Member role and
-  shows `#role-locked` instead. The Add Member form on home and the Add Member
-  fieldset on `new-team.html` are both gated this way.
+  in `app.js` hides every `[data-admin-only]` block — including the add form and
+  every row's action buttons — for the Member role and shows `#role-locked`
+  instead. Members see the list read-only.
 - **This is a mockup, not security.** Anyone can change the client-side role.
-  The PHP milestone must verify the role on the server before any member is added.
+  The PHP milestone must verify the role on the server before any member is
+  added, edited or deleted.
 
 ## Notifications
 

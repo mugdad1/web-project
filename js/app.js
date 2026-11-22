@@ -404,16 +404,176 @@
         }
     }
 
-    /* ---------- task details: admin-only notes ---------- */
+    /* ---------- task details: change priority ---------- */
 
-    function wireNotes() {
-        var form = $("#note-form");
-        if (!form) {
+    var PRIORITY_KEY = "pm-task-priority";
+
+    function readTaskPriorities() {
+        try {
+            return JSON.parse(localStorage.getItem(PRIORITY_KEY)) || {};
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function saveTaskPriority(task, value) {
+        var map = readTaskPriorities();
+        map[task] = value;
+        try {
+            localStorage.setItem(PRIORITY_KEY, JSON.stringify(map));
+        } catch (error) {
+            // Storage can be blocked; the change still applies on this page.
+        }
+    }
+
+    function setPriorityBadge(badge, value) {
+        if (!badge) {
+            return;
+        }
+        badge.className = "priority " + value;
+        badge.textContent = label(value);
+    }
+
+    function applyStoredPriorities() {
+        var map = readTaskPriorities();
+
+        $$(".task-card[data-task]").forEach(function (card) {
+            var value = map[card.getAttribute("data-task")];
+            if (value) {
+                setPriorityBadge($(".priority", card), value);
+            }
+        });
+    }
+
+    function wireTaskPriority() {
+        var select = $("#task-priority");
+        var heading = $("#task-title");
+        if (!select || !heading) {
             return;
         }
 
-        var input = $("#note-text", form);
+        var params = new URLSearchParams(location.search);
+        var task = params.get("task") || heading.textContent.trim();
+        var badge = $("#task-priority-badge");
+        var stored = readTaskPriorities()[task];
+
+        if (stored) {
+            select.value = stored;
+            setPriorityBadge(badge, stored);
+        } else if (badge) {
+            select.value = badge.textContent.trim().toLowerCase();
+        }
+
+        select.addEventListener("change", function () {
+            saveTaskPriority(task, select.value);
+            setPriorityBadge(badge, select.value);
+            showNote("priority-saved", "Priority updated to " + label(select.value) + ".");
+        });
+    }
+
+    /* ---------- task details: admin-only notes (add / edit / delete) ---------- */
+
+    function makeButton(text, className) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = className;
+        button.textContent = text;
+        return button;
+    }
+
+    function startNoteEdit(item, textEl) {
+        if ($(".note-edit-form", item)) {
+            return;
+        }
+
+        var editor = document.createElement("form");
+        editor.className = "note-edit-form";
+
+        var area = document.createElement("textarea");
+        area.rows = 2;
+        area.required = true;
+        area.value = textEl.textContent;
+
+        var actions = document.createElement("div");
+        actions.className = "note-edit-actions";
+
+        var save = document.createElement("button");
+        save.type = "submit";
+        save.textContent = "Save";
+
+        var cancel = makeButton("Cancel", "btn-secondary");
+
+        actions.appendChild(save);
+        actions.appendChild(cancel);
+        editor.appendChild(area);
+        editor.appendChild(actions);
+
+        textEl.hidden = true;
+        item.appendChild(editor);
+        area.focus();
+
+        cancel.addEventListener("click", function () {
+            editor.remove();
+            textEl.hidden = false;
+        });
+
+        editor.addEventListener("submit", function (event) {
+            event.preventDefault();
+            var value = area.value.trim();
+            if (value === "") {
+                area.focus();
+                return;
+            }
+            textEl.textContent = value;
+            textEl.hidden = false;
+            editor.remove();
+        });
+    }
+
+    function enhanceNote(item) {
+        if (item.classList.contains("note-item")) {
+            return;
+        }
+
+        var text = item.textContent.trim();
+        item.classList.add("note-item");
+        item.textContent = "";
+
+        var textEl = document.createElement("p");
+        textEl.className = "note-text";
+        textEl.textContent = text;
+
+        var actions = document.createElement("div");
+        actions.className = "note-actions";
+        actions.setAttribute("data-admin-only", "");
+
+        var edit = makeButton("Edit", "btn-small note-edit");
+        var remove = makeButton("Delete", "btn-small btn-danger note-delete");
+
+        actions.appendChild(edit);
+        actions.appendChild(remove);
+        item.appendChild(textEl);
+        item.appendChild(actions);
+
+        edit.addEventListener("click", function () {
+            startNoteEdit(item, textEl);
+        });
+
+        remove.addEventListener("click", function () {
+            item.remove();
+        });
+    }
+
+    function wireNotes() {
+        var form = $("#note-form");
         var list = $(".note-list");
+        if (!form || !list) {
+            return;
+        }
+
+        $$(".note-list > li").forEach(enhanceNote);
+
+        var input = $("#note-text", form);
 
         form.addEventListener("submit", function (event) {
             if (event.defaultPrevented || demoRole !== "admin") {
@@ -422,14 +582,17 @@
             event.preventDefault();
 
             var text = input.value.trim();
-            if (text === "" || !list) {
+            if (text === "") {
                 return;
             }
 
             var item = document.createElement("li");
             item.textContent = text;
             list.appendChild(item);
+            enhanceNote(item);
+            applyRole();
             input.value = "";
+            input.focus();
         });
     }
 
@@ -504,6 +667,163 @@
         return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
+    /* ---------- members: name, email, role, add / edit / delete ---------- */
+
+    function memberRoleLabel(role) {
+        return role === "owner" ? "Owner" : label(role);
+    }
+
+    function fillMemberItem(item, name, email, role) {
+        var isOwner = item.getAttribute("data-owner") === "true";
+        item.textContent = "";
+        item.classList.remove("is-editing");
+
+        var info = document.createElement("div");
+        info.className = "member-info";
+
+        var nameEl = document.createElement("strong");
+        nameEl.className = "member-name";
+        nameEl.textContent = name;
+
+        var emailEl = document.createElement("small");
+        emailEl.className = "member-email";
+        emailEl.textContent = email;
+
+        info.appendChild(nameEl);
+        info.appendChild(emailEl);
+
+        var tag = document.createElement("span");
+        tag.className = "tag" + (role === "owner" ? " owner" : "");
+        tag.setAttribute("data-role", role);
+        tag.textContent = memberRoleLabel(role);
+
+        var actions = document.createElement("div");
+        actions.className = "member-actions";
+        actions.setAttribute("data-admin-only", "");
+
+        var edit = makeButton("Edit", "btn-small member-edit");
+        edit.addEventListener("click", function () {
+            startMemberEdit(item);
+        });
+        actions.appendChild(edit);
+
+        if (!isOwner) {
+            var remove = makeButton("Delete", "btn-small btn-danger member-delete");
+            remove.addEventListener("click", function () {
+                if (window.confirm("Remove " + name + " from the workspace?")) {
+                    item.remove();
+                }
+            });
+            actions.appendChild(remove);
+        }
+
+        item.appendChild(info);
+        item.appendChild(tag);
+        item.appendChild(actions);
+        applyRole();
+    }
+
+    function startMemberEdit(item) {
+        if (item.classList.contains("is-editing")) {
+            return;
+        }
+
+        var name = $(".member-name", item).textContent;
+        var email = $(".member-email", item).textContent;
+        var role = $(".tag", item).getAttribute("data-role") || "member";
+        var isOwner = item.getAttribute("data-owner") === "true";
+
+        item.textContent = "";
+        item.classList.add("is-editing");
+
+        var form = document.createElement("form");
+        form.className = "member-edit-form";
+
+        function field(labelText, type, value, fieldName) {
+            var labelEl = document.createElement("label");
+            labelEl.textContent = labelText;
+
+            var input = document.createElement("input");
+            input.type = type;
+            input.value = value;
+            input.name = fieldName;
+            input.required = true;
+
+            labelEl.appendChild(input);
+            form.appendChild(labelEl);
+            return input;
+        }
+
+        var nameInput = field("Name", "text", name, "member-name");
+        var emailInput = field("Email", "email", email, "member-email");
+
+        var roleLabel = document.createElement("label");
+        roleLabel.textContent = "Role";
+
+        var select = document.createElement("select");
+        select.name = "member-role";
+
+        ["member", "admin"].concat(isOwner ? ["owner"] : []).forEach(function (value) {
+            var option = document.createElement("option");
+            option.value = value;
+            option.textContent = memberRoleLabel(value);
+            option.selected = value === role;
+            select.appendChild(option);
+        });
+
+        roleLabel.appendChild(select);
+        form.appendChild(roleLabel);
+
+        var actions = document.createElement("div");
+        actions.className = "member-edit-actions";
+
+        var save = document.createElement("button");
+        save.type = "submit";
+        save.textContent = "Save";
+
+        var cancel = makeButton("Cancel", "btn-secondary");
+        cancel.addEventListener("click", function () {
+            fillMemberItem(item, name, email, role);
+        });
+
+        actions.appendChild(save);
+        actions.appendChild(cancel);
+        form.appendChild(actions);
+        item.appendChild(form);
+
+        nameInput.focus();
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            var newName = nameInput.value.trim();
+            var newEmail = emailInput.value.trim();
+            if (newName === "" || newEmail === "") {
+                return;
+            }
+
+            fillMemberItem(item, newName, newEmail, select.value);
+            showNote("member-added", "Saved " + newName + ".");
+        });
+    }
+
+    function wireMemberList() {
+        $$(".member-list > li").forEach(function (item) {
+            var name = $(".member-name", item);
+            var email = $(".member-email", item);
+            var tag = $(".tag", item);
+
+            if (name && email && tag) {
+                fillMemberItem(
+                    item,
+                    name.textContent.trim(),
+                    email.textContent.trim(),
+                    tag.getAttribute("data-role") || "member"
+                );
+            }
+        });
+    }
+
     function wireHomePanels() {
         var taskForm = $("#quick-task-form");
 
@@ -563,20 +883,20 @@
                     return;
                 }
 
+                var name = $("#new-member-name", memberForm).value.trim();
                 var email = $("#new-member-email", memberForm).value.trim();
                 var role = $("#new-member-role", memberForm).value;
 
-                var item = document.createElement("li");
-                var name = document.createElement("span");
-                name.textContent = email;
-                var tag = document.createElement("span");
-                tag.className = "tag";
-                tag.textContent = label(role);
-                item.appendChild(name);
-                item.appendChild(tag);
-                list.appendChild(item);
+                if (name === "" || email === "") {
+                    return;
+                }
 
-                showNote("member-added", "Added " + email + " as " + role + ".");
+                var item = document.createElement("li");
+                item.className = "member-item";
+                list.appendChild(item);
+                fillMemberItem(item, name, email, role);
+
+                showNote("member-added", "Added " + name + " (" + email + ") as " + label(role) + ".");
                 memberForm.reset();
             });
         }
@@ -741,12 +1061,120 @@
                     encodeURIComponent(card.getAttribute("data-task"));
             }
 
-            card.addEventListener("click", open);
+            card.addEventListener("click", function (event) {
+                if (!event.target.closest(".task-check")) {
+                    open();
+                }
+            });
             card.addEventListener("keydown", function (event) {
+                if (event.target.closest(".task-check")) {
+                    return;
+                }
                 if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
                     open();
                 }
+            });
+        });
+    }
+
+    /* ---------- priority cards: tick to complete ---------- */
+
+    function setRowCompletion(task, complete) {
+        var row = null;
+
+        $$("table tbody tr").forEach(function (candidate) {
+            var link = $("a", candidate);
+            if (link && link.textContent.trim() === task) {
+                row = candidate;
+            }
+        });
+
+        if (!row) {
+            return;
+        }
+
+        var valueEl = $(".progress-value", row);
+        var fill = $(".progress-fill", row);
+        var status = $(".status", row);
+
+        if (row._originalProgress === undefined && valueEl) {
+            row._originalProgress = parseInt(valueEl.textContent, 10) || 0;
+        }
+        if (!row._originalStatus && status) {
+            row._originalStatus = status.textContent;
+            row._originalStatusClass = status.className;
+        }
+
+        var original = row._originalProgress || 0;
+        var value = complete ? 100 : (original >= 100 ? 0 : original);
+
+        if (valueEl) {
+            valueEl.textContent = value + "%";
+        }
+        if (fill) {
+            fill.style.width = Math.min(value, 100) + "%";
+            fill.classList.toggle("is-done", value >= 100);
+        }
+
+        if (status) {
+            if (complete) {
+                status.textContent = "Complete";
+                status.className = "status done";
+            } else if (original >= 100) {
+                status.textContent = "To do";
+                status.className = "status todo";
+            } else {
+                status.textContent = row._originalStatus;
+                status.className = row._originalStatusClass;
+            }
+        }
+
+        updateDashboardStats();
+        buildProjectPie();
+    }
+
+    function wireTaskChecks() {
+        $$(".task-card[data-task]").forEach(function (card) {
+            var check = $(".task-check", card);
+            if (!check) {
+                return;
+            }
+
+            var status = $(".status", card);
+            var wasComplete = card.classList.contains("is-complete");
+            var originalStatus = status ? status.textContent : "";
+            var originalClass = status ? status.className : "";
+
+            function syncLabel(complete) {
+                check.setAttribute("aria-pressed", complete ? "true" : "false");
+                check.setAttribute("aria-label",
+                    complete ? "Mark task incomplete" : "Mark task complete");
+            }
+
+            syncLabel(wasComplete);
+
+            check.addEventListener("click", function (event) {
+                event.stopPropagation();
+
+                var complete = !card.classList.contains("is-complete");
+                card.classList.toggle("is-complete", complete);
+                syncLabel(complete);
+
+                if (status) {
+                    if (complete) {
+                        status.textContent = "Complete";
+                        status.className = "status done";
+                    } else if (wasComplete) {
+                        status.textContent = "To do";
+                        status.className = "status todo";
+                    } else {
+                        status.textContent = originalStatus;
+                        status.className = originalClass;
+                    }
+                }
+
+                setRowCompletion(card.getAttribute("data-task"), complete);
             });
         });
     }
@@ -764,12 +1192,16 @@
         wireChannels();
         wireProfilePreview();
         fillTaskFromQuery();
+        wireTaskPriority();
         wireNotes();
         wireRoleSwitch();
+        wireMemberList();
         wireHomePanels();
         wireThemeSwitch();
         wireTaskSearch();
         wireAvatarMenu();
         wirePriorityCards();
+        wireTaskChecks();
+        applyStoredPriorities();
     });
 }());

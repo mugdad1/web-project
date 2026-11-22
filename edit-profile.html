@@ -2,52 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Management - Edit Profile</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Edit Profile</h1>
-        <nav>
-<a href="home.html">Home</a>
-<a href="profile.html">Profile</a>
-<a href="dashboard.html">Dashboard</a>
-<a href="settings.html">Settings</a>
-<a href="index.html">Sign Out</a>
+<body class="app-shell">
+    <aside class="sidebar">
+        <div class="workspace">
+            <span class="workspace-mark">PM</span>
+            <span class="workspace-name">Team Workspace<small>Web Programming</small></span>
+        </div>
+
+        <nav class="side-nav" aria-label="Main">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="chat.html">Chat</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
         </nav>
-    </header>
 
-    <main>
-        <section>
-            <h2>Edit Your Info</h2>
-            <form id="profile-form" action="profile.html" method="get">
-                <fieldset>
-                    <legend>Profile Details</legend><br>
-                    <label for="fullname">Full Name:</label><br>
-                    <input type="text" id="fullname" name="fullname" value="Mugdad Alhammad" required><br><br>
+        <div class="sidebar-foot">
+            <a href="index.html">Sign Out</a>
+        </div>
+    </aside>
 
-                    <label for="major">Major:</label><br>
+    <div class="app-body">
+        <header class="topbar">
+            <h1>Edit Profile</h1>
+            <div class="topbar-actions">
+                <div class="avatar-menu">
+                    <button type="button" class="avatar" id="avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="avatar-dropdown" aria-label="Account menu">M</button>
+                    <div class="avatar-dropdown" id="avatar-dropdown" role="menu" hidden>
+                        <a href="profile.html" role="menuitem">My Profile</a>
+                        <a href="index.html" role="menuitem">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="settings-card" aria-labelledby="edit-info-heading">
+                <div class="card-head">
+                    <h3 id="edit-info-heading">Edit Your Info</h3>
+                    <a href="profile.html">Back to profile &rarr;</a>
+                </div>
+
+                <form id="profile-form" action="profile.html" method="get">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" value="Mugdad Alhammad" required>
+
+                    <label for="major">Major</label>
                     <select id="major" name="major">
-                        <option value="cs">Computer Science</option>
+                        <option value="cs" selected>Computer Science</option>
                         <option value="cn">Computer Networks</option>
                         <option value="cis">Computer Information Systems</option>
                         <option value="ce">Computer Engineering</option>
-                    </select><br><br>
+                    </select>
 
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" value="mugdad02@tutamail.com" required><br><br>
-                </fieldset>
-                <br>
-                <input type="submit" value="Save">
-                <input type="reset" value="Cancel">
-            </form>
-            <p><a href="profile.html">Back to Profile</a></p>
-        </section>
-    </main>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="mugdad02@tutamail.com" required>
 
-    <footer>
-        <hr>
-    </footer>
+                    <div class="form-actions">
+                        <input type="submit" value="Save changes">
+                        <a class="btn btn-secondary" href="profile.html">Cancel</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <p>Mugdad, Ali, Ahmed, Kumail</p>
+        </footer>
+    </div>
 </body>
 </html>

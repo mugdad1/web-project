@@ -1,11 +1,13 @@
 # edit-profile.html — Edit profile
 
 Like a signup form, but the fields are **pre-filled** with the current values.
+The page uses the same workspace shell (sidebar + topbar) as `profile.html`
+and `settings.html`.
 
 ## The form
 
 ```html
-<form action="profile.html" method="get">
+<form id="profile-form" action="profile.html" method="get">
 ```
 
 - On Save it returns to the profile view page.
@@ -14,43 +16,36 @@ Like a signup form, but the fields are **pre-filled** with the current values.
 ## The fields (note the `value=`)
 
 ```html
-<label for="fullname">Full Name:</label><br>
-<input type="text" id="fullname" name="fullname" value="Mugdad Alhammad" required><br><br>
+<label for="fullname">Full Name</label>
+<input type="text" id="fullname" name="fullname" value="Mugdad Alhammad" required>
 
-<label for="major">Major:</label><br>
+<label for="major">Major</label>
 <select id="major" name="major">
-    <option value="cs">Computer Science</option>
-    <option value="cn">Computer Networks</option>
-    <option value="cis">Computer Information Systems</option>
-    <option value="ce">Computer Engineering</option>
-</select><br><br>
+    <option value="cs" selected>Computer Science</option>
+    ...
+</select>
 
-<label for="email">Email:</label><br>
-<input type="email" id="email" name="email" value="mugdad02@tutamail.com" required><br><br>
+<label for="email">Email</label>
+<input type="email" id="email" name="email" value="mugdad02@tutamail.com" required>
 ```
 
-- The difference from signup: `value="Mugdad Alhammad"` and `value="mugdad02@tutamail.com"`
-  fill the boxes with the saved data. The user changes what they want and
-  keeps the rest.
+- The difference from signup: `value="Mugdad Alhammad"` and
+  `value="mugdad02@tutamail.com"` fill the boxes with the saved data. The user
+  changes what they want and keeps the rest.
 - `required` stays — edited fields still cannot be emptied.
+- The `<br>` tags are gone; the shared stylesheet handles spacing.
 
 ## The buttons
 
 ```html
-<input type="submit" value="Save">
-<input type="reset" value="Cancel">
+<div class="form-actions">
+    <input type="submit" value="Save changes">
+    <a class="btn btn-secondary" href="profile.html">Cancel</a>
+</div>
 ```
 
-- `Save` submits to profile.html.
-- `Cancel` (`type="reset"`) clears the boxes back to the pre-filled `value`s.
-
-## The back link
-
-```html
-<p><a href="profile.html">Back to Profile</a></p>
-```
-
-- A normal link to leave without saving.
+- `Save changes` submits to profile.html.
+- `Cancel` is a normal link back to the profile, so it leaves without saving.
 
 ## How it works
 
