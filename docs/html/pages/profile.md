@@ -34,13 +34,6 @@ Shows the user's details, task statistics and a small info table.
   class, so `updateDashboardStats()` in `app.js` does not overwrite it.
 - Numbers are sample data until the PHP backend supplies real tasks.
 
-## Tasks by member
-
-- A table with Member, Assigned, Completed, In Progress, To Do and Completion
-  columns — the "each user's tasks" overview.
-- The Completion cells hold percentages, so `buildProgressBars()` in `app.js`
-  turns them into the same progress bars used on the dashboard.
-
 ## My Info table
 
 - A two-column table (Field / Value) with Name and Joined rows.
