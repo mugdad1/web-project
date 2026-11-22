@@ -49,12 +49,17 @@ workspace shell (sidebar + topbar) as the rest of the authed pages.
 
 ## Notes section
 
-- Notes are a `.note-list`; `wireNotes()` turns each `<li>` into a `.note-item`
-  with the text plus **Edit** / **Delete** buttons.
+- Notes are a `.note-list`; `renderTaskNotes()` draws every `.note-item` from
+  `localStorage` (`pm-task-notes`, keyed by task title).
+- Each note shows its **author name** and an **Admin / Member** tag, so admin
+  notes and member notes are easy to tell apart.
+- **Everyone can add a note** — the add-note form is no longer admin-only.
 - **Edit** opens an inline textarea (Save / Cancel); **Delete** removes the note.
-- The action buttons and the add-note form carry `[data-admin-only]`, so
-  `applyRole()` hides them for the Member demo role and shows `#role-locked`
-  instead. The JS handlers also check `demoRole`.
+  Admins can manage every note; a member only sees those buttons on their own
+  notes (`canManageNote()`).
+- Switching the demo role re-renders the list so the buttons match the role.
+- The starter note is seeded only for the default "Layout skeleton" task; other
+  tasks start with "No notes yet."
 - **Mockup only:** the PHP milestone must check the role on the server.
 
 ## How it works

@@ -831,10 +831,6 @@ body.home-page header {
 }
 
 .note-item {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
     padding: 10px 0;
     border-bottom: 1px solid var(--border);
 }
@@ -843,8 +839,23 @@ body.home-page header {
     border-bottom: 0;
 }
 
-.note-text {
+.note-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.note-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin: 0;
+    font-size: .85rem;
+}
+
+.note-text {
+    margin: 6px 0 0;
 }
 
 .note-actions {

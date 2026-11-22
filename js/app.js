@@ -596,7 +596,9 @@
         });
     }
 
-    /* ---------- task details: admin-only notes (add / edit / delete) ---------- */
+    /* ---------- task details: notes (add / edit / delete, by author) ---------- */
+
+    var NOTES_KEY = "pm-task-notes";
 
     function makeButton(text, className) {
         var button = document.createElement("button");
@@ -606,7 +608,47 @@
         return button;
     }
 
-    function startNoteEdit(item, textEl) {
+    function readNotesMap() {
+        try {
+            return JSON.parse(localStorage.getItem(NOTES_KEY)) || {};
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function writeNotesMap(map) {
+        try {
+            localStorage.setItem(NOTES_KEY, JSON.stringify(map));
+        } catch (error) {
+            // Storage can be blocked; the notes still work on this page.
+        }
+    }
+
+    function currentTaskTitle() {
+        var heading = $("#task-title");
+        var params = new URLSearchParams(location.search);
+        return params.get("task") || (heading ? heading.textContent.trim() : "");
+    }
+
+    function readTaskNotes() {
+        return readNotesMap()[currentTaskTitle()] || [];
+    }
+
+    function saveTaskNotes(notes) {
+        var map = readNotesMap();
+        map[currentTaskTitle()] = notes;
+        writeNotesMap(map);
+    }
+
+    function noteRoleLabel(role) {
+        return role === "admin" ? "Admin" : "Member";
+    }
+
+    function canManageNote(note) {
+        return demoRole === "admin" || note.author === currentUserName();
+    }
+
+    function startNoteEdit(item, textEl, onSave) {
         if ($(".note-edit-form", item)) {
             return;
         }
@@ -649,44 +691,117 @@
                 area.focus();
                 return;
             }
-            textEl.textContent = value;
-            textEl.hidden = false;
+            onSave(value);
             editor.remove();
         });
     }
 
-    function enhanceNote(item) {
-        if (item.classList.contains("note-item")) {
+    function renderTaskNotes() {
+        var list = $(".note-list");
+        if (!list) {
             return;
         }
 
-        var text = item.textContent.trim();
-        item.classList.add("note-item");
-        item.textContent = "";
+        var notes = readTaskNotes();
+        list.textContent = "";
 
-        var textEl = document.createElement("p");
-        textEl.className = "note-text";
-        textEl.textContent = text;
+        if (notes.length === 0) {
+            var empty = document.createElement("li");
+            empty.className = "empty note-empty";
+            empty.textContent = "No notes yet.";
+            list.appendChild(empty);
+            return;
+        }
 
-        var actions = document.createElement("div");
-        actions.className = "note-actions";
-        actions.setAttribute("data-admin-only", "");
+        notes.forEach(function (note, index) {
+            var item = document.createElement("li");
+            item.className = "note-item";
 
-        var edit = makeButton("Edit", "btn-small note-edit");
-        var remove = makeButton("Delete", "btn-small btn-danger note-delete");
+            var head = document.createElement("div");
+            head.className = "note-head";
 
-        actions.appendChild(edit);
-        actions.appendChild(remove);
-        item.appendChild(textEl);
-        item.appendChild(actions);
+            var author = document.createElement("p");
+            author.className = "note-author";
 
-        edit.addEventListener("click", function () {
-            startNoteEdit(item, textEl);
+            var name = document.createElement("strong");
+            name.textContent = note.author;
+
+            var tag = document.createElement("span");
+            tag.className = "tag";
+            tag.textContent = noteRoleLabel(note.role);
+
+            author.appendChild(name);
+            author.appendChild(tag);
+
+            var actions = document.createElement("div");
+            actions.className = "note-actions";
+
+            var textEl = document.createElement("p");
+            textEl.className = "note-text";
+            textEl.textContent = note.text;
+
+            if (canManageNote(note)) {
+                var edit = makeButton("Edit", "btn-small note-edit");
+                edit.addEventListener("click", function () {
+                    startNoteEdit(item, textEl, function (value) {
+                        var current = readTaskNotes();
+                        if (current[index]) {
+                            current[index].text = value;
+                            saveTaskNotes(current);
+                        }
+                        renderTaskNotes();
+                    });
+                });
+
+                var remove = makeButton("Delete", "btn-small btn-danger note-delete");
+                remove.addEventListener("click", function () {
+                    var current = readTaskNotes();
+                    current.splice(index, 1);
+                    saveTaskNotes(current);
+                    renderTaskNotes();
+                });
+
+                actions.appendChild(edit);
+                actions.appendChild(remove);
+            } else {
+                actions.hidden = true;
+            }
+
+            head.appendChild(author);
+            head.appendChild(actions);
+
+            item.appendChild(head);
+            item.appendChild(textEl);
+            list.appendChild(item);
         });
+    }
 
-        remove.addEventListener("click", function () {
-            item.remove();
-        });
+    function initTaskNotes() {
+        var list = $(".note-list");
+        if (!list) {
+            return;
+        }
+
+        var task = currentTaskTitle();
+        var map = readNotesMap();
+
+        if (!map[task]) {
+            var seed = [];
+            var first = $(".note-list > li");
+
+            if (first && !first.classList.contains("note-item") && task === "Layout skeleton") {
+                seed.push({
+                    text: first.textContent.trim(),
+                    author: "Mugdad",
+                    role: "admin"
+                });
+            }
+
+            map[task] = seed;
+            writeNotesMap(map);
+        }
+
+        renderTaskNotes();
     }
 
     function wireNotes() {
@@ -696,12 +811,12 @@
             return;
         }
 
-        $$(".note-list > li").forEach(enhanceNote);
+        initTaskNotes();
 
         var input = $("#note-text", form);
 
         form.addEventListener("submit", function (event) {
-            if (event.defaultPrevented || demoRole !== "admin") {
+            if (event.defaultPrevented) {
                 return;
             }
             event.preventDefault();
@@ -711,11 +826,14 @@
                 return;
             }
 
-            var item = document.createElement("li");
-            item.textContent = text;
-            list.appendChild(item);
-            enhanceNote(item);
-            applyRole();
+            var notes = readTaskNotes();
+            notes.push({
+                text: text,
+                author: currentUserName(),
+                role: demoRole
+            });
+            saveTaskNotes(notes);
+            renderTaskNotes();
             input.value = "";
             input.focus();
         });
@@ -768,6 +886,10 @@
         var dashTasks = $("#dash-tasks-heading");
         if (dashTasks) {
             dashTasks.textContent = isAdmin ? "Team tasks" : "My tasks";
+        }
+
+        if ($(".note-list")) {
+            renderTaskNotes();
         }
 
         applyTaskFilters();
