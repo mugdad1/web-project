@@ -101,7 +101,7 @@ available straight from the home screen.
   - **Edit** — `startMemberEdit()` swaps the row for an inline form (name, email,
     role) with Save / Cancel; `fillMemberItem()` renders the saved values.
   - **Delete** — removes the row after a `confirm()` prompt.
-  - The owner row (`data-owner="true"`) can be edited but not deleted.
+  - Roles are only **Admin** and **Member**; every row can be edited or deleted.
 - Each row also has an **Assign tasks** button (admin-only). It opens the
   `#assign-dialog` `<dialog>` with a checkbox per task:
   - Ticking a task sets its `data-assignee` to that member (and updates the

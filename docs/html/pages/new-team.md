@@ -28,17 +28,16 @@ Team name, required, with an example hint.
     <label for="m1">Member email:</label><br>
     <input type="email" id="m1" name="m1" placeholder="name@email.com" required>
     <select id="m1r" name="m1r">
-        <option value="owner">Owner</option>
         <option value="admin" selected>Admin</option>
         <option value="member">Member</option>
     </select><br>
-    <p><em>Owner: manages the team. Admin: can add members. Member: joins and participates.</em></p><br>
+    <p><em>Admin: manages members and tasks. Member: sees their own assigned tasks.</em></p><br>
 </fieldset>
 ```
 
 - Member email: `type="email"`, required, placeholder example.
-- Role: a `<select>` dropdown — Owner / Admin (`selected`, default) / Member.
-- The `<em>` paragraph explains the three roles right under the field.
+- Role: a `<select>` dropdown — Admin (`selected`, default) / Member.
+- The `<em>` paragraph explains the two roles right under the field.
 
 ## The buttons
 

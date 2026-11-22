@@ -805,11 +805,10 @@
     /* ---------- members: name, email, role, add / edit / delete ---------- */
 
     function memberRoleLabel(role) {
-        return role === "owner" ? "Owner" : label(role);
+        return label(role);
     }
 
     function fillMemberItem(item, name, email, role) {
-        var isOwner = item.getAttribute("data-owner") === "true";
         item.textContent = "";
         item.classList.remove("is-editing");
 
@@ -828,7 +827,7 @@
         info.appendChild(emailEl);
 
         var tag = document.createElement("span");
-        tag.className = "tag" + (role === "owner" ? " owner" : "");
+        tag.className = "tag";
         tag.setAttribute("data-role", role);
         tag.textContent = memberRoleLabel(role);
 
@@ -848,15 +847,13 @@
         });
         actions.appendChild(edit);
 
-        if (!isOwner) {
-            var remove = makeButton("Delete", "btn-small btn-danger member-delete");
-            remove.addEventListener("click", function () {
-                if (window.confirm("Remove " + name + " from the workspace?")) {
-                    item.remove();
-                }
-            });
-            actions.appendChild(remove);
-        }
+        var remove = makeButton("Delete", "btn-small btn-danger member-delete");
+        remove.addEventListener("click", function () {
+            if (window.confirm("Remove " + name + " from the workspace?")) {
+                item.remove();
+            }
+        });
+        actions.appendChild(remove);
 
         item.appendChild(info);
         item.appendChild(tag);
@@ -872,7 +869,9 @@
         var name = $(".member-name", item).textContent;
         var email = $(".member-email", item).textContent;
         var role = $(".tag", item).getAttribute("data-role") || "member";
-        var isOwner = item.getAttribute("data-owner") === "true";
+        if (role !== "admin") {
+            role = "member";
+        }
 
         item.textContent = "";
         item.classList.add("is-editing");
@@ -904,7 +903,7 @@
         var select = document.createElement("select");
         select.name = "member-role";
 
-        ["member", "admin"].concat(isOwner ? ["owner"] : []).forEach(function (value) {
+        ["member", "admin"].forEach(function (value) {
             var option = document.createElement("option");
             option.value = value;
             option.textContent = memberRoleLabel(value);

@@ -731,11 +731,6 @@ body.home-page header {
     letter-spacing: .05em;
 }
 
-.tag.owner {
-    background: #f3e8ff;
-    color: #7e22ce;
-}
-
 .member-info {
     display: flex;
     flex: 1 1 auto;
@@ -1095,10 +1090,6 @@ body[data-theme="dark"] .theme-btn:hover {
     color: #dbeafe;
 }
 
-body[data-theme="dark"] .tag.owner {
-    background: #34264d;
-    color: #e9d5ff;
-}
 
 body[data-theme="dark"] .hero {
     background: linear-gradient(120deg, #2e1065 0%, #6d28d9 55%, #9d174d 100%);

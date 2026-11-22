@@ -9,7 +9,7 @@ Shows the user's details, task statistics and a small info table.
     <h2>Mugdad Alhammad</h2>
     <p><strong>Major:</strong> Computer Science</p>
     <p><strong>Email:</strong> mugdad02@tutamail.com</p>
-    <p><strong>Role:</strong> Owner</p>
+    <p><strong>Role:</strong> Admin</p>
     <p><a href="edit-profile.html">Edit Profile</a></p>
 </section>
 ```

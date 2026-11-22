@@ -43,7 +43,7 @@ home.html   (after login, your main page)
 | `profile.html` | View your profile: name, major, email, role. |
 | `edit-profile.html` | Edit your details — fields come pre-filled so you just change them. |
 | `new-task.html` | Create a task: title, description, priority (Low/Medium/High). |
-| `new-team.html` | Create a team: team name + add one member by email with a role (Owner/Admin/Member). |
+| `new-team.html` | Create a team: team name + add one member by email with a role (Admin/Member). |
 | `dashboard.html` | Progress overview + task list. Each task links to its details page. |
 | `task-details.html` | Shows one task's full details. |
 | `chat.html` | Team chat room: members list, message feed, send box. |
@@ -157,8 +157,8 @@ Search forms and filters can stay on `get`; that is exactly what it is for.
 - All "Sign Out" links go back to `index.html`.
 - A new team has ONE member row you fill (email + role) — no fake rows.
 - No dead links: every `href` points to a file that really exists.
-- Roles: **Owner** manages the team, **Admin** can add members,
-  **Member** joins and participates.
+- Roles: **Admin** manages members, tasks and assignments;
+  **Member** sees and works on their own assigned tasks.
 
 ---
 
