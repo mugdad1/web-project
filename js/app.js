@@ -455,11 +455,11 @@
         var params = new URLSearchParams(location.search);
         var task = params.get("task") || heading.textContent.trim();
         var badge = $("#task-priority-badge");
-        var stored = readTaskPriorities()[task];
+        var value = readTaskPriorities()[task] || params.get("priority");
 
-        if (stored) {
-            select.value = stored;
-            setPriorityBadge(badge, stored);
+        if (value) {
+            select.value = value;
+            setPriorityBadge(badge, value);
         } else if (badge) {
             select.value = badge.textContent.trim().toLowerCase();
         }
@@ -468,6 +468,131 @@
             saveTaskPriority(task, select.value);
             setPriorityBadge(badge, select.value);
             showNote("priority-saved", "Priority updated to " + label(select.value) + ".");
+        });
+    }
+
+    /* ---------- task details: change status ---------- */
+
+    var STATUS_KEY = "pm-task-status";
+    var STATUS_LABELS = { todo: "To do", progress: "In progress", done: "Complete" };
+
+    function readTaskStatuses() {
+        try {
+            return JSON.parse(localStorage.getItem(STATUS_KEY)) || {};
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function saveTaskStatus(task, value) {
+        var map = readTaskStatuses();
+        map[task] = value;
+        try {
+            localStorage.setItem(STATUS_KEY, JSON.stringify(map));
+        } catch (error) {
+            // Storage can be blocked; the change still applies on this page.
+        }
+    }
+
+    function setStatusBadge(badge, value) {
+        if (!badge) {
+            return;
+        }
+        badge.className = "status " + value;
+        badge.textContent = STATUS_LABELS[value] || value;
+    }
+
+    function statusValueFromBadge(badge) {
+        if (!badge) {
+            return "";
+        }
+        var match = badge.className.match(/\b(todo|progress|done)\b/);
+        return match ? match[1] : "";
+    }
+
+    function priorityValueFromBadge(badge) {
+        if (!badge) {
+            return "";
+        }
+        var match = badge.className.match(/\b(low|medium|high)\b/);
+        return match ? match[1] : "";
+    }
+
+    function taskUrl(task, status, priority) {
+        var url = "task-details.html?task=" + encodeURIComponent(task);
+        if (status) {
+            url += "&status=" + status;
+        }
+        if (priority) {
+            url += "&priority=" + priority;
+        }
+        return url;
+    }
+
+    /* Table links carry the row's current status into the details page. */
+    function wireTaskLinks() {
+        $$('a[href^="task-details.html?task="]').forEach(function (link) {
+            var row = link.closest("tr");
+            if (!row || link.getAttribute("href").indexOf("status=") !== -1) {
+                return;
+            }
+            var status = statusValueFromBadge($(".status", row));
+            if (status) {
+                link.setAttribute("href", link.getAttribute("href") + "&status=" + status);
+            }
+        });
+    }
+
+    function applyStoredStatuses() {
+        var map = readTaskStatuses();
+
+        $$(".task-card[data-task]").forEach(function (card) {
+            var value = map[card.getAttribute("data-task")];
+            if (!value) {
+                return;
+            }
+            setStatusBadge($(".status", card), value);
+            card.classList.toggle("is-complete", value === "done");
+        });
+
+        $$("table tbody tr").forEach(function (row) {
+            var link = $("a", row);
+            if (!link) {
+                return;
+            }
+            var value = map[link.textContent.trim()];
+            if (value) {
+                setStatusBadge($(".status", row), value);
+            }
+        });
+    }
+
+    function wireTaskStatus() {
+        var select = $("#task-status-select");
+        var heading = $("#task-title");
+        if (!select || !heading) {
+            return;
+        }
+
+        var params = new URLSearchParams(location.search);
+        var task = params.get("task") || heading.textContent.trim();
+        var badge = $("#task-status-badge");
+        var value = readTaskStatuses()[task] || params.get("status");
+
+        if (value) {
+            select.value = value;
+            setStatusBadge(badge, value);
+        } else {
+            var current = statusValueFromBadge(badge);
+            if (current) {
+                select.value = current;
+            }
+        }
+
+        select.addEventListener("change", function () {
+            saveTaskStatus(task, select.value);
+            setStatusBadge(badge, select.value);
+            showNote("status-saved", "Status updated to " + STATUS_LABELS[select.value] + ".");
         });
     }
 
@@ -1057,8 +1182,11 @@
             card.title = "Open task details";
 
             function open() {
-                location.href = "task-details.html?task=" +
-                    encodeURIComponent(card.getAttribute("data-task"));
+                location.href = taskUrl(
+                    card.getAttribute("data-task"),
+                    statusValueFromBadge($(".status", card)),
+                    priorityValueFromBadge($(".priority", card))
+                );
             }
 
             card.addEventListener("click", function (event) {
@@ -1174,10 +1302,21 @@
                     }
                 }
 
-                setRowCompletion(card.getAttribute("data-task"), complete);
+                var task = card.getAttribute("data-task");
+                var visibleStatus = statusValueFromBadge($(".status", card));
+                saveTaskStatus(task, visibleStatus || "todo");
+                setRowCompletion(task, complete);
             });
         });
     }
+
+    /* Re-apply saved values when the browser restores a page from cache. */
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            applyStoredPriorities();
+            applyStoredStatuses();
+        }
+    });
 
     /* ---------- start ---------- */
 
@@ -1192,6 +1331,7 @@
         wireChannels();
         wireProfilePreview();
         fillTaskFromQuery();
+        wireTaskStatus();
         wireTaskPriority();
         wireNotes();
         wireRoleSwitch();
@@ -1203,5 +1343,7 @@
         wirePriorityCards();
         wireTaskChecks();
         applyStoredPriorities();
+        applyStoredStatuses();
+        wireTaskLinks();
     });
 }());

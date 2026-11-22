@@ -31,6 +31,10 @@
         <header class="topbar">
             <h1>Task Details</h1>
             <div class="topbar-actions">
+                <div class="role-switch" role="group" aria-label="Demo role">
+                    <button type="button" class="role-btn is-active" data-role="admin" aria-pressed="true">Admin</button>
+                    <button type="button" class="role-btn" data-role="member" aria-pressed="false">Member</button>
+                </div>
                 <div class="avatar-menu">
                     <button type="button" class="avatar" id="avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="avatar-dropdown" aria-label="Account menu">M</button>
                     <div class="avatar-dropdown" id="avatar-dropdown" role="menu" hidden>
@@ -49,20 +53,32 @@
                 </div>
 
                 <ul class="task-meta">
-                    <li>Status <strong id="task-status">Completed</strong></li>
+                    <li>Status <span class="status done" id="task-status-badge">Complete</span></li>
                     <li>Assigned to <strong>Mugdad</strong></li>
                     <li>Priority <span class="priority high" id="task-priority-badge">High</span></li>
                     <li>Due <strong>2026-09-20</strong></li>
                 </ul>
 
-                <div class="task-priority-editor" data-admin-only>
-                    <label for="task-priority">Change priority</label>
-                    <select id="task-priority">
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high" selected>High</option>
-                    </select>
-                    <p class="inline-note" id="priority-saved" role="status" hidden></p>
+                <div class="task-editors" data-admin-only>
+                    <div class="task-editor">
+                        <label for="task-status-select">Change status</label>
+                        <select id="task-status-select">
+                            <option value="todo">To do</option>
+                            <option value="progress">In progress</option>
+                            <option value="done" selected>Complete</option>
+                        </select>
+                        <p class="inline-note" id="status-saved" role="status" hidden></p>
+                    </div>
+
+                    <div class="task-editor">
+                        <label for="task-priority">Change priority</label>
+                        <select id="task-priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high" selected>High</option>
+                        </select>
+                        <p class="inline-note" id="priority-saved" role="status" hidden></p>
+                    </div>
                 </div>
             </section>
 

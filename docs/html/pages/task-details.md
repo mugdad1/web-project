@@ -20,21 +20,32 @@ workspace shell (sidebar + topbar) as the rest of the authed pages.
 - The task name is the `<h2>`; `fillTaskFromQuery()` fills it from `?task=`.
 - The facts are a `.task-meta` list; Status is bolded with `<strong>`.
 
-## Changing priority
+## Changing status and priority
 
 ```html
-<div class="task-priority-editor" data-admin-only>
-    <label for="task-priority">Change priority</label>
-    <select id="task-priority">...</select>
+<div class="task-editors" data-admin-only>
+    <div class="task-editor">
+        <label for="task-status-select">Change status</label>
+        <select id="task-status-select">...</select>
+    </div>
+    <div class="task-editor">
+        <label for="task-priority">Change priority</label>
+        <select id="task-priority">...</select>
+    </div>
 </div>
 ```
 
-- `wireTaskPriority()` reads `#task-priority`, saves the choice in
-  `localStorage` (`pm-task-priority`, keyed by task title) and updates
-  `#task-priority-badge` immediately.
-- `applyStoredPriorities()` re-applies saved values to the priority cards on
-  home/dashboard, so a change is visible on the next page load.
-- The editor is `[data-admin-only]`; members see the badge but cannot change it.
+- `wireTaskStatus()` saves the choice in `localStorage` (`pm-task-status`,
+  keyed by task title) and updates `#task-status-badge` immediately.
+- `wireTaskPriority()` does the same for priority (`pm-task-priority`,
+  `#task-priority-badge`).
+- `applyStoredStatuses()` / `applyStoredPriorities()` re-apply saved values to
+  the cards and table rows on home/dashboard, and toggle `is-complete` for
+  completed cards.
+- Cards and table links pass the current `status`/`priority` in the URL, so
+  the details page opens on the right values even before anything is stored.
+- The editors are `[data-admin-only]`; members see the badges but cannot change
+  them. The Admin/Member switch is in this page's topbar as well as on home.
 
 ## Notes section
 

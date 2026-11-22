@@ -811,11 +811,22 @@ body.home-page header {
     border-bottom: 0;
 }
 
-.task-priority-editor {
-    max-width: 260px;
+.task-editors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
     margin-top: 14px;
     padding-top: 14px;
     border-top: 1px solid var(--border);
+}
+
+.task-editor {
+    flex: 1 1 190px;
+    max-width: 260px;
+}
+
+.task-editor label {
+    margin-top: 0;
 }
 
 .note-list {
