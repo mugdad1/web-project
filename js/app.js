@@ -69,6 +69,9 @@
 
     function wireForms() {
         $$("form").forEach(function (form) {
+            if (form.hasAttribute("novalidate")) {
+                return;
+            }
             var fields = $$("input, select, textarea", form).filter(function (field) {
                 return field.type !== "submit" && field.type !== "reset" && field.type !== "button";
             });
