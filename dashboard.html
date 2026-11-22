@@ -31,7 +31,10 @@
         <header class="topbar">
             <h1>Dashboard</h1>
             <div class="topbar-actions">
-                <input type="search" id="task-search" class="search-pill" placeholder="Search tasks..." aria-label="Search tasks">
+                <div class="search-wrap">
+                    <input type="search" id="task-search" class="search-pill" placeholder="Search tasks..." aria-label="Search tasks" autocomplete="off">
+                    <div class="search-results" id="search-results" role="listbox" aria-label="Task search results" hidden></div>
+                </div>
                 <div class="role-switch" role="group" aria-label="Demo role">
                     <button type="button" class="role-btn is-active" data-role="admin" aria-pressed="true">Admin</button>
                     <button type="button" class="role-btn" data-role="member" aria-pressed="false">Member</button>

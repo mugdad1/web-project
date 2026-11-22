@@ -8,9 +8,12 @@ task links to its details page. It uses the same sidebar/topbar shell as
 
 - `<aside class="sidebar">` holds the workspace mark, `.side-nav` (Home,
   Dashboard, Chat, Profile, Settings) and the Sign Out link.
-- `<header class="topbar">` holds the page title, a task search input and an
-  avatar menu (My Profile / Sign Out). `#task-search` filters the priority
-  cards and table rows.
+- `<header class="topbar">` holds the page title, a task search input, the
+  demo role switch and an avatar menu (My Profile / Sign Out).
+- `#task-search` shows a **results box** (`#search-results`) instead of
+  filtering the page: typing lists matching tasks, and clicking one opens
+  `task-details.html?task=...` (Enter opens the first result, Escape closes).
+  The sidebar and the task lists are never filtered by search.
 - The purple palette is inspired by common project-management UIs; the markup
   and CSS are original.
 

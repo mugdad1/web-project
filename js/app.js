@@ -567,6 +567,95 @@
         });
     }
 
+    /* ---------- task progress: keep the table/pie in sync when finishing ---------- */
+
+    var PROGRESS_KEY = "pm-task-progress";
+
+    function readTaskProgress() {
+        try {
+            return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function saveTaskProgress(task, value) {
+        var map = readTaskProgress();
+        map[task] = value;
+        try {
+            localStorage.setItem(PROGRESS_KEY, JSON.stringify(map));
+        } catch (error) {
+            // Storage can be blocked; the change still applies on this page.
+        }
+    }
+
+    function applyStoredProgress() {
+        var map = readTaskProgress();
+
+        $$("table tbody tr").forEach(function (row) {
+            var link = $("a", row);
+            if (!link) {
+                return;
+            }
+
+            var value = map[link.textContent.trim()];
+            if (value === undefined) {
+                return;
+            }
+
+            var valueEl = $(".progress-value", row);
+            var fill = $(".progress-fill", row);
+
+            if (valueEl) {
+                valueEl.textContent = value + "%";
+            }
+            if (fill) {
+                fill.style.width = Math.min(value, 100) + "%";
+                fill.classList.toggle("is-done", value >= 100);
+            }
+        });
+    }
+
+    function syncFinishButton() {
+        var button = $("#task-finish");
+        if (!button) {
+            return;
+        }
+
+        var done = statusValueFromBadge($("#task-status-badge")) === "done";
+        button.textContent = done ? "Reopen task" : "Finish task";
+        button.classList.toggle("btn-secondary", done);
+    }
+
+    function wireTaskFinish() {
+        var button = $("#task-finish");
+        if (!button) {
+            return;
+        }
+
+        syncFinishButton();
+
+        button.addEventListener("click", function () {
+            var task = currentTaskTitle();
+            var badge = $("#task-status-badge");
+            var select = $("#task-status-select");
+            var done = statusValueFromBadge(badge) === "done";
+            var next = done ? "todo" : "done";
+
+            saveTaskStatus(task, next);
+            setStatusBadge(badge, next);
+            if (select) {
+                select.value = next;
+            }
+            saveTaskProgress(task, done ? 0 : 100);
+
+            syncFinishButton();
+            showNote("finish-note", done
+                ? "Task reopened."
+                : "Task marked complete.");
+        });
+    }
+
     function wireTaskStatus() {
         var select = $("#task-status-select");
         var heading = $("#task-title");
@@ -592,6 +681,7 @@
         select.addEventListener("change", function () {
             saveTaskStatus(task, select.value);
             setStatusBadge(badge, select.value);
+            syncFinishButton();
             showNote("status-saved", "Status updated to " + STATUS_LABELS[select.value] + ".");
         });
     }
@@ -1464,7 +1554,7 @@
         applyTheme();
     }
 
-    /* ---------- task visibility: search + "my tasks only" scope ---------- */
+    /* ---------- task visibility: "my tasks only" scope ---------- */
 
     var taskGroups = [];
 
@@ -1473,8 +1563,6 @@
     }
 
     function applyTaskFilters() {
-        var input = $("#task-search");
-        var query = input ? input.value.trim().toLowerCase() : "";
         var isAdmin = demoRole === "admin";
         var user = currentUserName();
 
@@ -1484,32 +1572,23 @@
             group.items.forEach(function (item) {
                 var assignee = item.getAttribute("data-assignee") || "";
                 var inScope = isAdmin || (assignee !== "" && assignee === user);
-                var match = query === "" ||
-                    item.textContent.toLowerCase().indexOf(query) !== -1;
 
-                item.hidden = !(inScope && match);
-                if (inScope && match) {
+                item.hidden = !inScope;
+                if (inScope) {
                     visible++;
                 }
             });
 
             if (group.notice) {
-                group.notice.textContent = query !== ""
-                    ? "No matching tasks."
-                    : "No tasks assigned to you.";
-                group.notice.hidden = !(visible === 0 && (query !== "" || !isAdmin));
+                group.notice.textContent = "No tasks assigned to you.";
+                group.notice.hidden = !(visible === 0 && !isAdmin);
             }
         });
 
         updateDashboardStats();
     }
 
-    function wireTaskSearch() {
-        var input = $("#task-search");
-        if (!input) {
-            return;
-        }
-
+    function wireTaskScope() {
         taskGroups = [
             { items: $$(".task-card"), host: $(".task-cards"), notice: null },
             { items: $$("table tbody tr"), host: $(".table-wrap"), notice: null }
@@ -1526,9 +1605,131 @@
             group.notice = note;
         });
 
-        input.addEventListener("input", applyTaskFilters);
-        input.addEventListener("search", applyTaskFilters);
         applyTaskFilters();
+    }
+
+    /* ---------- dashboard search: results box, click to open a task ---------- */
+
+    function searchTaskEntries() {
+        var seen = {};
+        var entries = [];
+
+        function add(task, card) {
+            if (!task || seen[task]) {
+                return;
+            }
+            seen[task] = true;
+
+            var status = card ? statusValueFromBadge($(".status", card)) : "";
+            var priority = card ? priorityValueFromBadge($(".priority", card)) : "";
+
+            if (!card) {
+                $$("table tbody tr").forEach(function (row) {
+                    var link = $("a", row);
+                    if (link && link.textContent.trim() === task) {
+                        status = statusValueFromBadge($(".status", row));
+                    }
+                });
+            }
+
+            entries.push({ task: task, status: status, priority: priority });
+        }
+
+        $$(".task-card[data-task]").forEach(function (card) {
+            add(card.getAttribute("data-task"), card);
+        });
+
+        $$("table tbody tr").forEach(function (row) {
+            var link = $("a", row);
+            if (link) {
+                add(link.textContent.trim(), null);
+            }
+        });
+
+        return entries;
+    }
+
+    function wireTaskSearchBox() {
+        var input = $("#task-search");
+        var box = $("#search-results");
+        if (!input || !box) {
+            return;
+        }
+
+        function close() {
+            box.hidden = true;
+            box.textContent = "";
+            input.setAttribute("aria-expanded", "false");
+        }
+
+        function render() {
+            var query = input.value.trim().toLowerCase();
+            box.textContent = "";
+
+            if (query === "") {
+                close();
+                return;
+            }
+
+            var matches = searchTaskEntries().filter(function (entry) {
+                return entry.task.toLowerCase().indexOf(query) !== -1;
+            });
+
+            if (matches.length === 0) {
+                var empty = document.createElement("p");
+                empty.className = "search-empty";
+                empty.textContent = "No tasks found.";
+                box.appendChild(empty);
+            } else {
+                matches.forEach(function (entry) {
+                    var link = document.createElement("a");
+                    link.className = "search-result";
+                    link.href = taskUrl(entry.task, entry.status, entry.priority);
+                    link.setAttribute("role", "option");
+
+                    var name = document.createElement("strong");
+                    name.textContent = entry.task;
+
+                    var meta = document.createElement("small");
+                    meta.textContent = (STATUS_LABELS[entry.status] || "Task") +
+                        (entry.priority ? " \u00b7 " + label(entry.priority) + " priority" : "");
+
+                    link.appendChild(name);
+                    link.appendChild(meta);
+                    box.appendChild(link);
+                });
+            }
+
+            box.hidden = false;
+            input.setAttribute("aria-expanded", "true");
+        }
+
+        input.setAttribute("aria-expanded", "false");
+        input.addEventListener("input", render);
+        input.addEventListener("search", render);
+        input.addEventListener("focus", function () {
+            if (input.value.trim() !== "") {
+                render();
+            }
+        });
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                close();
+                input.blur();
+            } else if (event.key === "Enter" && !box.hidden) {
+                var first = $(".search-result", box);
+                if (first) {
+                    event.preventDefault();
+                    location.href = first.getAttribute("href");
+                }
+            }
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!event.target.closest(".search-wrap")) {
+                close();
+            }
+        });
     }
 
     /* ---------- topbar avatar: account menu ---------- */
@@ -1651,6 +1852,7 @@
             }
         }
 
+        saveTaskProgress(task, value);
         updateDashboardStats();
         buildProjectPie();
     }
@@ -1708,6 +1910,7 @@
         if (event.persisted) {
             applyStoredPriorities();
             applyStoredStatuses();
+            applyStoredProgress();
         }
     });
 
@@ -1717,6 +1920,7 @@
         markCurrentPage();
         wireForms();
         buildProgressBars();
+        applyStoredProgress();
         applyDemoUser(readDemoUser());
         applyStoredAssignments();
         updateDashboardStats();
@@ -1727,6 +1931,7 @@
         wireProfilePreview();
         fillTaskFromQuery();
         wireTaskStatus();
+        wireTaskFinish();
         wireTaskPriority();
         wireNotes();
         wireRoleSwitch();
@@ -1734,7 +1939,8 @@
         wireHomePanels();
         wireAssignDialog();
         wireThemeSwitch();
-        wireTaskSearch();
+        wireTaskScope();
+        wireTaskSearchBox();
         wireAvatarMenu();
         wirePriorityCards();
         wireTaskChecks();

@@ -20,6 +20,21 @@ workspace shell (sidebar + topbar) as the rest of the authed pages.
 - The task name is the `<h2>`; `fillTaskFromQuery()` fills it from `?task=`.
 - The facts are a `.task-meta` list; Status is bolded with `<strong>`.
 
+## Finish the task
+
+```html
+<div class="task-actions">
+    <button type="button" class="btn" id="task-finish">Finish task</button>
+</div>
+```
+
+- `wireTaskFinish()` toggles between **Finish task** and **Reopen task**.
+- Finishing saves status `done` and progress `100%` (`pm-task-progress`);
+  reopening saves status `todo` and progress `0%`.
+- The progress map is applied to the dashboard/home table on load, so the
+  progress bars, stats and completion pie all update.
+- Available to every role — a member can finish their own task.
+
 ## Changing status and priority
 
 ```html

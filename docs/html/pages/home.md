@@ -34,8 +34,7 @@ available straight from the home screen.
 - `markCurrentPage()` in `app.js` still targets `nav a`, so it marks the
   current link inside `.side-nav`.
 - "Sign Out" is still just a link back to `index.html` (real sessions come with PHP).
-- `#task-search` filters both the priority cards and the table rows in place;
-  `wireTaskSearch()` in `app.js` shows a "No matching tasks." note when nothing matches.
+- There is no search box on Home any more; search lives on the dashboard only.
 - The avatar button opens a small menu with **My Profile** and **Sign Out**.
 
 ## Welcome hero
