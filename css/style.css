@@ -1,0 +1,448 @@
+/* Project Management Site — shared stylesheet
+   M2 (CSS) milestone. One file, no framework, no build step. */
+
+:root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --text: #1f2933;
+    --muted: #667085;
+    --border: #e3e8ef;
+    --accent: #2563eb;
+    --accent-dark: #1d4ed8;
+    --accent-soft: #eaf0ff;
+    --ok: #15803d;
+    --ok-soft: #e7f6ec;
+    --warn: #b45309;
+    --warn-soft: #fdf3e3;
+    --danger: #b42318;
+    --radius: 10px;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .10);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ---------- header and navigation ---------- */
+
+header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    letter-spacing: -.01em;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: background .15s, color .15s;
+}
+
+nav a:hover {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+}
+
+nav a[aria-current="page"] {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ---------- page shell ---------- */
+
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+}
+
+h2 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+}
+
+h3 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+p:last-child,
+ul:last-child {
+    margin-bottom: 0;
+}
+
+/* section dividers are structural, the cards already separate content */
+hr {
+    display: none;
+}
+
+a {
+    color: var(--accent);
+}
+
+a:hover {
+    color: var(--accent-dark);
+}
+
+/* ---------- lists ---------- */
+
+ul {
+    margin: 0 0 10px;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 4px;
+}
+
+.notifications li,
+.quick-actions li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.notifications li:last-child,
+.quick-actions li:last-child {
+    border-bottom: 0;
+}
+
+.notifications li.is-read {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+/* ---------- forms ---------- */
+
+fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 18px;
+}
+
+legend {
+    font-weight: 600;
+    font-size: .95rem;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+/* the mockup uses <br> for layout; the stylesheet owns spacing now */
+form br {
+    display: none;
+}
+
+form label {
+    display: block;
+    font-size: .875rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin: 12px 0 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    font-size: .95rem;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .18);
+}
+
+input[type="submit"],
+input[type="reset"],
+button,
+.btn {
+    display: inline-block;
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    margin: 12px 8px 0 0;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s, border-color .15s, color .15s;
+}
+
+input[type="submit"],
+button,
+.btn {
+    background: var(--accent);
+    color: #fff;
+}
+
+input[type="submit"]:hover,
+button:hover,
+.btn:hover {
+    background: var(--accent-dark);
+}
+
+input[type="reset"],
+.btn-secondary {
+    background: #fff;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+input[type="reset"]:hover,
+.btn-secondary:hover {
+    background: #f2f4f7;
+}
+
+.btn-small {
+    padding: 4px 10px;
+    font-size: .78rem;
+    margin: 0;
+}
+
+/* inline validation messages */
+.field-error {
+    display: block;
+    margin-top: 4px;
+    font-size: .8rem;
+    color: var(--danger);
+}
+
+input.is-invalid,
+select.is-invalid {
+    border-color: var(--danger);
+}
+
+/* ---------- tables ---------- */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+th {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--muted);
+    background: #f9fafb;
+}
+
+tbody tr:hover {
+    background: #f9fafb;
+}
+
+/* progress bars drawn by js/app.js */
+.progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.progress-track {
+    flex: 1;
+    height: 8px;
+    background: #eef1f6;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width .4s ease;
+}
+
+.progress-fill.is-done {
+    background: var(--ok);
+}
+
+.progress-value {
+    font-size: .78rem;
+    color: var(--muted);
+    min-width: 34px;
+    text-align: right;
+}
+
+/* stat list on the dashboard */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stats li {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+.stats strong {
+    display: block;
+    font-size: 1.4rem;
+    color: var(--text);
+}
+
+/* ---------- chat ---------- */
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 120px;
+}
+
+.message {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    max-width: 80%;
+}
+
+.message .meta {
+    display: block;
+    font-size: .72rem;
+    color: var(--muted);
+    margin-bottom: 2px;
+}
+
+.message.is-mine {
+    align-self: flex-end;
+    background: var(--accent-soft);
+    border-color: #c7d7ff;
+}
+
+.empty {
+    color: var(--muted);
+    font-style: italic;
+}
+
+/* ---------- footer ---------- */
+
+footer {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 8px 24px 32px;
+    color: var(--muted);
+    font-size: .82rem;
+    text-align: center;
+}
+
+footer hr {
+    display: none;
+}
+
+footer a {
+    color: var(--muted);
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 640px) {
+    header {
+        padding: 14px 16px;
+    }
+
+    main {
+        padding: 16px;
+    }
+
+    section {
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    nav a {
+        padding: 5px 10px;
+    }
+
+    .message {
+        max-width: 100%;
+    }
+}

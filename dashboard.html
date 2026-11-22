@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Project Management - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
 </head>
 <body>
     <header>
         <h1>Dashboard</h1>
         <nav>
-<a href="home.html">Home |</a>
-<a href="profile.html">Profile |</a>
+<a href="home.html">Home</a>
+<a href="profile.html">Profile</a>
 <a href="index.html">Sign Out</a>
         </nav>
     </header>
@@ -17,7 +19,7 @@
     <main>
         <section>
             <h2>Project Progress</h2>
-            <ul>
+            <ul class="stats">
                 <li>Total Tasks: <strong>10</strong></li>
                 <li>Completed: <strong>6</strong></li>
                 <li>In Progress: <strong>3</strong></li>
@@ -29,7 +31,8 @@
 
         <section>
             <h3>Task List</h3>
-            <table border="1" cellpadding="5">
+            <div class="table-wrap">
+            <table>
                 <tr>
                     <th>Task</th>
                     <th>Assignee</th>
@@ -38,34 +41,35 @@
                     <th>Note</th>
                 </tr>
                 <tr>
-                    <td><a href="task-details.html">Layout skeleton</a></td>
+                    <td><a href="task-details.html?task=Layout+skeleton">Layout skeleton</a></td>
                     <td>Mugdad</td>
                     <td>100%</td>
                     <td>Done</td>
                     <td>Finished</td>
                 </tr>
                 <tr>
-                    <td><a href="task-details.html">Landing page</a></td>
+                    <td><a href="task-details.html?task=Landing+page">Landing page</a></td>
                     <td>Ali</td>
                     <td>50%</td>
                     <td>3 days</td>
                     <td>On track</td>
                 </tr>
                 <tr>
-                    <td><a href="task-details.html">Sign up page</a></td>
+                    <td><a href="task-details.html?task=Sign+up+page">Sign up page</a></td>
                     <td>Ahmed</td>
                     <td>50%</td>
                     <td>3 days</td>
                     <td>On track</td>
                 </tr>
                 <tr>
-                    <td><a href="task-details.html">Dashboard page</a></td>
+                    <td><a href="task-details.html?task=Dashboard+page">Dashboard page</a></td>
                     <td>Kumail</td>
                     <td>50%</td>
                     <td>4 days</td>
                     <td>Needs review</td>
                 </tr>
             </table>
+            </div>
         </section>
 
         <hr>

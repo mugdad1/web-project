@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Project Management - Team Chat</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
 </head>
 <body>
     <header>
         <h1>Team Chat</h1>
         <nav>
-<a href="home.html">Home |</a>
-<a href="dashboard.html">Dashboard |</a>
+<a href="home.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
 <a href="index.html">Sign Out</a>
         </nav>
     </header>
@@ -29,14 +31,14 @@
 
         <section>
             <h3>general</h3>
-            <p>No messages yet.</p>
+            <div id="feed" class="feed"><p class="empty">No messages yet.</p></div>
         </section>
 
         <hr>
 
         <section>
             <h3>Say something</h3>
-            <form action="chat.html" method="get">
+            <form id="chat-form" action="chat.html" method="get">
                 <label for="msg">Message:</label><br>
                 <input type="text" id="msg" name="msg" required placeholder="Type your message..."><br><br>
                 <input type="submit" value="Send">

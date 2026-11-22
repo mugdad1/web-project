@@ -28,6 +28,15 @@ database.
 Guest pages (`index`, `signup`, `signin`) intentionally have a shorter nav than
 the authed pages. `layout.html` is the shared structure to copy from.
 
+## Shared assets
+
+| Path | What it is |
+|---|---|
+| `css/style.css` | The whole stylesheet — tokens, layout, nav, cards, forms, tables, chat, responsive rules |
+| `js/app.js` | The whole script — active nav, form validation, dashboard progress bars and totals, notification read state, chat send, profile preview, task-details query string |
+
+Both are linked from every page. No framework, no bundler, no dependency.
+
 ## Docs
 
 | Path | What it covers |
