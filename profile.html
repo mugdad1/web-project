@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Management - Profile</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
@@ -26,22 +27,91 @@
             <p><a href="edit-profile.html">Edit Profile</a></p>
         </section>
 
-        <hr>
+        <section aria-labelledby="my-task-stats-heading">
+            <div class="card-head">
+                <h3 id="my-task-stats-heading">My task statistics</h3>
+                <a href="dashboard.html">View dashboard &rarr;</a>
+            </div>
+            <ul class="profile-stats">
+                <li>Assigned <strong>5</strong></li>
+                <li>Completed <strong>4</strong></li>
+                <li>In Progress <strong>1</strong></li>
+                <li>Completion <strong>80%</strong></li>
+            </ul>
+            <p class="demo-note">Sample numbers until the PHP backend supplies real task data.</p>
+        </section>
 
-        <section>
-            <h3>My Info</h3>
+        <section aria-labelledby="member-stats-heading">
+            <div class="card-head">
+                <h3 id="member-stats-heading">Tasks by member</h3>
+            </div>
             <div class="table-wrap">
-            <table>
-                <tr><th>Field</th><th>Value</th></tr>
-                <tr><td>Name</td><td>Mugdad Alhammad</td></tr>
-                <tr><td>Joined</td><td>2026</td></tr>
-            </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Assigned</th>
+                            <th>Completed</th>
+                            <th>In Progress</th>
+                            <th>To Do</th>
+                            <th>Completion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mugdad</td>
+                            <td>5</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>80%</td>
+                        </tr>
+                        <tr>
+                            <td>Ali</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>Ahmed</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>33%</td>
+                        </tr>
+                        <tr>
+                            <td>Kumail</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>33%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section aria-labelledby="my-info-heading">
+            <div class="card-head">
+                <h3 id="my-info-heading">My Info</h3>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <tbody>
+                        <tr><th scope="row">Name</th><td>Mugdad Alhammad</td></tr>
+                        <tr><th scope="row">Joined</th><td>2026</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
 
     <footer>
-        <hr>
+        <p>Mugdad, Ali, Ahmed, Kumail</p>
     </footer>
 </body>
 </html>

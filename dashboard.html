@@ -31,9 +31,14 @@
         <header class="topbar">
             <h1>Dashboard</h1>
             <div class="topbar-actions">
-                <span class="search-pill">Search tasks...</span>
-                <a class="btn btn-small" href="new-task.html">New Task</a>
-                <a class="avatar" href="profile.html" aria-label="Your profile">M</a>
+                <input type="search" id="task-search" class="search-pill" placeholder="Search tasks..." aria-label="Search tasks">
+                <div class="avatar-menu">
+                    <button type="button" class="avatar" id="avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="avatar-dropdown" aria-label="Account menu">M</button>
+                    <div class="avatar-dropdown" id="avatar-dropdown" role="menu" hidden>
+                        <a href="profile.html" role="menuitem">My Profile</a>
+                        <a href="index.html" role="menuitem">Sign Out</a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -137,15 +142,6 @@
                         </tbody>
                     </table>
                 </div>
-            </section>
-
-            <section aria-labelledby="chat-heading">
-                <div class="card-head">
-                    <h3 id="chat-heading">Team chat</h3>
-                    <a href="chat.html">Open the full room &rarr;</a>
-                </div>
-                <p>Discuss the board without leaving your dashboard.</p>
-                <a class="btn" href="chat.html">Open Chat</a>
             </section>
         </main>
 

@@ -4,38 +4,61 @@ The signed-in user's hub. It was a welcome + notifications + quick-actions page;
 it now also holds the dashboard, chat and task creation so those features are
 available straight from the home screen.
 
-## Header / nav
+## Workspace shell: sidebar + topbar
 
 ```html
-<body class="home-page">
-<header>
-    <h1>My Home <span class="role-badge" id="role-badge">Admin</span></h1>
-    <nav>
-        <a href="profile.html">Profile</a>
+<body class="home-page app-shell">
+<aside class="sidebar">
+    <div class="workspace">...</div>
+    <nav class="side-nav" aria-label="Main">
+        <a href="home.html">Home</a>
         <a href="dashboard.html">Dashboard</a>
         <a href="chat.html">Chat</a>
-        <a href="index.html">Sign Out</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
     </nav>
-</header>
+    <div class="sidebar-foot"><a href="index.html">Sign Out</a></div>
+</aside>
+<div class="app-body">
+    <header class="topbar">
+        <h1>My Home <span class="role-badge" id="role-badge">Admin</span></h1>
+        <div class="topbar-actions">search input, avatar</div>
+    </header>
+    ...
+</div>
+</body>
 ```
 
-- No Home link — this page IS home.
+- The sidebar/topbar pattern and purple palette are inspired by common
+  project-management UIs (e.g. ClickUp); the markup and CSS here are original.
+- `markCurrentPage()` in `app.js` still targets `nav a`, so it marks the
+  current link inside `.side-nav`.
 - "Sign Out" is still just a link back to `index.html` (real sessions come with PHP).
+- `#task-search` filters both the priority cards and the table rows in place;
+  `wireTaskSearch()` in `app.js` shows a "No matching tasks." note when nothing matches.
+- The avatar button opens a small menu with **My Profile** and **Sign Out**.
 
 ## Welcome hero
 
 ```html
 <section class="hero">
-    <p class="eyebrow">Your workspace</p>
+    <p class="eyebrow"><span class="date-chip">Today, 22 November</span></p>
     <h2>Welcome back, Mugdad</h2>
     <p>Here is what is happening in your projects today.</p>
 </section>
 ```
 
 - The background is pure CSS in `css/style.css`: layered gradients plus a
-  repeating diagonal pattern on `body.home-page`, and a blue-to-teal gradient
+  repeating diagonal pattern on `body.home-page`, and a purple-to-pink gradient
   with a dot pattern on `.hero`. No image files, no downloads.
 - The name is static for now; the logged-in user's name comes with PHP.
+- The date chip is static sample text for now.
+
+## My priorities
+
+- A compact `.task-cards` list using `.status` pills (Complete / In progress /
+  To do) and `.priority` pills (High / Medium / Low).
+- This is presentational only; it mirrors the rows in the dashboard table.
 
 ## Dashboard on home
 
@@ -69,11 +92,11 @@ available straight from the home screen.
 - **This is a mockup, not security.** Anyone can change the client-side role.
   The PHP milestone must verify the role on the server before any member is added.
 
-## Notifications and quick actions
+## Notifications
 
 - `.notifications li` still get a "Mark read" button from `wireNotifications()`.
-- The "New team" quick action is `data-admin-only`, so it disappears in the
-  Member demo role.
+- The former Quick Actions list was removed; use the sidebar, the topbar or the
+  inline forms/cards instead.
 
 ## How it works
 

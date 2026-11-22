@@ -342,8 +342,9 @@ tbody tr:hover {
     text-align: right;
 }
 
-/* stat list on the dashboard */
-.stats {
+/* stat lists on the dashboard and profile */
+.stats,
+.profile-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 12px;
@@ -352,7 +353,8 @@ tbody tr:hover {
     margin: 0;
 }
 
-.stats li {
+.stats li,
+.profile-stats li {
     background: #f9fafb;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -362,7 +364,8 @@ tbody tr:hover {
     color: var(--muted);
 }
 
-.stats strong {
+.stats strong,
+.profile-stats strong {
     display: block;
     font-size: 1.4rem;
     color: var(--text);
@@ -819,6 +822,7 @@ body[data-theme="dark"] .btn-secondary:hover {
 body[data-theme="dark"] table th,
 body[data-theme="dark"] tbody tr:hover,
 body[data-theme="dark"] .stats li,
+body[data-theme="dark"] .profile-stats li,
 body[data-theme="dark"] .message {
     background: #1a2539;
 }
@@ -1003,17 +1007,26 @@ body[data-theme="dark"].home-page header {
     gap: 12px;
 }
 
-.search-pill {
+input.search-pill {
+    width: 190px;
     padding: 7px 14px;
     border: 1px solid var(--border);
     border-radius: 999px;
-    background: var(--bg);
-    color: var(--muted);
+    background: var(--surface);
+    color: var(--text);
     font-size: .85rem;
+}
+
+input.search-pill::placeholder {
+    color: var(--muted);
 }
 
 .topbar .btn-small {
     margin: 0;
+}
+
+.avatar-menu {
+    position: relative;
 }
 
 .avatar {
@@ -1021,12 +1034,47 @@ body[data-theme="dark"].home-page header {
     place-items: center;
     width: 34px;
     height: 34px;
+    padding: 0;
+    margin: 0;
+    border: 0;
     border-radius: 50%;
     background: linear-gradient(135deg, #8b5cf6, #ec4899);
     color: #fff;
     font-size: .85rem;
     font-weight: 700;
     text-decoration: none;
+}
+
+.avatar:hover,
+.avatar:focus-visible {
+    background: linear-gradient(135deg, #9b6dff, #f062a8);
+}
+
+.avatar-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 20;
+    min-width: 150px;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.avatar-dropdown a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 7px;
+    color: var(--text);
+    font-size: .88rem;
+    text-decoration: none;
+}
+
+.avatar-dropdown a:hover {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
 }
 
 /* compact priority list with status pills */
@@ -1120,6 +1168,65 @@ body[data-theme="dark"].home-page header {
     font-weight: 600;
 }
 
+/* chat page: members panel beside the room */
+
+.chat-layout {
+    display: grid;
+    grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.chat-sidebar,
+.chat-room {
+    margin-bottom: 0;
+}
+
+.chat-sidebar .card-head {
+    margin-bottom: 6px;
+}
+
+.channel-head {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.channel-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.channel-list li {
+    margin: 0;
+}
+
+.channel-list a {
+    display: block;
+    padding: 7px 10px;
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.channel-list a:hover {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+}
+
+.channel-list a.is-active {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    font-weight: 600;
+}
+
+.chat-room .feed {
+    min-height: 320px;
+    max-height: 480px;
+}
+
 body[data-theme="dark"] .status.todo { background: #263349; color: #b6c2d6; }
 body[data-theme="dark"] .status.progress { background: #3b2f16; color: #fcd34d; }
 body[data-theme="dark"] .status.done { background: #14301f; color: #4ade80; }
@@ -1151,5 +1258,9 @@ body[data-theme="dark"] .priority.low { background: #123044; color: #7dd3fc; }
 
     .sidebar-foot {
         margin-top: 0;
+    }
+
+    .chat-layout {
+        grid-template-columns: 1fr;
     }
 }

@@ -2,11 +2,11 @@
 
 Project management site for the Web Programming subject.
 
-**Current milestone: M2 CSS + M3 JavaScript (started 2026-11-22).** The HTML
-structure is frozen; styling and behaviour are being added page by page. The
-earlier HTML-only state was deliberate (`docs/html/html.md` explains the
-scoping), not an oversight. **Target stack:** HTML, CSS, JavaScript, PHP +
-database.
+**Current milestone: M2 CSS + M3 JavaScript (started 2026-11-22).** Styling and
+behaviour are being added page by page. The home and dashboard screens use a
+workspace shell (sidebar + topbar) and a purple palette inspired by common
+project-management UIs such as ClickUp — original markup and CSS, no copied
+assets or logos. **Target stack:** HTML, CSS, JavaScript, PHP + database.
 
 ## Pages
 
@@ -15,10 +15,11 @@ database.
 | `index.html` | Landing page — guest, no nav |
 | `signup.html` | Registration form |
 | `signin.html` | Login form |
-| `home.html` | Home screen (authed): welcome hero, dashboard + task list, chat composer, add-task form, admin-gated members, notifications |
-| `dashboard.html` | Stats + project board (authed) |
+| `home.html` | Home screen (authed): sidebar, welcome hero, priorities, dashboard + task list, chat composer, add-task form, admin-gated members, notifications |
+| `dashboard.html` | Main screen (authed): sidebar, stats, priorities, task board, chat link |
 | `profile.html` | Own profile (authed) |
 | `edit-profile.html` | Edit own profile (authed) |
+| `settings.html` | Settings (authed): Light / Dark appearance switch |
 | `new-task.html` | Create a task (authed) |
 | `new-team.html` | Create a team (authed) |
 | `chat.html` | Team chat (authed) |
@@ -32,8 +33,8 @@ the authed pages. `layout.html` is the shared structure to copy from.
 
 | Path | What it is |
 |---|---|
-| `css/style.css` | The whole stylesheet — tokens, layout, nav, cards, forms, tables, chat, responsive rules |
-| `js/app.js` | The whole script — active nav, form validation, dashboard progress bars and totals, notification read state, chat send, profile preview, task-details query string, home add-task/add-member, demo role switch |
+| `css/style.css` | The whole stylesheet — tokens, layout, sidebar/topbar, cards, forms, tables, chat, status pills, dark theme, responsive rules |
+| `js/app.js` | The whole script — active nav, form validation, dashboard progress bars and totals, notification read state, chat send, profile preview, task-details query string, home add-task/add-member, demo role switch, light/dark theme |
 
 Both are linked from every page. No framework, no bundler, no dependency.
 
@@ -44,6 +45,12 @@ directly on the home screen. The Members panel has an **Admin / Member** demo
 switch: `app.js` hides every `[data-admin-only]` block for the member role (on
 home and on `new-team.html`). This is a UI mockup only — **not security**.
 The PHP milestone must check the role on the server before adding members.
+
+### Appearance
+
+`settings.html` has a **Light / Dark** switch. `app.js` sets `data-theme` on
+`<body>` and saves the choice in `localStorage`; `style.css` swaps the colour
+tokens (and a few hardcoded surfaces) under `body[data-theme="dark"]`.
 
 ## Docs
 

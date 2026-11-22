@@ -1,67 +1,46 @@
-# dashboard.html — Progress overview + task list
+# dashboard.html — Main screen: progress + task list
 
-Shows project stats and a table where each task links to its details page.
+Shows project stats, a compact priority list and a table where each task links
+to its details page. It uses the same sidebar/topbar shell as `home.html`.
+
+## Workspace shell
+
+- `<aside class="sidebar">` holds the workspace mark, `.side-nav` (Home,
+  Dashboard, Chat, Profile, Settings) and the Sign Out link.
+- `<header class="topbar">` holds the page title, a task search input and an
+  avatar menu (My Profile / Sign Out). `#task-search` filters the priority
+  cards and table rows.
+- The purple palette is inspired by common project-management UIs; the markup
+  and CSS are original.
 
 ## Progress section
 
 ```html
-<section>
-    <h2>Project Progress</h2>
-    <ul>
-        <li>Total Tasks: <strong>10</strong></li>
-        <li>Completed: <strong>6</strong></li>
-        <li>In Progress: <strong>3</strong></li>
-        <li>Not Started: <strong>1</strong></li>
-    </ul>
-</section>
+<ul class="stats">
+    <li>Total Tasks <strong>4</strong></li>
+    <li>Completed <strong>1</strong></li>
+    <li>In Progress <strong>3</strong></li>
+    <li>Not Started <strong>0</strong></li>
+</ul>
 ```
 
-Four bullet lines with the numbers bolded.
+`js/app.js` replaces the percentage cells in the table with progress bars and
+recalculates these four numbers from the table rows.
+
+## My priorities
+
+- A `.task-cards` list with `.status` pills (Complete / In progress / To do)
+  and `.priority` pills (High / Medium / Low).
+- Presentational only; it mirrors the table below.
 
 ## Task list table
 
-```html
-<section>
-    <h3>Task List</h3>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>Task</th> <th>Assignee</th> <th>Progress</th>
-            <th>Time Remaining</th> <th>Note</th>
-        </tr>
-        <tr>
-            <td><a href="task-details.html">Layout skeleton</a></td>
-            <td>Mugdad</td> <td>100%</td> <td>Done</td> <td>Finished</td>
-        </tr>
-        <tr>
-            <td><a href="task-details.html">Landing page</a></td>
-            <td>Ali</td> <td>50%</td> <td>3 days</td> <td>On track</td>
-        </tr>
-        ... 2 more rows (Ahmed, Kumail) ...
-    </table>
-</section>
-```
-
-- `<th>` header row names the columns: Task, Assignee, Progress, Time
-  Remaining, Note.
-- Each task row is `<td>` cells. The **task name** cell contains a link:
-  `<td><a href="task-details.html">...</a></td>` — clicking a task opens
-  task-details.html.
-- (All task links point to the same details page right now — one generic task
-  page; a details file per task will come with PHP.)
-
-## Chat button
-
-```html
-<section>
-    <a href="chat.html"><button type="button">Chat</button></a>
-</section>
-```
-
-- A `<button>` inside an `<a href="chat.html">`. The link makes the button
-  navigate. (A bare `<button>` without a link/form does nothing.)
-- `type="button"` stops it from acting like a submit.
+- Columns: Task, Assignee, Progress, Time Remaining, Status.
+- Each task name links to `task-details.html?task=...`; `fillTaskFromQuery()`
+  in `app.js` puts that task name into the details heading.
+- The Status column uses the same pill classes as the priority list.
 
 ## How it works
 
-Dashboard = the "status screen": summary numbers as a list + a real table of
-tasks. The link inside each task cell is the dashboard→task routing.
+Dashboard = the "status screen": summary numbers, priority cards and a table of
+tasks. The link inside each task cell is the dashboard → task routing.

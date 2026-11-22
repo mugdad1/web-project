@@ -2,53 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Management - Team Chat</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Team Chat</h1>
-        <nav>
-<a href="home.html">Home</a>
-<a href="dashboard.html">Dashboard</a>
-<a href="settings.html">Settings</a>
-<a href="index.html">Sign Out</a>
+<body class="app-shell">
+    <aside class="sidebar">
+        <div class="workspace">
+            <span class="workspace-mark">PM</span>
+            <span class="workspace-name">Team Workspace<small>Web Programming</small></span>
+        </div>
+
+        <nav class="side-nav" aria-label="Main">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="chat.html">Chat</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
         </nav>
-    </header>
 
-    <main>
-        <section>
-            <h2>Members</h2>
-            <ul>
-                <li>Mugdad</li>
-                <li>Ali</li>
-                <li>Ahmed</li>
-                <li>Kumail</li>
-            </ul>
-        </section>
+        <div class="sidebar-foot">
+            <a href="index.html">Sign Out</a>
+        </div>
+    </aside>
 
-        <hr>
+    <div class="app-body">
+        <header class="topbar">
+            <h1>Team Chat</h1>
+            <div class="topbar-actions">
+                <div class="avatar-menu">
+                    <button type="button" class="avatar" id="avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="avatar-dropdown" aria-label="Account menu">M</button>
+                    <div class="avatar-dropdown" id="avatar-dropdown" role="menu" hidden>
+                        <a href="profile.html" role="menuitem">My Profile</a>
+                        <a href="index.html" role="menuitem">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-        <section>
-            <h3>general</h3>
-            <div id="feed" class="feed"><p class="empty">No messages yet.</p></div>
-        </section>
+        <main>
+            <div class="chat-layout">
+                <aside class="card chat-sidebar" aria-labelledby="chat-members-heading">
+                    <div class="card-head">
+                        <h3 id="chat-members-heading">Members</h3>
+                    </div>
+                    <ul class="member-list">
+                        <li><span>Mugdad</span><span class="tag owner">Owner</span></li>
+                        <li><span>Ali</span><span class="tag">Admin</span></li>
+                        <li><span>Ahmed</span><span class="tag">Member</span></li>
+                        <li><span>Kumail</span><span class="tag">Member</span></li>
+                    </ul>
 
-        <hr>
+                    <div class="card-head channel-head">
+                        <h3>Channels</h3>
+                    </div>
+                    <ul class="channel-list">
+                        <li><a class="is-active" href="#general"># general</a></li>
+                        <li><a href="home.html"># project-updates</a></li>
+                    </ul>
+                </aside>
 
-        <section>
-            <h3>Say something</h3>
-            <form id="chat-form" action="chat.html" method="get" novalidate>
-                <label for="msg">Message:</label><br>
-                <input type="text" id="msg" name="msg" required placeholder="Type your message..."><br><br>
-                <input type="submit" value="Send">
-            </form>
-        </section>
-    </main>
+                <section class="card chat-room" aria-labelledby="chat-room-heading">
+                    <div class="card-head">
+                        <h3 id="chat-room-heading">general</h3>
+                        <span class="demo-note">Team channel</span>
+                    </div>
 
-    <footer>
-        <hr>
-    </footer>
+                    <div id="feed" class="feed"><p class="empty">No messages yet.</p></div>
+
+                    <form id="chat-form" class="chat-form" action="chat.html" method="get" novalidate>
+                        <label class="sr-only" for="msg">Message</label>
+                        <input type="text" id="msg" name="msg" required placeholder="Write a message...">
+                        <button type="submit">Send</button>
+                    </form>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <p>Mugdad, Ali, Ahmed, Kumail</p>
+        </footer>
+    </div>
 </body>
 </html>

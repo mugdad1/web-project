@@ -25,6 +25,7 @@ home.html   (after login, your main page)
    |-- New task  -> new-task.html
    |-- New team  -> new-team.html
    |-- Chat      -> chat.html       (team messages)
+   |-- Settings  -> settings.html   (light / dark theme)
    `-- Sign Out  -> back to index.html
 ```
 
@@ -46,6 +47,7 @@ home.html   (after login, your main page)
 | `dashboard.html` | Progress overview + task list. Each task links to its details page. |
 | `task-details.html` | Shows one task's full details. |
 | `chat.html` | Team chat room: members list, message feed, send box. |
+| `settings.html` | Appearance settings: Light / Dark switch. |
 
 ---
 

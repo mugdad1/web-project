@@ -1,6 +1,6 @@
 # profile.html — View profile
 
-Shows the user's details as text, plus a small info table.
+Shows the user's details, task statistics and a small info table.
 
 ## User info section
 
@@ -16,26 +16,37 @@ Shows the user's details as text, plus a small info table.
 
 - Each detail is a `<p>` with a `<strong>` label. Pattern:
   `<p><strong>Label:</strong> value</p>`.
-- The Edit Profile line is a link to `edit-profile.html`.
+- The Edit Profile line is a link to `edit-profile.html` (kept here; the one in
+  `settings.html` was removed).
+
+## My task statistics
+
+```html
+<ul class="profile-stats">
+    <li>Assigned <strong>5</strong></li>
+    <li>Completed <strong>4</strong></li>
+    <li>In Progress <strong>1</strong></li>
+    <li>Completion <strong>80%</strong></li>
+</ul>
+```
+
+- `.profile-stats` shares the `.stats` grid/card styling but is a separate
+  class, so `updateDashboardStats()` in `app.js` does not overwrite it.
+- Numbers are sample data until the PHP backend supplies real tasks.
+
+## Tasks by member
+
+- A table with Member, Assigned, Completed, In Progress, To Do and Completion
+  columns — the "each user's tasks" overview.
+- The Completion cells hold percentages, so `buildProgressBars()` in `app.js`
+  turns them into the same progress bars used on the dashboard.
 
 ## My Info table
 
-```html
-<hr>
-<section>
-    <h3>My Info</h3>
-    <table border="1" cellpadding="5">
-        <tr><th>Field</th><th>Value</th></tr>
-        <tr><td>Name</td><td>Mugdad Alhammad</td></tr>
-        <tr><td>Joined</td><td>2026</td></tr>
-    </table>
-</section>
-```
-
-- `border="1"` gives visible borders; `cellpadding="5"` adds space inside cells.
-- `<tr>` = row, `<th>` = heading cell, `<td>` = data cell.
+- A two-column table (Field / Value) with Name and Joined rows.
 
 ## How it works
 
-View-only page. Basic data is plain text (fast to read), extra data is a
-two-column table. The Edit Profile link is the "route" to the edit form.
+View-only page. Basic data is plain text, extra data is tables, and the stat
+grid gives a quick read of the user's workload. The Edit Profile link is the
+route to the edit form.

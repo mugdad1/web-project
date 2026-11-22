@@ -483,6 +483,93 @@
         applyTheme();
     }
 
+    /* ---------- topbar search: filter the tasks on home / dashboard ---------- */
+
+    function wireTaskSearch() {
+        var input = $("#task-search");
+        if (!input) {
+            return;
+        }
+
+        var groups = [
+            { items: $$(".task-card"), host: $(".task-cards") },
+            { items: $$("table tbody tr"), host: $(".table-wrap") }
+        ];
+        var notices = [];
+
+        groups.forEach(function (group) {
+            if (!group.host || group.items.length === 0) {
+                notices.push(null);
+                return;
+            }
+            var note = document.createElement("p");
+            note.className = "empty search-empty";
+            note.textContent = "No matching tasks.";
+            note.hidden = true;
+            group.host.insertAdjacentElement("afterend", note);
+            notices.push(note);
+        });
+
+        function filter() {
+            var query = input.value.trim().toLowerCase();
+
+            groups.forEach(function (group, index) {
+                var visible = 0;
+
+                group.items.forEach(function (item) {
+                    var match = item.textContent.toLowerCase().indexOf(query) !== -1;
+                    item.hidden = !match;
+                    if (match) {
+                        visible++;
+                    }
+                });
+
+                if (notices[index]) {
+                    notices[index].hidden = !(query !== "" && visible === 0);
+                }
+            });
+        }
+
+        input.addEventListener("input", filter);
+        input.addEventListener("search", filter);
+        filter();
+    }
+
+    /* ---------- topbar avatar: account menu ---------- */
+
+    function wireAvatarMenu() {
+        var btn = $("#avatar-btn");
+        var menu = $("#avatar-dropdown");
+        if (!btn || !menu) {
+            return;
+        }
+
+        function close() {
+            menu.hidden = true;
+            btn.setAttribute("aria-expanded", "false");
+        }
+
+        btn.addEventListener("click", function (event) {
+            event.stopPropagation();
+            var open = menu.hidden;
+            menu.hidden = !open;
+            btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!menu.hidden && !event.target.closest(".avatar-menu")) {
+                close();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && !menu.hidden) {
+                close();
+                btn.focus();
+            }
+        });
+    }
+
     /* ---------- start ---------- */
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -497,5 +584,7 @@
         wireRoleSwitch();
         wireHomePanels();
         wireThemeSwitch();
+        wireTaskSearch();
+        wireAvatarMenu();
     });
 }());

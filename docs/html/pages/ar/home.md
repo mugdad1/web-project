@@ -3,22 +3,30 @@
 صفحة المستخدم المسجل. كانت تحتوي على ترحيب وإشعارات وإجراءات سريعة، وأصبحت
 تضم أيضاً لوحة التحكم والمحادثة وإضافة المهام مباشرة على الشاشة الرئيسية.
 
-## الرأس / التنقل
+## الهيكل: الشريط الجانبي والشريط العلوي
 
 ```html
-<body class="home-page">
-<header>
-    <h1>My Home <span class="role-badge" id="role-badge">Admin</span></h1>
-    <nav>
-        <a href="profile.html">Profile</a>
+<body class="home-page app-shell">
+<aside class="sidebar">
+    <nav class="side-nav" aria-label="Main">
+        <a href="home.html">Home</a>
         <a href="dashboard.html">Dashboard</a>
         <a href="chat.html">Chat</a>
-        <a href="index.html">Sign Out</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
     </nav>
-</header>
+    <div class="sidebar-foot"><a href="index.html">Sign Out</a></div>
+</aside>
+<div class="app-body">
+    <header class="topbar">
+        <h1>My Home <span class="role-badge" id="role-badge">Admin</span></h1>
+    </header>
+</div>
+</body>
 ```
 
-- لا يوجد رابط Home — هذه الصفحة هي الرئيسية.
+- الشريط الجانبي والألوان البنفسجية مستوحاة من واجهات إدارة المشاريع الشائعة؛
+  الكود والتنسيق هنا أصليان.
 - "Sign Out" مجرد رابط إلى `index.html` (الجلسات الحقيقية مع PHP).
 
 ## قسم الترحيب
@@ -26,6 +34,11 @@
 `<section class="hero">` يعرض "Welcome back, Mugdad". الخلفية عبارة عن تدرجات
 CSS وأنماط مكررة في `css/style.css` (لا صور ولا ملفات إضافية). الاسم ثابت الآن؛
 اسم المستخدم الحقيقي يأتي في مرحلة PHP.
+
+## المهام ذات الأولوية
+
+قائمة `.task-cards` تستخدم شرائح `.status` (مكتمل / قيد التنفيذ / للتنفيذ)
+وشريح `.priority` (عالي / متوسط / منخفض). هي للعرض فقط وتطابق صفوف الجدول.
 
 ## لوحة التحكم على الصفحة الرئيسية
 
