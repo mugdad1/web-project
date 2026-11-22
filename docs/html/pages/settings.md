@@ -1,7 +1,7 @@
 # settings.html — Settings (after login)
 
-Holds the appearance switch. Uses the same shared CSS and JS as every page,
-but not the full workspace shell (it keeps the simple header/nav).
+Holds the appearance switch. It uses the same workspace shell (sidebar +
+topbar + avatar menu) as home, dashboard, chat and profile.
 
 ## Appearance section
 

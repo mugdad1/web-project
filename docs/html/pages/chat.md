@@ -39,8 +39,9 @@ layout: a members/channels panel on the left and the message room on the right.
 - `.chat-layout` is `260px | 1fr` on wide screens and stacks on small ones.
 - `wireChat()` in `app.js` still appends a "You · just now" bubble to `#feed`
   and clears `#msg`.
-- The `#general` link is an anchor to the room heading; `#project-updates`
-  currently points back to `home.html` (no second room exists yet).
+- The channels are buttons, not links. Clicking `# general` or
+  `# project-updates` switches the room heading and feed in place through
+  `wireChannels()`; messages are kept per channel in `chatState`.
 
 ## How it works
 

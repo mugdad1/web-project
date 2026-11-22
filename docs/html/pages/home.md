@@ -58,7 +58,8 @@ available straight from the home screen.
 
 - A compact `.task-cards` list using `.status` pills (Complete / In progress /
   To do) and `.priority` pills (High / Medium / Low).
-- This is presentational only; it mirrors the rows in the dashboard table.
+- Each card carries `data-task` and `wirePriorityCards()` makes the whole card
+  clickable (Enter/Space too), opening `task-details.html?task=...`.
 
 ## Dashboard on home
 

@@ -212,12 +212,46 @@
         });
     }
 
-    /* ---------- chat: append a message to the feed ---------- */
+    /* ---------- chat: messages per channel ---------- */
+
+    var chatState = { channel: "general", messages: {} };
+
+    function renderFeed() {
+        var feed = $("#feed");
+        if (!feed) {
+            return;
+        }
+
+        feed.textContent = "";
+        var list = chatState.messages[chatState.channel] || [];
+
+        if (list.length === 0) {
+            var empty = document.createElement("p");
+            empty.className = "empty";
+            empty.textContent = "No messages yet.";
+            feed.appendChild(empty);
+            return;
+        }
+
+        list.forEach(function (text) {
+            var message = document.createElement("div");
+            message.className = "message is-mine";
+
+            var meta = document.createElement("span");
+            meta.className = "meta";
+            meta.textContent = "You · just now";
+
+            message.appendChild(meta);
+            message.appendChild(document.createTextNode(text));
+            feed.appendChild(message);
+        });
+
+        feed.scrollTop = feed.scrollHeight;
+    }
 
     function wireChat() {
-        var feed = $("#feed");
         var form = $("#chat-form");
-        if (!feed || !form) {
+        if (!form) {
             return;
         }
 
@@ -230,25 +264,39 @@
                 return;
             }
 
-            var empty = $(".empty", feed);
-            if (empty) {
-                empty.remove();
-            }
-
-            var message = document.createElement("div");
-            message.className = "message is-mine";
-
-            var meta = document.createElement("span");
-            meta.className = "meta";
-            meta.textContent = "You · just now";
-
-            message.appendChild(meta);
-            message.appendChild(document.createTextNode(text));
-            feed.appendChild(message);
-            feed.scrollTop = feed.scrollHeight;
+            var list = chatState.messages[chatState.channel] || [];
+            list.push(text);
+            chatState.messages[chatState.channel] = list;
+            renderFeed();
 
             input.value = "";
             input.focus();
+        });
+    }
+
+    function wireChannels() {
+        var buttons = $$(".channel-btn");
+        if (buttons.length === 0) {
+            return;
+        }
+
+        var heading = $("#chat-room-heading");
+
+        buttons.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                chatState.channel = btn.getAttribute("data-channel") || "general";
+
+                buttons.forEach(function (other) {
+                    var active = other === btn;
+                    other.classList.toggle("is-active", active);
+                    other.setAttribute("aria-pressed", active ? "true" : "false");
+                });
+
+                if (heading) {
+                    heading.textContent = chatState.channel;
+                }
+                renderFeed();
+            });
         });
     }
 
@@ -295,6 +343,35 @@
         if (task) {
             heading.textContent = task;
         }
+    }
+
+    /* ---------- task details: admin-only notes ---------- */
+
+    function wireNotes() {
+        var form = $("#note-form");
+        if (!form) {
+            return;
+        }
+
+        var input = $("#note-text", form);
+        var list = $(".note-list");
+
+        form.addEventListener("submit", function (event) {
+            if (event.defaultPrevented || demoRole !== "admin") {
+                return;
+            }
+            event.preventDefault();
+
+            var text = input.value.trim();
+            if (text === "" || !list) {
+                return;
+            }
+
+            var item = document.createElement("li");
+            item.textContent = text;
+            list.appendChild(item);
+            input.value = "";
+        });
     }
 
     /* ---------- role demo: hide admin-only controls ---------- */
@@ -574,6 +651,29 @@
         });
     }
 
+    /* ---------- priority cards: open the matching task ---------- */
+
+    function wirePriorityCards() {
+        $$(".task-card[data-task]").forEach(function (card) {
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("role", "link");
+            card.title = "Open task details";
+
+            function open() {
+                location.href = "task-details.html?task=" +
+                    encodeURIComponent(card.getAttribute("data-task"));
+            }
+
+            card.addEventListener("click", open);
+            card.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    open();
+                }
+            });
+        });
+    }
+
     /* ---------- start ---------- */
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -583,12 +683,15 @@
         updateDashboardStats();
         wireNotifications();
         wireChat();
+        wireChannels();
         wireProfilePreview();
         fillTaskFromQuery();
+        wireNotes();
         wireRoleSwitch();
         wireHomePanels();
         wireThemeSwitch();
         wireTaskSearch();
         wireAvatarMenu();
+        wirePriorityCards();
     });
 }());

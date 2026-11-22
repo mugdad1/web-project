@@ -7,43 +7,66 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Settings</h1>
-        <nav>
+<body class="app-shell">
+    <aside class="sidebar">
+        <div class="workspace">
+            <span class="workspace-mark">PM</span>
+            <span class="workspace-name">Team Workspace<small>Web Programming</small></span>
+        </div>
+
+        <nav class="side-nav" aria-label="Main">
             <a href="home.html">Home</a>
             <a href="dashboard.html">Dashboard</a>
             <a href="chat.html">Chat</a>
             <a href="profile.html">Profile</a>
-            <a href="index.html">Sign Out</a>
+            <a href="settings.html">Settings</a>
         </nav>
-    </header>
 
-    <main>
-        <section class="settings-card" aria-labelledby="appearance-heading">
-            <div class="card-head">
-                <h3 id="appearance-heading">Appearance</h3>
+        <div class="sidebar-foot">
+            <a href="index.html">Sign Out</a>
+        </div>
+    </aside>
+
+    <div class="app-body">
+        <header class="topbar">
+            <h1>Settings</h1>
+            <div class="topbar-actions">
+                <div class="avatar-menu">
+                    <button type="button" class="avatar" id="avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="avatar-dropdown" aria-label="Account menu">M</button>
+                    <div class="avatar-dropdown" id="avatar-dropdown" role="menu" hidden>
+                        <a href="profile.html" role="menuitem">My Profile</a>
+                        <a href="index.html" role="menuitem">Sign Out</a>
+                    </div>
+                </div>
             </div>
-            <p>Choose how the site looks. Your choice is saved in this browser.</p>
+        </header>
 
-            <div class="theme-switch" role="group" aria-label="Colour theme">
-                <button type="button" class="theme-btn is-active" data-theme-btn="light" aria-pressed="true">Light</button>
-                <button type="button" class="theme-btn" data-theme-btn="dark" aria-pressed="false">Dark</button>
-            </div>
+        <main>
+            <section class="settings-card" aria-labelledby="appearance-heading">
+                <div class="card-head">
+                    <h3 id="appearance-heading">Appearance</h3>
+                </div>
+                <p>Choose how the site looks. Your choice is saved in this browser.</p>
 
-            <p class="demo-note">Current theme: <strong id="theme-label">Light</strong></p>
-        </section>
+                <div class="theme-switch" role="group" aria-label="Colour theme">
+                    <button type="button" class="theme-btn is-active" data-theme-btn="light" aria-pressed="true">Light</button>
+                    <button type="button" class="theme-btn" data-theme-btn="dark" aria-pressed="false">Dark</button>
+                </div>
 
-        <section class="settings-card" aria-labelledby="account-heading">
-            <div class="card-head">
-                <h3 id="account-heading">Account</h3>
-            </div>
-            <p>Account and role settings will come with the PHP backend.</p>
-        </section>
-    </main>
+                <p class="demo-note">Current theme: <strong id="theme-label">Light</strong></p>
+            </section>
 
-    <footer>
-        <p>Mugdad, Ali, Ahmed, Kumail</p>
-    </footer>
+            <section class="settings-card" aria-labelledby="account-heading">
+                <div class="card-head">
+                    <h3 id="account-heading">Account</h3>
+                </div>
+                <p>Account and role settings will come with the PHP backend.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Mugdad, Ali, Ahmed, Kumail</p>
+        </footer>
+    </div>
 </body>
 </html>

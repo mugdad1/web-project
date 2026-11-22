@@ -21,18 +21,14 @@ The page reached by clicking a task name on the dashboard.
 
 ## Notes section
 
-```html
-<hr>
-<section>
-    <h3>Notes</h3>
-    <p>Header, nav and footer done. Passed review.</p>
-</section>
-```
-
-Task notes as a plain paragraph.
+- Notes are a `.note-list` list; `wireNotes()` appends new items to it.
+- The add-note form is wrapped in `[data-admin-only]`, so `applyRole()` hides it
+  for the Member demo role and shows `#role-locked` instead. The JS handler
+  also checks `demoRole` before adding anything.
+- **Mockup only:** the PHP milestone must check the role on the server.
 
 ## How it works
 
-A view-only page — heading + a facts list + a notes paragraph. This is the
-detail target for the dashboard links. In the PHP milestone each task will
+Heading + facts list + a notes list with an admin-only add-note form. This is
+the detail target for the dashboard links. In the PHP milestone each task will
 render this same page shape from its own database row.

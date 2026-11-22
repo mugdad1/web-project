@@ -31,7 +31,8 @@ recalculates these four numbers from the table rows.
 
 - A `.task-cards` list with `.status` pills (Complete / In progress / To do)
   and `.priority` pills (High / Medium / Low).
-- Presentational only; it mirrors the table below.
+- Clicking a card (or pressing Enter/Space) opens that task's details page via
+  `wirePriorityCards()`; the cards mirror the table below.
 
 ## Task list table
 

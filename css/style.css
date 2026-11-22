@@ -1117,6 +1117,21 @@ input.search-pill::placeholder {
     border-bottom: 0;
 }
 
+.task-card[data-task] {
+    cursor: pointer;
+}
+
+.task-card[data-task]:hover strong,
+.task-card[data-task]:focus-visible strong {
+    color: var(--accent-dark);
+}
+
+.task-card[data-task]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
 .task-check {
     flex: 0 0 auto;
     width: 18px;
@@ -1220,21 +1235,31 @@ input.search-pill::placeholder {
     margin: 0;
 }
 
-.channel-list a {
+.channel-list a,
+.channel-list button {
     display: block;
+    width: 100%;
+    margin: 0;
     padding: 7px 10px;
+    border: 0;
     border-radius: 8px;
+    background: transparent;
     color: var(--muted);
+    font: inherit;
     font-size: .9rem;
+    text-align: left;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.channel-list a:hover {
+.channel-list a:hover,
+.channel-list button:hover {
     background: var(--accent-soft);
     color: var(--accent-dark);
 }
 
-.channel-list a.is-active {
+.channel-list a.is-active,
+.channel-list button.is-active {
     background: var(--accent-soft);
     color: var(--accent-dark);
     font-weight: 600;

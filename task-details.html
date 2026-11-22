@@ -32,7 +32,18 @@
 
         <section>
             <h3>Notes</h3>
-            <p>Header, nav and footer done. Passed review.</p>
+            <ul class="note-list">
+                <li>Header, nav and footer done. Passed review.</li>
+            </ul>
+
+            <div data-admin-only>
+                <form id="note-form" action="task-details.html" method="get">
+                    <label for="note-text">Add a note:</label>
+                    <textarea id="note-text" name="note" rows="3" required placeholder="Write an update for this task..."></textarea>
+                    <button type="submit">Add note</button>
+                </form>
+            </div>
+            <p class="locked-note" id="role-locked" hidden>Only admins can add notes to tasks.</p>
         </section>
     </main>
 
